@@ -3,6 +3,7 @@ TO RUN FRONTEND:-
 - cd frontend
 - npm i
 - npm run dev
+
 TO RUN BACKEND:-
 - cd backend
 - npm i
