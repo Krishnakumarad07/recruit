@@ -7,5 +7,5 @@ TO RUN FRONTEND::
 TO RUN BACKEND::
   >>cd backend
   >>npm i
-##configure the .env with JWT_SECRET(the jwtkey),MAILID,MAILPWD,(for senting the mail to client),MONGO_URI
+## configure the .env with JWT_SECRET(the jwtkey),MAILID,MAILPWD,(for senting the mail to client),MONGO_URI
   >>npm run dev
