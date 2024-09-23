@@ -1,0 +1,71 @@
+.manage-jobs-container {
+    position: absolute;
+    top: 18%;
+    right: 3%; /* Align the table to the right */
+    width: 78%; /* Adjust the width to fit the design */
+    height: 80%; /* Adjust to make it scrollable */
+    overflow-y: auto; /* Enables vertical scrolling */
+    background-color:#e4e4e4; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-container {
+    width: 100%;
+  }
+  
+  h2 {
+    color: #053659;
+    margin-bottom: 20px;
+  }
+  
+  .job-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .job-table th, .job-table td {
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ccc;
+  }
+  
+  .job-table th {
+    background-color: #2f0794;
+    color: white;
+  }
+  
+  .job-table td {
+    background-color: #f9f9f9;
+  }
+  
+  .action-icons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .view-btn {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: yellow;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

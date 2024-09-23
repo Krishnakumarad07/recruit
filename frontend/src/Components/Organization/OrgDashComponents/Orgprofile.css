@@ -1,0 +1,199 @@
+/* Basic Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f7fafc;
+  }
+  
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 115vh;
+    background-color: #ffffff;
+    overflow-y: auto;
+    padding: 20px;
+    margin-left: 17%;
+  }
+  
+  .profile-content {
+    display: flex;
+    width: 93%;
+    height: 80vh;
+    max-width: 100%;
+    background-color: #e4e4e4;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .profile-sidebar {
+    width: 35%;
+    padding: 20px;
+    background-color: #cdcaca;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  .profile-image {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-size:contain;
+  }
+  
+  .profile-sidebar h2 {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .profile-sidebar p {
+    color: #666;
+    margin-top: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .profile-description {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .skills {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .skills h4 {
+    margin-bottom: 10px;
+  }
+  
+  .skill-badge {
+    display: inline-block;
+    background-color: #3182ce;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px;
+    font-size: 0.8rem;
+  }
+  
+  .edit-profile-btn {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 30%;
+  }
+  
+  .profile-main {
+    padding: 3%;
+    width: 90%;
+  }
+  .profile-main p strong{
+    color: #055682;
+   
+  }
+  .profile-main h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #056496;
+  }
+  
+  .basic-info {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .basic-info p {
+    margin-bottom: 10px;
+  }
+  
+  .action-buttons {
+    margin-top: 20px;
+    
+  }
+  
+  .btn {
+    padding: 1%;
+    background-color: #044888;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  
+  }
+  
+  .edit-popup {
+    width: 100%;
+    margin-top: 14%;
+    background-color: rgb(189, 189, 189);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Edit Form with Grid Layout */
+  .edit-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+   
+    gap: 15px;
+  }
+  .edit-popup h3{
+    color: #033753;
+    margin-bottom: 1%;
+  }
+  .edit-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    gap: 5px;
+    color: #056496;
+  }
+  
+  .edit-form input {
+    padding: 10px;
+    border: 1px solid #000000;
+    box-sizing:content-box;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    background-color: transparent;
+  }
+  .edit-form textarea{
+    
+    border: 1px solid #000000;
+    box-sizing:content-box;
+   font-size: medium;
+    outline: none;
+    background-color: transparent;
+    resize: none;
+  line-height: 2;
+  }
+  
+  .popup-buttons {
+    display: flex;
+    justify-content:center;
+    margin-top: 20px;
+    max-width: 50%;
+  }
+  
+  .save-btn {
+    background-color: #4caf50;
+  }
+  

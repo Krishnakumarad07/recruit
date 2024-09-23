@@ -1,0 +1,105 @@
+
+  .settings-card {
+    position: absolute;
+    top: 43%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    background-color: #d9d8d8;
+    height: 50%;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .setting-img img {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 15px;
+    mix-blend-mode:difference;
+   
+  }
+  .settings-card button{
+    background-color: #053659;
+    color: white;
+    padding: 2%;
+    font-size: medium;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .settings-card button:hover{
+background-color: #11328e;
+  }
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background-color: #053659;
+    padding: 2%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 25%;
+    width: 100%;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.2rem;
+    
+    
+  }
+  
+  .popup-content input {
+    width: 80%;
+    padding: 3%;
+    margin-top: 5%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    margin-bottom: 5%;
+    font-size: medium;
+  }
+  
+  .popup-actions {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .popup-actions button {
+    padding: 3% ;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: medium;
+    margin-top: 4%;
+  }
+  
+  .popup-actions button:hover {
+    background-color: #2978cc;
+  }
+  .popup-content ::placeholder{
+    color: white;
+  }
+  
+  .popup-actions button:nth-child(1) {
+    background-color: #6c757d;
+  }
+  
+  .popup-actions button:nth-child(1):hover {
+    background-color: #5a6268;
+  }
+  

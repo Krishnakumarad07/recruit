@@ -1,0 +1,594 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: none;
+  scrollbar-width: none;
+}
+body{
+  background: #ffffff;
+}
+
+.container-home {
+  font-family: 'Times New Roman', Times, serif;
+  cursor: pointer;
+}
+
+.welcome-line {
+  background-color: #052659;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 7px 10px;
+  
+}
+
+
+#pro-icon {
+  width: 4%;
+  height: 4%;
+  margin-left: 4%;
+
+
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 5px 10px;
+  background-color: #ffffff;
+  color: #052659;
+}
+
+.navbar h1 {
+  font-size: 29px;
+}
+
+.navbar-list {
+  display: flex;
+  list-style: none;
+  margin-left: 55%;
+  font-size: medium;
+}
+
+.navbar-list a {
+  text-decoration: none;
+}
+
+.nav-list-items {
+  margin-left: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s;
+  color: #052659;
+}
+
+.nav-list-items:hover {
+  color: #052659;
+  text-decoration: underline;
+}
+
+.home-banner {
+
+  background: linear-gradient(90deg, rgba(5, 38, 89, 1) 10%, rgba(84, 131, 179, 1) 100%);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.box {
+  max-width: 40%;
+  margin-top: 5%;
+  margin-left: 8%;
+}
+
+.box h1 {
+  font-size: 60px;
+}
+
+.box h1 span {
+  font-size: 90px;
+}
+
+.box p {
+  margin-top: 2%;
+  font-size: medium;
+  margin-left: 10%;
+}
+
+.box button {
+  margin-top: 5%;
+  background: blue;
+  border-radius: 10px;
+  padding: 8px 10px;
+  color: #ffffff;
+  font-size: larger;
+  margin-left: 20%;
+  font-style: italic;
+  border: none;
+
+}
+
+.box button:hover {
+  background-color: transparent;
+  border: 2px solid;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+
+}
+
+.company-logo {
+  display: flex;
+
+  width: 100px;
+  height: 100px;
+  margin-left: 7%;
+  gap: 120%;
+  margin-top: 1%;
+}
+
+#com-name {
+  margin-top: 2%;
+  text-align: center;
+  font-size: 28px;
+  color: #052659;
+}
+
+
+.vacancies-section {
+
+  padding: 20px;
+
+}
+
+#heading {
+
+  font-weight: 600;
+  color: #052659;
+  margin-top: 3%;
+  text-align: center;
+
+}
+
+
+
+.vacancies-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 2% 2%;
+
+}
+
+.vacancies-list div {
+  width: 300px;
+  margin: 1%;
+  padding: 15px;
+  text-align: center;
+  box-shadow: rgba(1, 63, 149, 0.485) 0px 2px 8px 0px;
+}
+
+.vacancies-list div p {
+  font-size: 25px;
+  font-weight: 900;
+  color: #052659;
+}
+
+#one {
+  color: rgb(130, 130, 130);
+  font-size: medium;
+}
+
+
+.job-portal-box {
+  text-align: center;
+  padding: 10px;
+  background: linear-gradient(90deg, rgba(5, 38, 89, 1) 10%, rgba(84, 131, 179, 1) 100%);
+  height: 50vh;
+  color: #ffffff;
+
+  margin-top: 3%;
+
+}
+
+.job-portal-banner h2 {
+  font-size: 2em;
+  margin-bottom: 1rem;
+  text-align: center;
+  margin-top: 3%;
+  font-weight: 800;
+
+  color: #ffffff
+}
+
+
+
+.job-portal-banner p {
+  font-size: 1rem;
+  margin-bottom: 4rem;
+  letter-spacing: 1px;
+
+
+}
+
+.job-portal-stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.stat-item {
+  max-width: 14%;
+}
+
+.stat-item h3 {
+  font-size: 1.5rem;
+  color: #000000;
+  text-align: center;
+
+}
+
+.stat-item p {
+  font-size: 1rem;
+  color: #ffffff;
+  text-align: justify;
+  margin-top: 5%;
+}
+
+.footer {
+  background-color: #052659;
+  color: #fff;
+  padding: 20px;
+  margin-top: 5%;
+
+}
+
+
+.footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 10px;
+
+}
+
+
+.about {
+  flex: 1;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 5px;
+}
+
+.about p {
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-top: 15%;
+}
+
+.about a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.about p:hover {
+  color: #ff0;
+}
+
+.can-support p {
+  margin-top: 15%;
+}
+
+.can-support p:hover {
+  color: #ff0;
+}
+
+.emp p:hover {
+  color: #ff0;
+}
+
+.emp p {
+  margin-top: 15%;
+}
+
+.emp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.can-support {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ab-img {
+  flex: 1;
+  max-width: 200px;
+}
+
+#ab-img img {
+  width: 100%;
+  height: auto;
+}
+
+.can-support,
+.emp {
+  flex: 1;
+  max-width: 200px;
+}
+
+.can-support h3,
+.emp h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  padding-bottom: 5px;
+  color: #ffffff;
+}
+
+.can-support a {
+  text-decoration: none;
+  color: #ffffff;
+
+}
+
+.emp a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.can-support p,
+.emp p {
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.support {
+  flex: 1;
+  max-width: 200px;
+}
+
+.support h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 5px;
+}
+
+.support {
+  display: flex;
+  flex-direction: column;
+  gap: 10%;
+  align-items: center;
+}
+
+
+#last-line {
+  text-align: center;
+
+}
+/* Scrolling Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-animation {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.scroll-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* Basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: none;
+  scrollbar-width: none;
+}
+/* body {
+  background: #ffffff;
+} */
+
+/* .container-home {
+  font-family: 'Times New Roman', Times, serif;
+  cursor: pointer;
+} */
+
+/* Animations */
+
+/* Fade in animation for scrolling elements */
+@keyframes fadeIn {
+  0% {
+    opacity: 1;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 5;
+    transform: translateY(0px);
+  }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-200px);
+    
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  0% {
+    opacity: 2;
+    transform: translateX(200px);
+  }
+  100% {
+    opacity: 5;
+    transform: translateX(0);
+  }
+}
+
+/* Rotate animation for icons */
+@keyframes rotateIcon {
+  0% {
+    transform: rotate(0deg);
+    transition: all ease-in 0.5s;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse animation for elements */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.scroll-animation {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(50px);
+  transition: opacity 0.5s ease-out, transform 0.2s ease-out;
+}
+
+.scroll-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+  animation: fadeIn 0.9s ease-out forwards;
+}
+
+/* Welcome line animation */
+.welcome-line {
+  background-color: #052659;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 7px 10px;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.welcome-line span {
+  animation: pulse 2s infinite;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 5px 10px;
+  background-color: #ffffff;
+  color: #052659;
+  animation: slideInRight 0.8s ease-out;
+}
+
+/* Navbar hover effects */
+.nav-list-items:hover {
+  
+  text-decoration: underline;
+  animation:pulse 1s ease infinite;
+}
+
+/* Button hover with scaling */
+.box button:hover {
+  background-color: transparent;
+  border: 2px solid;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  transform: scale(1.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Social Media Icons - rotating on hover */
+.footer .support .fa-facebook,
+.footer .support .fa-twitter,
+.footer .support .fa-linkedin,
+.footer .support .fa-instagram {
+  transition: transform 0.6s ease;
+}
+
+.footer .support .fa-facebook:hover,
+.footer .support .fa-twitter:hover,
+.footer .support .fa-linkedin:hover,
+.footer .support .fa-instagram:hover {
+  animation: rotateIcon 1.3s ease-in-out;
+}
+
+/* Company logo scaling */
+.company-logo img {
+  width: 100px;
+  height: 100px;
+  margin-left: 7%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.company-logo img:hover {
+  transform: scale(1.1);
+}
+
+/* Additional animations for sections */
+.vacancies-list div {
+  width: 300px;
+  margin: 1%;
+  padding: 15px;
+  text-align: center;
+  box-shadow: rgba(1, 63, 149, 0.485) 0px 2px 8px 0px;
+  animation: fadeIn 1s ease-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.vacancies-list div:hover {
+  transform: scale(1.05);
+}
+
+/* Job portal stats */
+.stat-item {
+  max-width: 14%;
+  animation: pulse 3s infinite;
+}
+
+.stat-item:hover {
+  transform: scale(1.1);
+}
+
+
