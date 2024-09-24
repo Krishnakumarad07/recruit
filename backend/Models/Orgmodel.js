@@ -49,5 +49,6 @@ const OrgSchema=new mongoose.Schema({
     }
 
 });
-const OrgDB = mongoose.model("Organisation",OrgSchema);
+
+const OrgDB = mongoose.model("organisations",OrgSchema);
 module.exports = OrgDB;

@@ -31,7 +31,6 @@ const JobList = ({ jobs }) => {
             try{
             const response = await axios.get('http://localhost:8081/orgauth/joblist')
             setJob(response.data.joblist)
-            console.log(response.data.joblist)
             }
             catch(error){
                 console.log('error fetching jobslist',error)
@@ -39,6 +38,18 @@ const JobList = ({ jobs }) => {
         }
         joblist();
     })
+    useEffect(() => {
+        const check = async () => {
+            try {
+                const res = await axios.put("http://localhost:8081/orgauth/isOpOrg");
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        check(); // Call the async function
+    }, []);
     return (
         <>
             <div className="main-content">
@@ -89,11 +100,11 @@ const JobList = ({ jobs }) => {
                         job.map((job) => (
                             <div className="job-item" key={job.id}>
                                 <h3>{job.position}</h3>
-                                <p><strong>Company:</strong> {job.company}</p>
+                                <p><strong>Company:</strong> {job.company.orgname}</p>
                                 <p><strong>Location:</strong> {job.location}</p>
                                 <p><strong>Salary:</strong> {job.salary}</p>
-                                <p><strong>Deadline:</strong> {job.jobDeadline}</p>
-                                <p><strong>Contact:</strong> {job.contactMail}</p>
+                                <p><strong>Deadline:</strong> {new Date(job.jobDeadline).toLocaleDateString('en-GB')}</p>
+                                <p><strong>Contact:</strong> {job.company.org_email}</p>
                                 <p>{job.jobDescription}</p>
                                 <button className="btn">Apply now</button>
                             </div>

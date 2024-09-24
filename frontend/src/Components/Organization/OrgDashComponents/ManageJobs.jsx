@@ -49,7 +49,7 @@ fetchAddedJob();
                     <td>{index + 1}</td>
                     <td>{job.position}</td>
                     <td>{name}</td>
-                    <td>{job.jobDeadline}</td>
+                    <td>{new Date(job.jobDeadline).toLocaleDateString('en-GB')}</td>
                     <td className="action-icons">
                       <button className="view-btn">👁️</button>
                       <button className="edit-btn">✏️</button>

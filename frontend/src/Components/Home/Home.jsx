@@ -3,7 +3,7 @@ import './Home.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
-
+import axios from 'axios';
 function Home() {
 
     useEffect(() => {
@@ -22,6 +22,18 @@ function Home() {
             elements.forEach((el) => observer.unobserve(el));
         };
     }, []);
+    useEffect(() => {
+        const check = async () => {
+            try {
+                const res = await axios.put("http://localhost:8081/orgauth/isOpOrg");
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        check(); // Call the async function
+    }, []); // Empty array to ensure it runs once when component mounts
 
     return (
         <>

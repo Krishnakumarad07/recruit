@@ -267,12 +267,41 @@ router.post('/managejob',async(req,res)=>{
 //joblist
 router.get('/joblist',async(req,res)=>{
     try{
-        const joblist = await AddJob.find({})
+        const joblist = await AddJob.find({IsOpened: { $ne: false } }).populate('company', 'orgname org_email locn')
         res.status(200).json({joblist})
     }
     catch(error){
         console.log(error)
     }
+})
+router.put('/isOpOrg',async(req,res)=>{
+    try {
+        // Fetch all jobs from the database
+        const allJobs = await AddJob.find({});
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Iterate through each job and check the deadline
+        for (let job of allJobs) {
+            const jobDeadline = new Date(job.jobDeadline);
+
+            // If the job deadline has passed, set isOpened to false
+            if (currentDate > jobDeadline) {
+                job.IsOpened = false;
+
+                // Save the updated job
+                await job.save();
+            }
+        }
+
+        // Send a response back
+        res.status(200).send('Job status updated successfully');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('An error occurred while updating job statuses');
+    }
+
 })
 
 module.exports = router;
