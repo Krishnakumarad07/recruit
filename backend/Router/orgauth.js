@@ -8,6 +8,7 @@ const nodemailer= require("nodemailer");
 const multer= require("multer");
 const path=require("path");
 const fs=require("fs");
+const AddJob=require("../Models/OrgJobs");
 
 
 dotenv.config();
@@ -194,4 +195,113 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             res.status(400).send(error.message);
           }
 })
+
+router.post("/addJobs",async(req,res)=>{
+    const companyId = req.body._id; // Assuming _id refers to the company ID
+    const jobDetails = req.body.newJob; // Assuming newJob contains the job data
+
+    try {
+        // Check if the same position already exists for the company
+        const existingJob = await AddJob.findOne({
+            company: companyId,
+            position: jobDetails.position,
+        });
+
+        if (existingJob) {
+            return res.status(409).json({ success: false, message: "Job position already exists for this company." });
+        }
+
+        // Create a new job object
+        const newJob = {
+            company: companyId,
+            position: jobDetails.position,
+            location: jobDetails.location,
+            jobType: jobDetails.jobType,
+            jobPosted: new Date(),
+            jobDeadline: jobDetails.jobDeadline, // Ensure this is a valid Date
+            vacancy: jobDetails.vacancy,
+            requiredSkills: jobDetails.requiredSkills,
+            salary: jobDetails.salary,
+            jobDescription: jobDetails.jobDescription,
+            jobFacilities: jobDetails.jobFacilities,
+            IsOpened: true,
+        };
+
+        // Insert the new job into the database
+        const job = await AddJob.create(newJob);
+        console.log("Job inserted:", job);
+
+        // Send a success response
+        return res.status(201).json({ success: true, job }); // Use return here
+    } catch (error) {
+        console.error("Error inserting job:", error);
+        // Send an error response
+        return res.status(500).json({ success: false, message: "Error inserting job" }); // Use return here
+    }
+});
+//fetching jobs
+router.post('/managejob',async(req,res)=>{
+    try {
+        
+        const { id } = req.body; // Use req.query to get the company ID from the query string
+        
+        // Validate that the ID is provided
+        if (!id) {
+            return res.status(400).json({ success: false, message: "Company ID is required." });
+        }
+
+        const jobs = await AddJob.find({ company: id });
+
+        // Check if jobs were found
+        if (jobs.length === 0) {
+            return res.status(404).json({ success: false, message: "No jobs found for this company." });
+        }
+
+        // Send the retrieved jobs as a response
+        res.status(200).json({ jobs });
+    } catch (error) {
+        console.error("Error while fetching jobs:", error);
+        res.status(500).json({ success: false, message: "Error while fetching jobs." });
+    }
+});
+//joblist
+router.get('/joblist',async(req,res)=>{
+    try{
+        const joblist = await AddJob.find({IsOpened: { $ne: false } }).populate('company', 'orgname org_email locn')
+        res.status(200).json({joblist})
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+router.put('/isOpOrg',async(req,res)=>{
+    try {
+        // Fetch all jobs from the database
+        const allJobs = await AddJob.find({});
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Iterate through each job and check the deadline
+        for (let job of allJobs) {
+            const jobDeadline = new Date(job.jobDeadline);
+
+            // If the job deadline has passed, set isOpened to false
+            if (currentDate > jobDeadline) {
+                job.IsOpened = false;
+
+                // Save the updated job
+                await job.save();
+            }
+        }
+
+        // Send a response back
+        res.status(200).send('Job status updated successfully');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('An error occurred while updating job statuses');
+    }
+
+})
+
 module.exports = router;

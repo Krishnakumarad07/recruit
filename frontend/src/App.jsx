@@ -31,7 +31,6 @@ import Adlogin from './Components/Admin/Adlogin.jsx';
 
 function App() {
   const [jobs, setJobs] = useState([]);
-
   const addJob = (newJob) => {
     setJobs((prevJobs) => [...prevJobs, newJob]);
   };
