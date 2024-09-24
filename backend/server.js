@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const userauthRoutes = require('./Router/userauth');
 const OrgauthRoutes = require("./Router/orgauth");
+const AdminauthRoutes=require("./Router/adminauth");
 dotenv.config();
 
 const PORT = 8081;
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/userauth', userauthRoutes);
 app.use('/orgauth', OrgauthRoutes);
+app.use('/adminauth', AdminauthRoutes);
 
 const MONGOURI = process.env.MONGO_URI;
 
