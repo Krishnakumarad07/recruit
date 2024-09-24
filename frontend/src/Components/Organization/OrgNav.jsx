@@ -15,7 +15,8 @@ const OrgNav = () => {
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
-    navigate("/orglogin");
+
+    navigate("/orghome");
     console.log("User logged out");
   };
 
@@ -38,15 +39,15 @@ const OrgNav = () => {
             <img id='icon' src="pro-logo.png" alt="logo" />
             <h1>Recruit</h1>
             <ul className='navbar-list1'>
-              <li className='nav-list-items1'>
+              {/* <li className='nav-list-items1'>
                 <NavLink to='/orghome' activeClassName="active">Home</NavLink>
-              </li>
+              </li> */}
               <li className='nav-list-items1'>
                 <NavLink to='/orgjobs' activeClassName="active">Jobs</NavLink>
               </li>
-              <li className='nav-list-items1'>
+              {/* <li className='nav-list-items1'>
                 <NavLink to='/orghome' activeClassName="active">About</NavLink>
-              </li>
+              </li> */}
               <li className='nav-list-items1' onClick={handleLogoutClick}>
                 Logout
               </li>

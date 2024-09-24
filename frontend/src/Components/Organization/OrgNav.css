@@ -29,7 +29,7 @@
   padding: 10px;
   background-color: #ffffff;
   color: #052659;
-  z-index: 1000; 
+  z-index: 1005; 
 }
 
 #icon {
@@ -62,56 +62,41 @@
   animation: pulse 1s ease infinite;
 }
 
-/* Side Navbar */
+/* OrgNav Sidebar styles */
 .org-nav-side {
+  width: 240px;
+  height: calc(100vh - 100px); /* Adjust height to fit within view after navbar */
+  background-color: #052659;
   position: fixed;
-  top: 105px; /* Push it down below the welcome-line and top navbar */
-  left: 0;
-  width: 17%;
-  height: calc(100vh - 100px); /* Full height minus space for welcome-line and top navbar */
-  background-color: #053659;
+  top: 105px; /* Ensure it starts below the welcome-line and navbar */
   color: #ffffff;
-  border-top-right-radius: 20px;
   padding-top: 20px;
-  z-index: 10;
-  overflow-y: auto;
-  
+  z-index: 100;
 }
-/* Side Navbar Links */
+
 .org-nav-links {
   list-style: none;
-  
-  font-size: large;
+  padding: 0;
+  font-size: larger;
+  margin-left: 5%;
 }
 
 .org-nav-links li {
-  display: flex;
-  align-items: center; 
-  padding: 2%; 
-  gap: 10px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
 }
 
 .org-nav-links li a {
-  display: flex; 
-  align-items: center; 
-  color: #ffffff;
   text-decoration: none;
-  font-size: 20px;
-  transition: background-color 0.3s ease-in-out;
-  width: 100%; 
+  color: white;
 }
 
-.org-nav-links li a:hover {
-  text-decoration: underline;
-  color: #ffffff;
-
-}
-
-.org-nav-links li .active {
-  text-decoration: underline;
-  padding: 2%;
-  display: flex;
-  align-items: center;
+.org-nav-links li.active {
+  background-color: white;
+  color: #052659;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 .modal {
   position: fixed;
@@ -123,7 +108,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1001;
 }
 
 .modal-content {
