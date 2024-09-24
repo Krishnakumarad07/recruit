@@ -244,7 +244,7 @@ import React, { useState,useEffect } from 'react';
 import './Orgprofile.css';
 import OrgNav from '../OrgNav';
 import axios from 'axios';
-var orgid = localStorage.getItem("org");
+ var orgid = localStorage.getItem("org");
   orgid=JSON.parse(orgid);
   console.log(orgid)
 const OrgProfile = () => {

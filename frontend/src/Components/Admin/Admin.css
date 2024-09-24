@@ -1,0 +1,510 @@
+/* Welcome Line */
+#welcome-line {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #053659;
+    color: #ffffff;
+    font-size: 16px;
+    z-index: 101;
+    padding: 5px;
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #052659;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 7px 10px;
+}
+
+/* Navbar */
+#navbar1 {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    color: #052659;
+    margin-top: 60px; /* Add margin to account for the fixed welcome line */
+    width: 100%;
+    position: fixed;
+    top: -4%; /* Position right below the welcome line */
+    z-index: 50;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px; /* Add some padding to the navbar */
+}
+
+/* Adjust the logo */
+#pro-icon1 {
+    width: 40px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+#navbar1 h1 {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+/* Navbar list items */
+#navbar-list1 {
+    display: flex;
+    list-style: none;
+    margin-left: auto;
+    font-size: medium;
+    margin-right: 20px;
+}
+
+#navbar-list1 a {
+    text-decoration: none;
+    color: #052659;
+}
+
+#nav-list-items1 {
+    margin-left: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Sidebar */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    margin-top: 100px; /* To ensure it starts below the navbar */
+}
+
+.sidebar {
+    width: 240px;
+    height: calc(100vh - 100px); /* Adjust height to fit within view after navbar */
+    background-color: #052659;
+    position: fixed;
+    top: 100px; /* Ensure it starts below the navbar */
+    color: #ffffff;
+    z-index: 99;
+    padding-top: 20px;
+}
+
+  
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 240px 1fr; /* Sidebar takes 250px and the remaining space goes to main content */
+    height: 100vh;
+  }
+/* sidebar */
+  .sidebar {
+    width: 240px;
+    height: 100vh;
+    background-color: #052659;
+    position: fixed;
+    color: #ffffff;
+  }
+  
+  
+  .sidebar ul {
+    list-style: none;
+    margin-top: 30%;
+    padding: 0;
+    font-size: larger;
+    margin-left: 5%;
+  }
+  
+  .sidebar ul li {
+    padding:1rem;
+    margin-bottom: 3%;
+    
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .sidebar ul li a{
+    text-decoration: none;
+    color:white;
+  }
+  .logout-link{
+    text-decoration: none;
+    
+  }
+  .sidebar ul li.active {
+    background-color:rgb(255, 255, 255);
+    color: #052659;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  /* maincontent */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  /* dashboard */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 5 columns for 5 boxes */
+    gap: 25px;
+    margin-top: 4%;
+    margin-left: 3%;
+  }
+  
+  .stat-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color:#052659;
+    padding-left: 10px;
+    
+    width:20rem;
+    height:7rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  
+.stat-box h3{
+    margin-top: -1rem;
+    font-size: 2.5rem;
+    font-family: 'Roboto';
+    color:white;
+}
+  .dashboard-boxes h2{
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: normal;
+    padding-bottom: 1rem;
+  }
+  .stat-box p {
+    font-size: 25px;
+    margin-top: 1.1rem;
+    
+  }
+  .stat-box span{
+    position: absolute;
+    font-size: 5rem;
+    margin-top:-2%;
+    margin-left: 15%;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  /* customer */
+  .users-management {
+    padding: 20px;
+  }
+  /* Jobs Management */
+.jobs-management {
+  padding: 20px;
+}
+
+.jobs-table {
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.jobs-table th,
+.jobs-table td {
+  text-align: left;
+  padding: 10px;
+}
+
+.jobs-table td {
+  border: 1px solid white;
+  background-color: rgb(255, 255, 255);
+}
+
+.jobs-table th {
+  background-color: #052659;
+  color: white;
+  border: 1px solid white;
+}
+
+.jobs-table td button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reopen {
+  background-color: #28a745;
+  color: white;
+}
+
+.close:hover,
+.reopen:hover {
+  opacity: 0.9;
+}
+
+  .users-table {
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-collapse:collapse;
+    margin-top: 20px;
+  }
+  
+  .users-table th,
+  .users-table td {
+    text-align: left;
+    padding: 10px;
+  }
+  .users-table td{
+    border: 1px solid white;
+    background-color: rgb(255, 255, 255);
+  }
+  .users-table th {
+    background-color:#052659;
+    color: white;
+    border: 1px solid white;
+  }
+  
+  .users-table td button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .ban {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .banned {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .ban:hover,
+  .banned:hover {
+    opacity: 0.9;
+  }
+  .address {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px; /* adjust the width to your liking */
+  }  
+  /* services */
+.head{
+    display: flex;
+    justify-content: space-between;
+    margin-right:3rem;
+}
+  .add-service-form {
+    margin-bottom: 30px;
+    margin-top: 1rem;
+    background-color: var(--background-color);
+    padding:1rem;
+  }
+  
+  .add-service-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .add-service-form input,
+  .add-service-form textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-service-form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .add-btn{
+    background-color: var(--text-color);
+    color:white;
+  }
+  .add-service-form button:hover {
+    background-color: #218838;
+  }
+  
+  .services-admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .service-admin-card {
+    background-color:var(--background-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    text-align: left;
+  }
+  
+  .service-admin-card h3 {
+    margin-top: 0;
+  }
+  
+  .service-admin-card p {
+    margin: 8px 0;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .services-management button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .activate {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .deactivate {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .remove {
+    background-color: var(--text-color);
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  /* technician */
+  .technicians-management {
+    padding: 20px;
+  }
+  
+  .add-technician-form {
+    margin-bottom: 30px;
+  }
+  
+  .add-technician-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .add-technician-form input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-technician-form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-technician-form button:hover {
+    background-color: #218838;
+  }
+  
+  /* Technician Table */
+  .technicians-management button{
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+  }
+  .technicians-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .technicians-table th, .technicians-table td {
+    padding: 12px 15px;
+    text-align: left;
+   
+  }
+  
+  .technicians-table th {
+    background-color: var(--text-color);
+    color:white;
+    border: 1px solid var(--secondary-color);
+  }
+  
+  .technicians-table td {
+    background-color: var(--background-color);
+    border: 1px solid white;
+  }
+  
+  .remove {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .remove:hover {
+    background-color: #c82333;
+  }
+  /* jobrequest */  
+  .job-requests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+.filter-dropdown label{
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.filter-dropdown select{
+  background-color: var(--background-color);
+  color:var(--text-color);
+  border: 1px solid white;
+  padding:0.4rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+}
+  .job-requests-table th, .job-requests-table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .job-requests-table th {
+    background-color: var(--text-color);
+    border: 1px solid var(--secondary-color);
+    color:white;
+  }
+  
+  .job-requests-table td {
+    background-color:var(--background-color);
+    border: 1px solid white;
+  }
+  .job-requests-management button {
+    padding: 6px 12px;
+    background-color: #c82333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .job-requests-management button:hover {
+    background-color: #0056b3;
+  }
+  

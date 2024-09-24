@@ -14,7 +14,7 @@ const JobList = ({ jobs }) => {
     };
 
     const handleConfirmLogout = () => {
-        navigate("/loginpage");
+        navigate("/");
         setShowLogoutModal(false);
     };
 
@@ -66,9 +66,9 @@ const JobList = ({ jobs }) => {
                         <img id='pro-icon1' src="pro-logo.png" alt="logo" />
                         <h1>Recruit</h1>
                         <ul className='navbar-list1'>
-                            <li className='nav-list-items1'>
+                            {/* <li className='nav-list-items1'>
                                 <Link to='/'>Home</Link>
-                            </li>
+                            </li> */}
                             <li className='nav-list-items1'>
                                 <Link to='/profile'>Dashboard</Link>
                             </li>

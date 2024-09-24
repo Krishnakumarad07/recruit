@@ -44,7 +44,7 @@ function OrgHome() {
                         <ul className='org-navbar-list'>
                             <Link to=''><li className='nav-list-items'>Home</li></Link>
                             {/* <a href="#"> <Link to='/jobs' > <li className='nav-list-items'>Jobs</li></Link></a> */}
-                            <Link to='/orgprofile'><li className='nav-list-items'>Dashboard</li></Link>
+                            <Link to='/orglogin'><li className='nav-list-items'>Dashboard</li></Link>
                             <a href="#footer">  <li className='nav-list-items'>About</li></a>
                             <Link to='/orglogin' > <li className='nav-list-items'>Login</li></Link>
                             {/* <Link to='/orglogin' ><li className='nav-list-items'>Post Jobs</li></Link> */}

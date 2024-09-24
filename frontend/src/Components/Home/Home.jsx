@@ -55,8 +55,8 @@ function Home() {
 
                         <ul className='navbar-list'>
                             <Link to='/'><li className='nav-list-items'>Home</li></Link>
-                            <a href="#"> <Link to='/jobs' > <li className='nav-list-items'>Jobs</li></Link></a>
-                            <Link to='/profile'><li className='nav-list-items'>Dashboard</li></Link>
+                            <a href="#"> <Link to='/loginpage' > <li className='nav-list-items'>Jobs</li></Link></a>
+                            <Link to='/loginpage'><li className='nav-list-items'>Dashboard</li></Link>
                             <a href="#footer">  <li className='nav-list-items'>About</li></a>
                             <Link to='/loginpage' > <li className='nav-list-items'>Login</li></Link>
                             <Link to='/orglogin' ><li className='nav-list-items'>Post Jobs</li></Link>

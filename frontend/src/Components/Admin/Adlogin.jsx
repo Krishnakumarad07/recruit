@@ -1,0 +1,84 @@
+
+import { Link, useNavigate } from 'react-router-dom';
+
+import React, { useState } from 'react';
+import axios from 'axios';
+const Adlogin = () => {
+    const [Form, setForm] = useState({
+        email: "",
+        password: "",
+    });
+
+    const navigate = useNavigate();
+    const handleChange = (e) => {
+        setForm({
+            ...Form,
+            [e.target.name]: e.target.value,
+        });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios
+            .post("http://localhost:8081/userauth/login", Form)
+            .then((res) => {
+                console.log(res.data);
+                localStorage.setItem("token", res.data.token);
+                navigate("/dashboard");
+            })
+            .catch((error) => {
+                alert("Check that the username or password is correct.");
+                console.error("Login error:", error);
+            });
+    };
+    return (
+        <>
+            <div className="body">
+                <div className="login-wrapper">
+                    <div className="login-container-user">
+                        <div className="login-form">
+                            <h3>Login</h3>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label><br />
+                                    <input id='in'
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email@example.com"
+                                        value={Form.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label> <br />
+                                    <input id='in'
+                                        type="password"
+                                        name="password"
+                                        placeholder="@#$KUadeg"
+                                        value={Form.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                {/* <p id='forget' onClick={handleForgotPasswordClick}>Forgot Password?</p> */}
+                                <button id='btn-login' type="submit">Login</button>
+                            </form>
+                            {/* <p>
+                                Don't have an account? <a href=""><Link to="/sign">Create Account</Link></a>
+                            </p> */}
+                        </div>
+
+                        <div className="login-image">
+                            <img src="backdrop.png" alt="Login Illustration" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </>
+    )
+}
+
+export default Adlogin

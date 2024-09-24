@@ -13,7 +13,7 @@ const OrgJobs = ({ jobs }) => {
     };
 
     const handleConfirmLogout = () => {
-        navigate("/orglogin");
+        navigate("/orghome");
         setShowLogoutModal(false);
     };
 
@@ -40,9 +40,9 @@ const OrgJobs = ({ jobs }) => {
                         <img id='pro-icon1' src="pro-logo.png" alt="logo" />
                         <h1>Recruit</h1>
                         <ul className='navbar-list1'>
-                            <li className='nav-list-items1'>
+                            {/* <li className='nav-list-items1'>
                                 <Link to='/orghome'>Home</Link>
-                            </li>
+                            </li> */}
                             <li className='nav-list-items1'>
                                 <Link to='/orgprofile'>Dashboard</Link>
                             </li>
