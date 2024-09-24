@@ -29,7 +29,7 @@ const CreateAccount = () => {
         }
 
         // Make the POST request
-        axios.post('http://localhost:8081/auth/signup', { username, email, password })
+        axios.post('http://localhost:8081/userauth/signup', { username, email, password })
             .then(res => {
                 console.log('Response:', res.data);
                 localStorage.setItem('token', res.data.token);

@@ -162,7 +162,7 @@ function OrgLogin() {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8081/org-auth/login", Form)
+      .post("http://localhost:8081/orgauth/login", Form)
       .then((res)=> {
         const token=res.data.token;
         const org=jwtDecode(token,res.data.JWT_SECRET).orgdetails;
@@ -182,7 +182,7 @@ function OrgLogin() {
 
   const handleForgotPasswordSubmit = () => {
     axios
-      .post("http://localhost:8081/org-auth/forgot-password", { email: forgotEmail })
+      .post("http://localhost:8081/orgauth/forgot-password", { email: forgotEmail })
       .then((res) => {
         alert("Email is correct. Please check your inbox.");
         setShowPopup(false);

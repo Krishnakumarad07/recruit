@@ -2,36 +2,92 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddJobs.css'; // Import the external CSS file
 import OrgNav from '../OrgNav'; // Reuse the OrgNav
+import axios from 'axios';
+// import { set } from 'mongoose';
+var org=localStorage.getItem("org");
+org=JSON.parse(org);
+console.log(org);
+
+
 
 const AddJobs = ({ addJob }) => {
   const navigate = useNavigate();
-  const [jobData, setJobData] = useState({
-    position: 'software engineer',
-    company: 'zoho',
-    location: 'maduarai',
-    jobStatus: 'open',
-    jobType: 'full-time',
-    vacancy: '1',
-    salary: 'advance computer science',
-    requiredSkills: 'all',
-    jobDescription: 'kldsjhf',
-    jobDeadline: '12/09/2004',
-    contactMail: 'abcd@gmail.com',
-    jobFacilities: 'kjesfhl',
-  });
+  // const [jobData, setJobData] = useState({
+  //   position: 'software engineer',
+  //   company: org.orgname,
+  //   location: 'madurai',
+  //   jobType: 'full-time',
+  //   vacancy: '1',
+  //   salary: '200000-350000',
+  //   requiredSkills: 'all',
+  //   jobDescription: 'kldsjhf',
+  //   jobDeadline: '12/09/2004',
+  //   contactMail: org.org_email,
+  //   jobFacilities: 'kjesfhl',
+  // });
+const [position,setPosition]=useState('')
+const [company,setCompany]=useState('')
+const [location,setLocation]=useState('')
+const [jobType,setJobType]=useState('')
+const[vacancy,setVacancy]=useState('')
+const[salary,setSalary]=useState('')
+const[requiredSkills,setRequiredSkills]=useState('')
+const[jobDescription,setJobDescription]=useState('')
+const[jobDeadline,setJobDeadline]=useState('')
+const[contactMail,setContactMail]=useState()
+const[jobFacilities,setJobFacilities]=useState('')
+  // const handleChange = (e) => {
+  //   setJobData({
+  //     ...jobData,
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
 
-  const handleChange = (e) => {
-    setJobData({
-      ...jobData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Job Created:', jobData);
-    addJob({ ...jobData, id: Date.now() }); // Add job to the list
-    navigate('/managejobs'); // Navigate to ManageJobs
+    const newJob = {
+      position,
+      company,
+      location,
+      jobType,
+      vacancy,
+      salary,
+      requiredSkills,
+      jobDescription,
+      jobDeadline,
+      contactMail,
+      jobFacilities
+    }
+    try {
+     
+      // const response = await axios.post('http://localhost:8081/userauth/addJobs', {
+      //   jobData});
+      //   .then(())
+      //   setJobData('')
+      // console.log('Job Created:', response.data);
+      // addJob({ ...jobData, id: Date.now() });
+      
+      // Call addJob function if needed
+      
+      // Navigate to ManageJobs
+      const response = await axios.post('http://localhost:8081/orgauth/addjobs',{newJob,_id:org._id})
+      setPosition('')
+      setCompany('')
+      setLocation('')
+      setJobType('')
+      setVacancy('')
+      setSalary('')
+      setRequiredSkills('')
+      setJobDescription('')
+      setJobDeadline('')
+      setContactMail('')
+      setJobFacilities('')
+      alert("Job is posted")
+    
+      }
+       catch (error) {
+      console.log('Error creating job:', error); 
+    }
   };
 
   return (
@@ -46,8 +102,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="position"
-                value={jobData.position}
-                onChange={handleChange}
+                value={position}
+                onChange={(e)=> setPosition(e.target.value)}
                 required
               />
             </div>
@@ -56,8 +112,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="company"
-                value={jobData.company}
-                onChange={handleChange}
+                value={org.orgname}
+                onChange={(e)=>setCompany(e.target.value)}
                 required
               />
             
@@ -67,12 +123,12 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="location"
-                value={jobData.location}
-                onChange={handleChange}
+                value={location}
+                onChange={(e)=>setLocation(e.target.value)}
                 required
               />
             </div>
-            <div className="field-container">
+            {/* <div className="field-container">
               <label>Job Status</label>
               <select
                 name="jobStatus"
@@ -84,13 +140,13 @@ const AddJobs = ({ addJob }) => {
                 <option value="Open">Open</option>
                 <option value="Closed">Closed</option>
               </select>
-            </div>
+            </div> */}
             <div className="field-container">
               <label>Job Type</label>
               <select
                 name="jobType"
-                value={jobData.jobType}
-                onChange={handleChange}
+                value={jobType}
+                onChange={(e)=>setJobType(e.target.value)}
                 required
               >
                 <option value="">Select Job Type</option>
@@ -103,8 +159,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="number"
                 name="vacancy"
-                value={jobData.vacancy}
-                onChange={handleChange}
+                value={vacancy}
+                onChange={(e)=>setVacancy(e.target.value)}
                 required
               />
             </div>
@@ -113,8 +169,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="salary"
-                value={jobData.salary}
-                onChange={handleChange}
+                value={salary}
+                onChange={(e)=>setSalary(e.target.value)}
               />
             </div>
             <div className="field-container">
@@ -122,8 +178,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="requiredSkills"
-                value={jobData.requiredSkills}
-                onChange={handleChange}
+                value={requiredSkills}
+                onChange={(e)=>setRequiredSkills(e.target.value)}
                 required
               />
             </div>
@@ -132,8 +188,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="date"
                 name="jobDeadline"
-                value={jobData.jobDeadline}
-                onChange={handleChange}
+                value={jobDeadline}
+                onChange={(e)=>setJobDeadline(e.target.value)}
                 required
               />
             </div>
@@ -142,8 +198,8 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="email"
                 name="contactMail"
-                value={jobData.contactMail}
-                onChange={handleChange}
+                value={org.org_email}
+                onChange={(e)=>setContactMail(e.target.value)}
                 required
               />
             </div>
@@ -152,16 +208,16 @@ const AddJobs = ({ addJob }) => {
               <input
                 type="text"
                 name="jobFacilities"
-                value={jobData.jobFacilities}
-                onChange={handleChange}
+                value={jobFacilities}
+                onChange={(e)=>setJobFacilities(e.target.value)}
               />
             </div>
             <div className="field-container textarea">
               <label>Job Description</label>
               <textarea
                 name="jobDescription"
-                value={jobData.jobDescription}
-                onChange={handleChange}
+                value={jobDescription}
+                onChange={(e)=>setJobDescription(e.target.value)}
                 required
               />
             </div>

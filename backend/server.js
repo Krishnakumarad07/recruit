@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use('/userauth', userauthRoutes);
-app.use('/org-auth', OrgauthRoutes);
+app.use('/orgauth', OrgauthRoutes);
 
 const MONGOURI = process.env.MONGO_URI;
 

@@ -14,7 +14,27 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    }
+    },
+
+    name:
+    {
+        type:String,
+    },
+    role:{
+        type:String,
+    },
+    Location:{
+        type:String
+    },
+    State:{
+        type:String,
+
+    },
+    Gender:
+    {
+        type:String,
+        enum:["Male","Female","Not to say"],
+    },
 
 });
 const userDB=mongoose.model('Users',userSchema);

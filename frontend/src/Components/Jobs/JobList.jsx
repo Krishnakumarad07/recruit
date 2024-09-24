@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import './JobList.css';
-
+import axios from 'axios';
+import { useEffect } from 'react';
 const JobList = ({ jobs }) => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
@@ -20,10 +21,24 @@ const JobList = ({ jobs }) => {
     const handleCancelLogout = () => {
         setShowLogoutModal(false);
     };
-    const job = [
-        { id: 1, position: "Software Developer", company: "Tech Co", location: "Remote", salary: "$80,000", jobDeadline: "Sep 30, 2024", contactMail: "contact@techco.com", jobDescription: "Developing web applications using React." },
-        { id: 2, position: "UI/UX Designer", company: "Design Corp", location: "San Francisco", salary: "$70,000", jobDeadline: "Oct 5, 2024", contactMail: "careers@designcorp.com", jobDescription: "Designing user interfaces for mobile apps." }
-    ];
+    // const job = [
+    //     { id: 1, position: "Software Developer", company: "Tech Co", location: "Remote", salary: "$80,000", jobDeadline: "Sep 30, 2024", contactMail: "contact@techco.com", jobDescription: "Developing web applications using React." },
+    //     { id: 2, position: "UI/UX Designer", company: "Design Corp", location: "San Francisco", salary: "$70,000", jobDeadline: "Oct 5, 2024", contactMail: "careers@designcorp.com", jobDescription: "Designing user interfaces for mobile apps." }
+    // ];
+    const [job,setJob]=useState([]);
+    useEffect(()=>{
+        const joblist = async()=>{
+            try{
+            const response = await axios.get('http://localhost:8081/orgauth/joblist')
+            setJob(response.data.joblist)
+            console.log(response.data.joblist)
+            }
+            catch(error){
+                console.log('error fetching jobslist',error)
+            }
+        }
+        joblist();
+    })
     return (
         <>
             <div className="main-content">
@@ -70,8 +85,8 @@ const JobList = ({ jobs }) => {
 
                 <div className="job-list-container">
                     
-                    {jobs.length > 0 ? (
-                        jobs.map((job) => (
+                    {job.length > 0 ? (
+                        job.map((job) => (
                             <div className="job-item" key={job.id}>
                                 <h3>{job.position}</h3>
                                 <p><strong>Company:</strong> {job.company}</p>

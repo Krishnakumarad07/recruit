@@ -24,7 +24,6 @@ import Orgsettings from './Components/Organization/OrgDashComponents/Orgsettings
 
 function App() {
   const [jobs, setJobs] = useState([]);
-
   const addJob = (newJob) => {
     setJobs((prevJobs) => [...prevJobs, newJob]);
   };
