@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { jwtDecode } from 'jwt-decode';
 function Login() {
   const [Form, setForm] = useState({
     email: "",
@@ -26,10 +26,22 @@ function Login() {
     axios
       .post("http://localhost:8081/userauth/login", Form)
       .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        navigate("/dashboard");
-      })
+        if (res.data.token) {
+          const token = res.data.token;
+
+          // Decode the token to get user information
+          const user = jwtDecode(token); // Decode the token
+          console.log(user); // This will show the decoded user info in console
+
+          // Save user information to localStorage
+          localStorage.setItem("user", JSON.stringify(user));
+
+          // Navigate to profile page
+          navigate("/profile");
+      } else {
+          alert("Token not received.");
+      }
+  })
       .catch((error) => {
         alert("Check that the username or password is correct.");
         console.error("Login error:", error);

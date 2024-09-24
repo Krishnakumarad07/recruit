@@ -4,10 +4,23 @@ const UserDB = require('../Models/UserModel');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const nodemailer= require("nodemailer");
+const multer= require("multer");
+const cloudinary=require("../Models/cloudinary");
+const fs=require("fs");
+const path=require("path");
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallbackkey';
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './orgUploads'); // Directory where files will be saved
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Rename file to avoid conflicts
+    }
+});
+const upload = multer({storage});
 
 // Route to handle user registration (sign-up)
 router.post('/signup', async (req, res) => {
@@ -59,11 +72,21 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Generate a JWT token
         const token = jwt.sign(
-            { id: user._id, username: user.username, email: user.email },
-            JWT_SECRET,
-        );
+            {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                age: user.age,
+                phone: user.phone,
+                location: user.location,
+                Gender: user.Gender,
+                experience: user.experience,
+                description: user.description,
+                skills: user.skills,
+                image:user.image,
+                // Add more fields as necessary
+            },JWT_SECRET );
 
         res.json({
             message: 'Login successful',
@@ -134,6 +157,65 @@ router.post('/forgot-password', async (req, res) => {
         res.status(500).json({ message: 'Error sending password', error: err });
     }
 });
+router.put('/profUpdate', upload.single("file"), async(req, res) => {
+    if(!req.body.email) {
+        return res.status(400).send('Email is required');
 
+    }
+    var updateData;
+    var bool=false;
+    if(req.file){
+    const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'orgUploads',
+      });
+        updateData=
+        {
+            name: req.body.name,
+            age:req.body.age,
+            email: req.body.email,
+            phone: req.body.phone,
+            description: req.body.description,
+            location: req.body.location,
+            Gender: req.body.Gender,
+            experience: req.body.experience,
+            skills:req.body.skills,
+            image:result.secure_url,
+        };
+        bool=true;
+    }
+    else{
+        updateData=
+        {
+            name: req.body.name,
+            age:req.body.age,
+            email: req.body.email,
+            phone: req.body.phone,
+            description: req.body.description,
+            location: req.body.location,
+            Gender: req.body.Gender,
+            experience: req.body.experience,
+            skills:req.body.skills,
+            
+        };
+    }
+        
+        try {
+            const updatedUser = await UserDB.findOneAndUpdate(
+              { email: req.body.email }, // Find by email
+              updateData,
+              { new: true, runValidators: true } // Return the updated document
+            );
+
+        
+            if (!updatedUser) {
+              return res.status(404).send('Organization not found');
+            }
+            if(bool){fs.unlinkSync(req.file.path);}
+            res.send(updatedUser);
+          } catch (error) {
+            console.log( error);
+            res.status(400).send(error.message);
+          }
+    })
 
 module.exports = router;

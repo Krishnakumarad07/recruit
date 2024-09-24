@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import './Profile.css';
 import Navside from './Navside';
-
+import axios from 'axios';
+var details=localStorage.getItem("user");
+details=JSON.parse(details);
 const Profile = () => {
-  // State for profile details
+  
+
   const [profile, setProfile] = useState({
-    name: "Charan Guru",
-    jobTitle: "UI/UX Designer",
-    age: 28,
-    phone: "+91 95123 56789",
-    email: "ananya.sharma@gmail.com",
-    location: "Ahmedabad, Gujarat",
-    ctc: "12.5 Lacs",
-    experience: 6,
-    description: "Full stack product designer with hands-on experience in solving problems for clients ranging from healthcare, real estate, and industries.",
-    skills: ["UI/UX", "Adobe XD", "Wireframing", "Information Architecture"],
-    image: "https://via.placeholder.com/120", // Initial placeholder image
+    name: details.name || "",
+    age: details.age || "",
+    phone: details.phone || "",
+    email: details.email || "",
+    location: details.location || "",
+    Gender: details.Gender || "",
+    experience: details.experience || "",
+    description: details.description || "",
+    skills: details.skills || [],
+    image: details.image || "", 
   });
+  
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -32,10 +35,49 @@ const Profile = () => {
     setIsEditing(false);
   };
 
-  const handleSaveClick = () => {
-    setProfile(editedProfile); // Update the profile with edited data
-    setIsEditing(false);
+  const handleSaveClick = async (e) => {
+    e.preventDefault(); // Move this to the top
+    const { email, ...updatedProfile } = editedProfile;
+  
+    try {
+      const newProfile = {
+        ...updatedProfile,
+        email: profile.email, // Keep the original email
+      };
+      setProfile(newProfile); // Update profile state here after a successful request
+      setIsEditing(false);
+      const formData = new FormData();
+      formData.append('file', editedProfile.image); // Now this should be a File object
+      formData.append('name', newProfile.name);
+      formData.append('age', newProfile.age);
+      formData.append("email", newProfile.email);
+      formData.append('phone', newProfile.phone);
+      formData.append('description', newProfile.description);
+      formData.append('location', newProfile.location);
+      formData.append('Gender', newProfile.Gender);
+      formData.append('experience', newProfile.experience);
+      newProfile.skills.forEach((skill, index) => {
+        formData.append(`skills[${index}]`, skill);
+      });
+  
+      const res = await axios.put('http://localhost:8081/userauth/profUpdate', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      console.log('Profile updated:', res.data);
+      localStorage.setItem('user', JSON.stringify(res.data));
+      alert("Profile Updated Successfully");
+      // window.location.reload();
+      
+       // Close editing mode
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      alert("Unable to update");
+    }
   };
+  
 
   // Handle input changes in the form
   const handleInputChange = (e) => {
@@ -62,7 +104,7 @@ const Profile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setEditedProfile({ ...editedProfile, image: URL.createObjectURL(file) });
+      setEditedProfile({ ...editedProfile, image: file });
     }
   };
 
@@ -80,7 +122,6 @@ const Profile = () => {
                 className="profile-image"
               />
               <h2>{profile.name}</h2>
-              <p>{profile.jobTitle}</p>
               <p className="profile-description">{profile.description}</p>
 
               <div className="skills">
@@ -100,7 +141,7 @@ const Profile = () => {
               <div className="basic-info">
                 <div>
                   <p><strong>Age:</strong> {profile.age} years</p>
-                  <p><strong>CTC:</strong> {profile.ctc}</p>
+                  <p><strong>Gender:</strong> {profile.Gender}</p>
                 </div>
                 <div>
                   <p><strong>Years of Experience:</strong> {profile.experience} years</p>
@@ -130,15 +171,6 @@ const Profile = () => {
                   type="text"
                   name="name"
                   value={editedProfile.name}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label>
-                Job Title:
-                <input
-                  type="text"
-                  name="jobTitle"
-                  value={editedProfile.jobTitle}
                   onChange={handleInputChange}
                 />
               </label>
@@ -179,14 +211,18 @@ const Profile = () => {
                 />
               </label>
               <label>
-                CTC:
-                <input
-                  type="text"
-                  name="ctc"
-                  value={editedProfile.ctc}
-                  onChange={handleInputChange}
-                />
-              </label>
+  Gender:
+  <select
+    name="Gender"
+    value={editedProfile.Gender}
+    onChange={handleInputChange}
+  >
+    <option value="">Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Not to say">Not to say</option>
+  </select>
+</label>
               <label>
                 Years of Experience:
                 <input
@@ -206,7 +242,7 @@ const Profile = () => {
               </label>
               <label>
                 Profile Image:
-                <input type="file" accept="image/*" onChange={handleImageChange} />
+                <input type="file" accept="image/*"  onChange={handleImageChange}  />
               </label>
               <label>
                 Skills:

@@ -16,25 +16,34 @@ const userSchema=new mongoose.Schema({
         required:true,
     },
 
-    name:
-    {
-        type:String,
+    name: {
+        type: String,
     },
-    role:{
-        type:String,
+    location: { // Changed 'Location' to 'location' for consistency
+        type: String
     },
-    Location:{
-        type:String
+    Gender: { // Changed 'Gender' to 'gender' for consistency
+        type: String,
+        enum: ["Male", "Female", "Not to say"],
     },
-    State:{
-        type:String,
-
+    age: { // Added age field
+        type: Number,
     },
-    Gender:
-    {
-        type:String,
-        enum:["Male","Female","Not to say"],
+    experience: { // Added experience field
+        type: Number,
     },
+    description: { // Added description field
+        type: String,
+    },
+    skills: { // Added skills field as an array
+        type: [String], // Array of strings
+    },
+    image: { // Added image field for the profile picture
+        type: String,
+    },
+    phone:{
+        type:Number,
+    }
 
 });
 const userDB=mongoose.model('Users',userSchema);

@@ -250,16 +250,16 @@ var orgid = localStorage.getItem("org");
 const OrgProfile = () => {
   // State for profile details
   const [profile, setProfile] = useState({
-    name: orgid.orgname,
-    industry: orgid.Industry,
-    establishedYear: orgid.Year,
-    phone: orgid.phno,
-    email: orgid.org_email,
-    location: orgid.locn,
+    name: orgid.orgname ||"",
+    industry: orgid.Industry||"",
+    establishedYear: orgid.Year||"",
+    phone: orgid.phno||"",
+    email: orgid.org_email||"",
+    location: orgid.locn||"",
     // revenue: "",
     // employees: "",
-    description: orgid.desc,
-    services: orgid.Services,
+    description: orgid.desc||"",
+    services: orgid.Services||"",
     image:orgid.profImg?(orgid.profImg):"https://via.placeholder.com/120", 
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -298,7 +298,7 @@ const OrgProfile = () => {
   formData.append('location', updatedData.location);
   formData.append('services', updatedData.services);
     
-        await axios.put('http://localhost:8081/org-auth/profUpdate', formData, {
+        await axios.put('http://localhost:8081/orgauth/profUpdate', formData, {
           headers: {
             'Content-Type': 'multipart/form-data', // Important for file upload
           },})

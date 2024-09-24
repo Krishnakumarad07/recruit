@@ -157,14 +157,17 @@ router.get('/getprofile',async(req,res) => {
 })
 
 router.put('/profUpdate', upload.single("file"), async(req, res) => {
-    console.log(req.file)
     if(!req.body.email) {
         return res.status(400).send('Email is required');
+
     }
+    var bool = false;
+    var updateData;
+    if(req.file){
     const result = await cloudinary.uploader.upload(req.file.path, {
         folder: 'orgUploads',
       });
-        const updateData=
+     updateData=
         {
             orgname: req.body.name,
             org_email: req.body.email,
@@ -176,6 +179,22 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             Services:req.body.services,
             profImg: result.secure_url,
         };
+        bool=true;
+    }
+    else{
+        updateData=
+        {
+            orgname: req.body.name,
+            org_email: req.body.email,
+            Year:req.body.establishedYear,
+            desc: req.body.description,
+            Industry:req.body.industry,
+            locn:req.body.location,
+            phno:req.body.phone,
+            Services:req.body.services,
+            
+        };
+    }
         
         try {
             const updatedOrg = await OrgDB.findOneAndUpdate(
@@ -188,7 +207,8 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             if (!updatedOrg) {
               return res.status(404).send('Organization not found');
             }
-            fs.unlinkSync(req.file.path);
+            if(bool)
+            {fs.unlinkSync(req.file.path);}
             res.send(updatedOrg);
           } catch (error) {
             console.log( error);
