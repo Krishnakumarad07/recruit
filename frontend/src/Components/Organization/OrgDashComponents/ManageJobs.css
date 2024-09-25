@@ -1,3 +1,42 @@
+.view-btn, .delete-btn {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.view-btn:hover, .delete-btn:hover {
+  background-color: #ccc;
+}
+
+.delete-popup-container, .view-popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-popup, .view-popup {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  margin: 40px auto;
+}
+
+.delete-popup h2, .view-popup h2 {
+  margin-top: 0;
+}
+
+.popup-content {
+  margin-bottom: 20px;
+}
 .manage-jobs-container {
     position: absolute;
     top: 18%;

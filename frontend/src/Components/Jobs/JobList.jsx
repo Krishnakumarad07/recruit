@@ -53,7 +53,7 @@ const JobList = ({ jobs }) => {
     return (
         <>
             <div className="main-content">
-                <div id='home' className="welcome-line">
+                <div id='home1' className="welcome-line">
                     <p>Welcome to Our Job Portal, <span>Recruit...</span></p>
                     <FontAwesomeIcon icon={faFacebook} />
                     <FontAwesomeIcon icon={faTwitter} />
@@ -61,8 +61,8 @@ const JobList = ({ jobs }) => {
                     <FontAwesomeIcon icon={faInstagram} />
                 </div>
 
-                <div className="nav-jobs">
-                    <nav className='navbar1'>
+                <div className="navbarjobs">
+                    <nav className='navbar5' id='ten'>
                         <img id='pro-icon1' src="pro-logo.png" alt="logo" />
                         <h1>Recruit</h1>
                         <ul className='navbar-list1'>
@@ -80,7 +80,7 @@ const JobList = ({ jobs }) => {
                             </li>
                         </ul>
                     </nav>
-                    <hr />
+                   
                     {showLogoutModal && (
                         <div className="modal">
                             <div className="modal-content">
@@ -91,7 +91,9 @@ const JobList = ({ jobs }) => {
                             </div>
                         </div>
                     )}
+                
                 </div>
+               
                 <h2 id='h3'>Job Listings</h2>
 
                 <div className="job-list-container">
@@ -112,6 +114,7 @@ const JobList = ({ jobs }) => {
                     ) : (
                         <p>No jobs available.</p>
                     )}
+                   
                 </div>
             </div>
 

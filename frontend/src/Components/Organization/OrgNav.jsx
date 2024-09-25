@@ -42,9 +42,9 @@ const OrgNav = () => {
               {/* <li className='nav-list-items1'>
                 <NavLink to='/orghome' activeClassName="active">Home</NavLink>
               </li> */}
-              <li className='nav-list-items1'>
+              {/* <li className='nav-list-items1'>
                 <NavLink to='/orgjobs' activeClassName="active">Jobs</NavLink>
-              </li>
+              </li> */}
               {/* <li className='nav-list-items1'>
                 <NavLink to='/orghome' activeClassName="active">About</NavLink>
               </li> */}

@@ -11,6 +11,12 @@ body {
   min-height: 100vh;
   font-family: 'Times New Roman', Times, serif;
 }
+#home1{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+}
 
 .main-content {
   flex-grow: 1;
@@ -18,20 +24,25 @@ body {
   flex-direction: column;
 }
 
-.nav-jobs {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background: #ffffff;
-  z-index: 10;
-  padding: 10px 0;
-}
 
-.navbar1 {
+
+.navbar5 {
   display: flex;
   align-items: center;
   background-color: #ffffff;
   color: #052659;
+  padding: 1%;
+  width: 100%;
+ 
+ 
+}
+#ten{
+  position: fixed;
+  top:4%;
+  width: 100%;
+  left: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 }
 
 #pro-icon1 {
@@ -63,13 +74,14 @@ body {
 }
 #h3{
   text-align: center;
+  margin-top: 6.5%;
 }
 .job-list-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 2%;
-  width: 100%;
+  width: 90%;
   text-align: left;
 }
 
