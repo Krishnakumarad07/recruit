@@ -10,14 +10,14 @@
     border-radius: 8px;
     text-align: center;
     background-color: #d9d8d8;
-    height: 50%;
+    height: 52%;
     font-family: 'Times New Roman', Times, serif;
   }
   
   .setting-img img {
     width: 200px;
     height: 200px;
-    margin-bottom: 15px;
+ 
     mix-blend-mode:difference;
    
   }

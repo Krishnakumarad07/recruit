@@ -20,15 +20,15 @@ const Setting = () => {
         <div className="setting-img">
           <img src="forgot.png" alt="img" />
         </div>
-        <h2>Forgot Your Password?</h2>
-        <button onClick={handleForgotPasswordClick}>Forgot Password</button>
+        <h2>Remember Your Password?</h2>
+        <button onClick={handleForgotPasswordClick}>Click here</button>
       </div>
 
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
-            <h3>Forgot Password</h3>
-            <p>Please enter your email to reset your password.</p>
+            <h3>Password</h3>
+            <p>Please enter your email to know your password.</p>
             <input type="email" placeholder="Enter your email" />
             <div className="popup-actions">
               <button onClick={closePopup}>Cancel</button>

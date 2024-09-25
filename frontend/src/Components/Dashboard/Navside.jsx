@@ -69,7 +69,7 @@ const Navside = () => {
               </li>
               <li id='link'>
               <FontAwesomeIcon icon={faBars} />
-                <NavLink to='/applyjobs' activeClassName="active">Applied Jobs</NavLink>
+                <NavLink to='/applyjob' activeClassName="active">Applied Jobs</NavLink>
               </li>
               {/* <li id='link'>
                 <FontAwesomeIcon icon={faBars} />

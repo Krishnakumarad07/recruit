@@ -152,9 +152,9 @@ const Profile = () => {
                   <p><strong>Email:</strong> {profile.email}</p>
                 </div>
               </div>
-              <div className="action-buttons">
+              {/* <div className="action-buttons">
                 <button className="btn">Download Resume</button>
-              </div>
+              </div> */}
               <hr />
               <hr />
             </div>

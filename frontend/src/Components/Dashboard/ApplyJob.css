@@ -1,0 +1,66 @@
+
+
+.users-management {
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    height: 100vh;
+    margin-left: 16%;
+  }
+  
+  h2 {
+    margin-top: 8%;
+    margin-bottom: 20px;
+  }
+  
+  .users-table {
+    border-collapse: collapse;
+    width: 45%; /* adjust the width to your liking */
+    margin: 0 auto;
+    
+    border-radius: 4px;
+    
+  }
+  
+  .users-table th, .users-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+  
+  }
+  
+  .users-table th {
+    background-color: #052659;
+    text-align: center;
+  }
+  
+  .popup-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #054694;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px; /* adjust the width to your liking */
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    z-index: 500;
+    border-radius: 10px;
+  }
+  
+  .popup-box button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .popup-box button:hover {
+    background-color: #b50000;
+  }
