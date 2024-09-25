@@ -33,8 +33,8 @@ const ApplyJob = () => {
     <>
       <Navside />
       <div className="users-management">
-        <h2>Applied Jobs</h2>
-        <table className="users-table animate__animated animate__slideInUp">
+        <h2 id='mm'>Applied Jobs</h2>
+        <table className="users animate__animated animate__slideInUp">
           <thead>
             <tr>
               <th>Job Title</th>

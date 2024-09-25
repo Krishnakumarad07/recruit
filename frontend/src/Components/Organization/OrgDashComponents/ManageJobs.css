@@ -1,3 +1,66 @@
+
+#cl-btn{
+  background-color: green;
+  color: white;
+  padding: 1%;
+  border: none;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.view-popup {
+  background-color:#053659 ;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content {
+  font-size: 16px;
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.popup-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.popup-content th, .popup-content td {
+ 
+  padding: 10px;
+  text-align: left;
+}
+#btnn
+{
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 2%;
+}
+#btnn:hover{
+  background-color: #3e8e41;
+
+}
+.popup-content th {
+  background-color: #053659;
+}
+
+.popup-content button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #3e8e41;
+}
 .view-btn, .delete-btn {
   cursor: pointer;
   border: none;
@@ -7,7 +70,7 @@
 }
 
 .view-btn:hover, .delete-btn:hover {
-  background-color: #ccc;
+  background-color: #9a9999;
 }
 
 .delete-popup-container, .view-popup-container {
@@ -20,22 +83,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1400;
 }
 
 .delete-popup, .view-popup {
-  background-color: #ffffff;
+  background-color: #053659;
   padding: 20px;
   border-radius: 10px;
   width: 50%;
   margin: 40px auto;
+  color: white;
 }
 
 .delete-popup h2, .view-popup h2 {
   margin-top: 0;
+  color: white;
 }
 
 .popup-content {
   margin-bottom: 20px;
+
 }
 .manage-jobs-container {
     position: absolute;
@@ -52,11 +119,14 @@
   
   .table-container {
     width: 100%;
+    
   }
   
   h2 {
     color: #053659;
-    margin-bottom: 20px;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    text-align: center;
   }
   
   .job-table {
@@ -67,12 +137,13 @@
   .job-table th, .job-table td {
     text-align: left;
     padding: 12px;
-    border: 1px solid #ccc;
+   border-radius: 5px;
   }
   
   .job-table th {
-    background-color: #2f0794;
+    background-color: #052659;
     color: white;
+    border: 1px solid #ccc;
   }
   
   .job-table td {

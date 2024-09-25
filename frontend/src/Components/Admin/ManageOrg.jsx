@@ -31,9 +31,9 @@ const ManageOrg = () => {
     
       return (
         <>
-          <div className="users-management">
-            <h2>Org Management</h2>
-            <table className="users-table">
+          <div className="users-management1">
+            <h2 id='hhh'>Org Management</h2>
+            <table className="users-tabl">
               <thead>
                 <tr>
                   <th>Name</th>

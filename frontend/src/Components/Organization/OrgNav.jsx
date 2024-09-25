@@ -74,7 +74,7 @@ const OrgNav = () => {
               </li>
               <li id='link'>
                 <FontAwesomeIcon icon={faBars} />
-                <NavLink to='/applications' activeClassName="active">Applications</NavLink>
+                <NavLink to='/application' activeClassName="active">Applications</NavLink>
               </li>
               <li id='link'>
                 <FontAwesomeIcon icon={faGears} />

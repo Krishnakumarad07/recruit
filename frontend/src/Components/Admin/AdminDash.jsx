@@ -7,14 +7,14 @@ import {useNavigate} from "react-router-dom"
 import { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import ManageOrg from './ManageOrg';
+import { useLocalStorage } from 'react-use';
 
 
 
 
 const AdminDash = () => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState("dashboard");
-  
+  const [activeSection, setActiveSection] = useLocalStorage('activeSection','dashboard');
   const renderContent = () => {
     switch (activeSection) {
       case "dashboard":

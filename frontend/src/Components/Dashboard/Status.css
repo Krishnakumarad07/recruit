@@ -1,15 +1,72 @@
-.status-animation svg circle {
-    animation: spin 2s linear infinite;
-  }
+
+.status-management {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-left: 16%;
+}
+
+#mm {
+  margin-top: 10%;
+  margin-bottom: 20px;
+}
+
+.st-table {
+  border-collapse: collapse;
+  width: 95%;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
   
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+}
+
+.st-table th, .st-table td {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid white;
+ 
+
+}
+
+.st-table th {
+  background-color: #052659;
+  text-align: left;
+  color: white;
+
+}
+
+.popup-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #054694;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 300px; /* adjust the width to your liking */
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  z-index: 500;
+  border-radius: 10px;
+}
+
+.popup-box button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.popup-box button:hover {
+  background-color: #b50000;
+}
   .animate__animated {
     animation-duration: 1s;
     animation-fill-mode: both;

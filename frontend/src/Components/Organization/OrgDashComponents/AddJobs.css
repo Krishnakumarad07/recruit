@@ -55,8 +55,8 @@
 
 
 .submit-btn {
-grid-column: span ;
-  padding: 12px;
+grid-column:span;
+  width: 20%;
   background-color: #053659;
   color: white;
   border: none;
@@ -64,7 +64,9 @@ grid-column: span ;
   font-size: 18px;
   cursor: pointer;
   text-align: center;
-  width: 20%;
+  height: 30%;
+  padding: 1%;
+  
  
 }
 

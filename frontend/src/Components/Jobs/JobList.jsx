@@ -30,6 +30,7 @@ const JobList = ({ jobs }) => {
         const joblist = async()=>{
             try{
             const response = await axios.get('http://localhost:8081/orgauth/joblist')
+            console.log('Response data:', response.data);
             setJob(response.data.joblist)
             }
             catch(error){
@@ -37,12 +38,12 @@ const JobList = ({ jobs }) => {
             }
         }
         joblist();
-    })
+    }, [])
     useEffect(() => {
         const check = async () => {
             try {
                 const res = await axios.put("http://localhost:8081/orgauth/isOpOrg");
-                console.log(res);
+                console.log(res.data);
             } catch (err) {
                 console.log(err);
             }
@@ -97,25 +98,23 @@ const JobList = ({ jobs }) => {
                 <h2 id='h3'>Job Listings</h2>
 
                 <div className="job-list-container">
-                    
-                    {job.length > 0 ? (
-                        job.map((job) => (
-                            <div className="job-item" key={job.id}>
-                                <h3>{job.position}</h3>
-                                <p><strong>Company:</strong> {job.company.orgname}</p>
-                                <p><strong>Location:</strong> {job.location}</p>
-                                <p><strong>Salary:</strong> {job.salary}</p>
-                                <p><strong>Deadline:</strong> {new Date(job.jobDeadline).toLocaleDateString('en-GB')}</p>
-                                <p><strong>Contact:</strong> {job.company.org_email}</p>
-                                <p>{job.jobDescription}</p>
-                                <button className="btn">Apply now</button>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No jobs available.</p>
-                    )}
-                   
-                </div>
+  {job.length > 0 ? (
+    job.map((job) => (
+      <div className="job-item" key={`${job.position}-${job.company.orgname}`}>
+        <h3>{job.position}</h3>
+        <p><strong>Company:</strong> {job.company.orgname}</p>
+        <p><strong>Location:</strong> {job.location}</p>
+        <p><strong>Salary:</strong> {job.salary}</p>
+        <p><strong>Deadline:</strong> {new Date(job.jobDeadline).toLocaleDateString('en-GB')}</p>
+        <p><strong>Contact:</strong> {job.company.org_email}</p>
+        <p>{job.jobDescription}</p>
+        <button className="btn">Apply now</button>
+      </div>
+    ))
+  ) : (
+    <p>No jobs available.</p>
+  )}
+</div>
             </div>
 
             <footer id='footer' className="footer1">

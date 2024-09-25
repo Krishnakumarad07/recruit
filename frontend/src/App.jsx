@@ -28,6 +28,7 @@ import Manage from './Components/Admin/Manage.jsx';
 import { Sidebar } from './Components/Admin/Sidebar.jsx';
 import ManageOrg from './Components/Admin/ManageOrg.jsx';
 import Adlogin from './Components/Admin/Adlogin.jsx';
+import Application from './Components/Organization/OrgDashComponents/Application.jsx';
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
           <Route path='/side' element={<Sidebar/>}/>
           <Route path='/manageorg' element={<ManageOrg/>}/>
           <Route path='/adlogin' element={<Adlogin/>}/>
+          <Route path='/application' element={<Application/>}/>
         </Routes>
       </div>
     </Router>

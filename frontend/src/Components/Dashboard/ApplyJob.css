@@ -9,30 +9,33 @@
     margin-left: 16%;
   }
   
-  h2 {
-    margin-top: 8%;
+  #mm {
+    margin-top: 10%;
     margin-bottom: 20px;
   }
   
-  .users-table {
+  .users {
     border-collapse: collapse;
-    width: 45%; /* adjust the width to your liking */
+    width: 95%;
     margin: 0 auto;
     
     border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     
   }
   
-  .users-table th, .users-table td {
-    border: 1px solid #ddd;
+  .users th, .users td {
+
     padding: 10px;
     border-radius: 4px;
   
   }
   
-  .users-table th {
+  .users th {
     background-color: #052659;
-    text-align: center;
+    text-align: left;
+    color: white;
+    border: 1px solid white;
   }
   
   .popup-box {

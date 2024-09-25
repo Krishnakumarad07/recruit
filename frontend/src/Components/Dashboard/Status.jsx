@@ -45,8 +45,8 @@ const Status = () => {
     <>
       <Navside />
       <div className="users-management">
-        <h2>Job Status</h2>
-        <table className="users-table animate__animated animate__slideInUp">
+        <h2 id='mm'>Job Status</h2>
+        <table className="st-table animate__animated animate__slideInUp">
           <thead>
             <tr>
               <th>Job Title</th>

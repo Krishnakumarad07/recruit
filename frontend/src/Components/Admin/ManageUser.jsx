@@ -31,8 +31,8 @@ const ManageUser = () => {
 
   return (
     <>
-      <div className="users-management">
-        <h2>Users Management</h2>
+      <div className="users-management1">
+        <h2 id='hhh'>Users Management</h2>
         <table className="users-table">
           <thead>
             <tr>
