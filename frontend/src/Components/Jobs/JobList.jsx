@@ -11,6 +11,18 @@ const JobList = ({ jobs }) => {
     const [selectedJob, setSelectedJob] = useState({});
     const navigate = useNavigate();
     const [job, setJob] = useState([]);
+    useEffect(() => {
+        const check = async () => {
+            try {
+                const res = await axios.put("http://localhost:8081/orgauth/isOpOrg");
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        check(); // Call the async function
+    }, []); // Empty array to ensure it runs once when component mounts
 
     const handleLogoutClick = () => {
         setShowLogoutModal(true);

@@ -9,15 +9,15 @@ const Profile = () => {
   
   const [profile, setProfile] = useState({
     name: details.username || "",
-    age: details.age || "",
+    age: details.age || 0,
     phone: details.phone || "",
     email: details.email || "",
     location: details.location || "",
     Gender: details.Gender || "",
-    experience: details.experience || "",
+    experience: details.experience || 0,
     description: details.description || "",
     skills: details.skills || [],
-    image: details.image || "", 
+    image: details.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3Ev1b6Sb7M4DgNkOHViL12jqOxNcecmg5A&s", 
   });
   
 
@@ -69,7 +69,7 @@ const Profile = () => {
       console.log('Profile updated:', res.data);
       localStorage.setItem('user', JSON.stringify(res.data));
       alert("Profile Updated Successfully");
-      // window.location.reload();
+      window.location.reload();
       
        // Close editing mode
     } catch (err) {
