@@ -1,3 +1,93 @@
+.hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  background-color: rgb(231, 231, 231);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 90%;
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  color: #053659;
+  gap: 10px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.hero-content h3 {
+  margin-top: 0;
+}
+
+.hero-content p {
+  margin-bottom: 20px;
+}
+
+.hero-content label {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.hero-content input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+
+  border-radius: 5px;
+  
+  background: transparent;
+border: 1px solid;
+font-size: large;
+}
+
+.hero-content input[type="file"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+
+.hero-content button[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hero-content button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.close-button {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  top: 8%;
+  left:  84.5%;
+  
+ 
+}
+
+.close-button:hover {
+  background-color: #c0392b;
+}
 * {
   padding: 0;
   margin: 0;

@@ -21,7 +21,7 @@ const Orgsettings = () => {
           <img src="forgot.png" alt="img" />
         </div>
         <h2>Remember Your Password?</h2>
-        <button onClick={handleForgotPasswordClick}>Forgot Password</button>
+        <button onClick={handleForgotPasswordClick}>Click here</button>
       </div>
 
       {showPopup && (

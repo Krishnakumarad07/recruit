@@ -41,9 +41,9 @@ const Navside = () => {
               {/* <li className='nav-list-items1'>
                 <NavLink to='/' activeClassName="active">Home</NavLink>
               </li> */}
-              <li className='nav-list-items1'>
+              {/* <li className='nav-list-items1'>
                 <NavLink to='/jobs' activeClassName="active">Jobs</NavLink>
-              </li>
+              </li> */}
               {/* <li className='nav-list-items1'>
                 <NavLink to='/loginpage' activeClassName="active">About</NavLink>
               </li> */}
@@ -63,13 +63,17 @@ const Navside = () => {
                 <FontAwesomeIcon icon={faUser} />
                 <NavLink to='/profile' activeClassName="active">Profile</NavLink>
               </li>
-              <li id='link'>
+              {/* <li id='link'>
               <FontAwesomeIcon icon={faChartBar} />
                 <NavLink to='/status' activeClassName="active">Status</NavLink>
-              </li>
+              </li> */}
               <li id='link'>
               <FontAwesomeIcon icon={faBars} />
                 <NavLink to='/applyjob' activeClassName="active">Applied Jobs</NavLink>
+              </li>
+              <li id='link'>
+              <FontAwesomeIcon icon={faBars} />
+                <NavLink to='/jobs' activeClassName="active">Jobs</NavLink>
               </li>
               {/* <li id='link'>
                 <FontAwesomeIcon icon={faBars} />

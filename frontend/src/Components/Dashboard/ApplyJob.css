@@ -1,5 +1,16 @@
 
+#remove{
+  background: red;
+  padding: 5px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 
+}
+#remove:hover{
+  background: rgb(172, 0, 0);
+}
 .users-management {
     display: flex;
     flex-direction: column;

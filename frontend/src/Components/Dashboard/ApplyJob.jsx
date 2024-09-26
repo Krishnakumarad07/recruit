@@ -38,7 +38,7 @@ const ApplyJob = () => {
           <thead>
             <tr>
               <th>Job Title</th>
-              <th>Company</th>
+              <th>Organization Name</th>
               <th>Applied Date</th>
               <th>Status</th>
               <th>Actions</th>
@@ -52,7 +52,7 @@ const ApplyJob = () => {
                 <td>{job.appliedDate}</td>
                 <td>{job.status}</td>
                 <td>
-                  <button onClick={() => handleRemove(job.id)}>Remove</button>
+                  <button id='remove'onClick={() => handleRemove(job.id)}>Remove</button>
                 </td>
               </tr>
             ))}
@@ -61,7 +61,8 @@ const ApplyJob = () => {
 
         {showPopup && (
           <div className="popup-box">
-            <p>Are you sure you want to remove this user?</p>
+            <p>Are you sure you want to cencel the  job application?</p>
+
             <button onClick={handleConfirmRemove}>Yes, remove</button>
             <button onClick={handleCancelRemove}>Cancel</button>
           </div>
