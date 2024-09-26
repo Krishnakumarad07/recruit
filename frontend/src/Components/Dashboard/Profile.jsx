@@ -4,11 +4,11 @@ import Navside from './Navside';
 import axios from 'axios';
 var details=localStorage.getItem("user");
 details=JSON.parse(details);
+
 const Profile = () => {
   
-
   const [profile, setProfile] = useState({
-    name: details.name || "",
+    name: details.username || "",
     age: details.age || "",
     phone: details.phone || "",
     email: details.email || "",

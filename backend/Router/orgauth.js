@@ -160,6 +160,8 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
     if(!req.body.email) {
         return res.status(400).send('Email is required');
 
+
+
     }
     var bool = false;
     var updateData;
@@ -167,6 +169,7 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path, {
         folder: 'orgUploads',
       });
+     
      updateData=
         {
             orgname: req.body.name,
@@ -176,7 +179,7 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             Industry:req.body.industry,
             locn:req.body.location,
             phno:req.body.phone,
-            Services:req.body.services,
+            Services:(req.body.services).split(','),
             profImg: result.secure_url,
         };
         bool=true;
@@ -191,7 +194,7 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             Industry:req.body.industry,
             locn:req.body.location,
             phno:req.body.phone,
-            Services:req.body.services,
+            Services:(req.body.services).split(','),
             
         };
     }
@@ -227,9 +230,13 @@ router.post("/addJobs",async(req,res)=>{
             position: jobDetails.position,
         });
 
+
+
         if (existingJob) {
             return res.status(409).json({ success: false, message: "Job position already exists for this company." });
         }
+        console.log(jobDetails.requiredSkills)
+
 
         // Create a new job object
         const newJob = {
@@ -240,7 +247,7 @@ router.post("/addJobs",async(req,res)=>{
             jobPosted: new Date(),
             jobDeadline: jobDetails.jobDeadline, // Ensure this is a valid Date
             vacancy: jobDetails.vacancy,
-            requiredSkills: jobDetails.requiredSkills,
+            requiredSkills: (jobDetails.requiredSkills).split(','),
             salary: jobDetails.salary,
             jobDescription: jobDetails.jobDescription,
             jobFacilities: jobDetails.jobFacilities,
@@ -249,8 +256,7 @@ router.post("/addJobs",async(req,res)=>{
 
         // Insert the new job into the database
         const job = await AddJob.create(newJob);
-        console.log("Job inserted:", job);
-
+        // console.log("Job inserted:", job);
         // Send a success response
         return res.status(201).json({ success: true, job }); // Use return here
     } catch (error) {

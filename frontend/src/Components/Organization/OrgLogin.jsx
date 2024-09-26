@@ -169,6 +169,7 @@ function OrgLogin() {
         console.log(res.data.message,org);
         localStorage.setItem("org",JSON.stringify(org));
         navigate("/orgprofile");
+        window.location.reload();
       })
       .catch((error) => {
         alert("Check that the username or password is correct.");

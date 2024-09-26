@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
             {
                 id: user._id,
-                name: user.name,
+                username: user.username,
                 email: user.email,
                 age: user.age,
                 phone: user.phone,
@@ -170,7 +170,7 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
       });
         updateData=
         {
-            name: req.body.name,
+            username: req.body.name,
             age:req.body.age,
             email: req.body.email,
             phone: req.body.phone,
@@ -186,7 +186,7 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
     else{
         updateData=
         {
-            name: req.body.name,
+            username: req.body.name,
             age:req.body.age,
             email: req.body.email,
             phone: req.body.phone,

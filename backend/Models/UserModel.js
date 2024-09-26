@@ -15,10 +15,6 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
-
-    name: {
-        type: String,
-    },
     location: { // Changed 'Location' to 'location' for consistency
         type: String
     },

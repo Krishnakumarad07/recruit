@@ -1,25 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import  { useState } from 'react';  // Correctly import useState
+import axios from 'axios';
+
 
 const ManageOrg = () => {
-    const [users, setUsers] = useState([
-        // Sample users data for testing purposes
-        {
-          id: 1,
-          username: 'JohnDoe',
-          email: 'john@example.com',
-          phoneNo: '123-456-7890',
-          banned: false,
-        },
-        {
-          id: 2,
-          username: 'JaneDoe',
-          email: 'jane@example.com',
-          phoneNo: '987-654-3210',
-          banned: true,
-        },
-      ]);
-    
+    const [users, setUsers] = useState(['']);
+    useEffect(() => {
+      const getOrgDetails= async () => {
+        try {
+            const res = await axios.get("http://localhost:8081/adminauth/orgDetails");
+            setUsers(res.data.orgDetails);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    getOrgDetails();
+    },[])
       // Function to toggle ban/unban status
       const handleBan = (id) => {
         setUsers(
@@ -36,7 +32,7 @@ const ManageOrg = () => {
             <table className="users-tabl">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Organisation name</th>
                   <th>Email</th>
                   <th>Phone Number</th>
                   <th>Manage</th>
@@ -45,9 +41,9 @@ const ManageOrg = () => {
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phoneNo}</td>
+                    <td>{user.orgname}</td>
+                    <td>{user.org_email}</td>
+                    <td>{user.phno}</td>
                     <td>
                       <button
                         onClick={() => handleBan(user.id)}

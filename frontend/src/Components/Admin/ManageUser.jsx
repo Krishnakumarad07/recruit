@@ -1,24 +1,21 @@
-import React from 'react'
-import  { useState } from 'react';  // Correctly import useState
+import React, { useEffect } from 'react'
+import  { useState } from 'react';  
+import axios from 'axios';// Correctly import useState
 
 const ManageUser = () => {
-  const [users, setUsers] = useState([
-    // Sample users data for testing purposes
-    {
-      id: 1,
-      username: 'JohnDoe',
-      email: 'john@example.com',
-      phoneNo: '123-456-7890',
-      banned: false,
-    },
-    {
-      id: 2,
-      username: 'JaneDoe',
-      email: 'jane@example.com',
-      phoneNo: '987-654-3210',
-      banned: true,
-    },
-  ]);
+  const [users, setUsers] = useState(['']);
+
+  useEffect(() => {
+    const getUserDetails= async () => {
+      try {
+          const res = await axios.get("http://localhost:8081/adminauth/UserDetails");
+          setUsers(res.data.UserDetails);
+      } catch (err) {
+          console.log(err);
+      }
+  };
+  getUserDetails();
+  },[])
 
   // Function to toggle ban/unban status
   const handleBan = (id) => {
@@ -47,7 +44,7 @@ const ManageUser = () => {
               <tr key={user.id}>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
-                <td>{user.phoneNo}</td>
+                <td>{user.phone}</td>
                 <td>
                   <button
                     onClick={() => handleBan(user.id)}

@@ -35,9 +35,10 @@ function Login() {
 
           // Save user information to localStorage
           localStorage.setItem("user", JSON.stringify(user));
-
+          
           // Navigate to profile page
           navigate("/profile");
+          window.location.reload();
       } else {
           alert("Token not received.");
       }
