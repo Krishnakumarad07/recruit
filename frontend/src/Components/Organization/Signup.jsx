@@ -29,7 +29,7 @@ const Signup = () => {
         }
 
         // Make the POST request
-        axios.post('http://localhost:8081/org-auth/signup', { orgname, org_email:email, password })
+        axios.post('http://localhost:8081/orgauth/signup', { orgname, org_email:email, password })
             .then((res) => {
                 console.log('Response:', res.data);
                 localStorage.setItem('token', res.data.token);
