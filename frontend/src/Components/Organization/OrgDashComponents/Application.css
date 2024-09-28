@@ -1,0 +1,61 @@
+.job-table-box {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-left: 18%;
+    
+
+  }
+  .have{
+    margin-top: 8%;
+    margin-left: 8%;
+   
+  }
+  
+  .job-table-box th, .job-table-box td {
+    
+    padding: 10px;
+    text-align: left;
+    border-radius: 5px;
+  }
+  
+  .job-table-box th {
+    background-color: #053564;
+    color: white;
+    border: 1px solid #fffefe;
+  }
+  
+  .view-resume-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .remove-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .view-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .select-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }

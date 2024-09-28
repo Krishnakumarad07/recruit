@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './Profile.css';
 import Navside from './Navside';
 import axios from 'axios';
-var details=localStorage.getItem("user");
-details=JSON.parse(details);
+var details = localStorage.getItem("user");
+details = JSON.parse(details);
 
 const Profile = () => {
-  
+
   const [profile, setProfile] = useState({
     name: details.username || "",
     age: details.age || 0,
@@ -17,9 +17,9 @@ const Profile = () => {
     experience: details.experience || 0,
     description: details.description || "",
     skills: details.skills || [],
-    image: details.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3Ev1b6Sb7M4DgNkOHViL12jqOxNcecmg5A&s", 
+    image: details.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3Ev1b6Sb7M4DgNkOHViL12jqOxNcecmg5A&s",
   });
-  
+
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -38,7 +38,7 @@ const Profile = () => {
   const handleSaveClick = async (e) => {
     e.preventDefault(); // Move this to the top
     const { email, ...updatedProfile } = editedProfile;
-  
+
     try {
       const newProfile = {
         ...updatedProfile,
@@ -59,25 +59,25 @@ const Profile = () => {
       newProfile.skills.forEach((skill, index) => {
         formData.append(`skills[${index}]`, skill);
       });
-  
+
       const res = await axios.put('http://localhost:8081/userauth/profUpdate', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       console.log('Profile updated:', res.data);
       localStorage.setItem('user', JSON.stringify(res.data));
       alert("Profile Updated Successfully");
       window.location.reload();
-      
-       // Close editing mode
+
+      // Close editing mode
     } catch (err) {
       console.error('Error updating profile:', err);
       alert("Unable to update");
     }
   };
-  
+
 
   // Handle input changes in the form
   const handleInputChange = (e) => {
@@ -100,6 +100,12 @@ const Profile = () => {
     setEditedProfile({ ...editedProfile, skills: [...editedProfile.skills, ""] });
   };
 
+  // handle remove 
+  const handleRemoveSkill = (index) => {
+    const newSkills = [...editedProfile.skills];
+    newSkills.splice(index, 1);
+    setEditedProfile({ ...editedProfile, skills: newSkills });
+  };
   // Handle profile image change during editing
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -158,7 +164,7 @@ const Profile = () => {
               <hr />
               <hr />
             </div>
-            
+
           </div>
         ) : (
           <div className="edit-popup">
@@ -212,18 +218,18 @@ const Profile = () => {
                 />
               </label>
               <label>
-  Gender:
-  <select
-    name="Gender"
-    value={editedProfile.Gender}
-    onChange={handleInputChange}
-  >
-    <option value="">Select Gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Not to say">Not to say</option>
-  </select>
-</label>
+                Gender:
+                <select
+                  name="Gender"
+                  value={editedProfile.Gender}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Not to say">Not to say</option>
+                </select>
+              </label>
               <label>
                 Years of Experience:
                 <input
@@ -243,17 +249,19 @@ const Profile = () => {
               </label>
               <label>
                 Profile Image:
-                <input type="file" accept="image/*"  onChange={handleImageChange}  />
+                <input type="file" accept="image/*" onChange={handleImageChange} />
               </label>
               <label>
                 Skills:
                 {editedProfile.skills.map((skill, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={skill}
-                    onChange={(e) => handleSkillsChange(e, index)}
-                  />
+                  <div key={index}>
+                    <input
+                      type="text"
+                      value={skill}
+                      onChange={(e) => handleSkillsChange(e, index)}
+                    />
+                    <button type="button" onClick={() => handleRemoveSkill(index)}>Remove</button>
+                  </div>
                 ))}
                 <button type="button" onClick={handleAddSkill}>Add Skill</button>
               </label>

@@ -1,4 +1,59 @@
+.popup-boxie {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.job-view-popup, .remove-popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  height: 50%;
+}
+
+.job-view-popup h2, .remove-popup p {
+  margin-top: 0;
+  color: #052659;
+}
+
+.job-view-popup p, .remove-popup p {
+  margin-bottom: 20px;
+}
+
+.job-view-popup button, .remove-popup button {
+  background-color: #052659;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.job-view-popup button:hover, .remove-popup button:hover {
+  background-color: #3e8e41;
+}
+
+.remove-popup {
+  text-align: center;
+}
+
+.remove-popup p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.remove-popup button {
+  margin: 20px 10px;
+}
 #remove{
   background: red;
   padding: 5px;
@@ -6,8 +61,24 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 2%;
 
 }
+.view-bt {
+  background: green;
+  padding: 5px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1%;
+  margin-right: 2%;
+}
+
+.view-bt:hover {
+  background-color: #3e8e41; /* Darker green */
+}
+
 #remove:hover{
   background: rgb(172, 0, 0);
 }

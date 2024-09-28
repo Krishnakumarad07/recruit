@@ -8,98 +8,98 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: scroll;
-  scrollbar-width: none;
-  z-index: 2000;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  font-family: 'Times New Roman', Times, serif;
+  z-index: 500;
 }
 
 .hero-content {
-  background-color: rgb(231, 231, 231);
+  background-color: #f2f2f2;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
- 
-  
-  display: grid;
-  grid-template-columns: repeat(2 , 1fr);
+  width: 90%;
+
+  height: 90%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.spiderman{
   color: #053659;
-  gap: 10px;
-  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+ 
+  gap: 50px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.spiderman span{
+  color:#053659;
+  font-size: 30px;
+}
+.spiderman h3{
   
- 
- 
+  color: red;
+}
+.spiderman strong{
+  color: red;
 }
 
-.hero-content h3 {
-  margin-top: 0;
-}
-
-.hero-content p {
-  margin-bottom: 20px;
+.hero-content form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 50%;
 }
 
 .hero-content label {
-  font-weight: bold;
-  margin-bottom: 15px;
+  width: 40%;
+  margin-bottom: 10px;
+  color: #052659;
+  font-size: 20px;
 }
 
-.hero-content input {
+.hero-content input, .hero-content textarea, .hero-content select {
   width: 50%;
-  padding: 8px;
+  padding: 6px 10px ;
   margin-bottom: 20px;
-
-  border-radius: 5px;
-  
-  background: transparent;
-border: 1px solid;
-font-size: large;
-}
-
-.hero-content input[type="file"] {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-
-
-.hero-content button[type="submit"] {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.hero-content button[type="submit"]:hover {
-  background-color: #3e8e41;
-}
-
-.close-button {
-  background-color: #e74c3c;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  position: absolute;
- 
-  left:  84.5%;
-  
- 
-}
-.hero-content textarea{
-  width: 50%;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-size: large;
+  color: #053659;
   resize: none;
-  line-height: 3;
-  padding: 1%;
 }
 
-.close-button:hover {
-  background-color: #c0392b;
+.hero-content .submit-button, .hero-content .close-button {
+  width: 45%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #052659;
+  color: #fff;
+  cursor: pointer;
+  font-size: medium;
 }
+
+.hero-content .submit-button {
+  margin-right: 10px;
+}
+
+.hero-content .close-button {
+  background-color: #ff0000;
+  color: rgb(255, 255, 255)
+}
+
+.hero-content .close-button:hover {
+  background-color: #e62323;
+}
+
+
 * {
   padding: 0;
   margin: 0;

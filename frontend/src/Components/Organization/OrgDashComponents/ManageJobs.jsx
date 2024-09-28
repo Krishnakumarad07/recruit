@@ -77,8 +77,8 @@ const ManageJobs = ({ jobs }) => {
                     <td>{name}</td>                     
                     <td>{new Date(job.jobDeadline).toLocaleDateString('en-GB')}</td>                     
                     <td className="action-icons">                       
-                      <button className="view-btn" onClick={() => handleViewClick(job)}>👁️</button>                       
-                      <button className="delete-btn" onClick={() => handleDeleteClick(job)}>🗑️</button>                     
+                      <button className="view-btn" onClick={() => handleViewClick(job)}>view</button>                       
+                      <button className="delete-btn" onClick={() => handleDeleteClick(job)}>remove</button>                     
                     </td>                   
                   </tr>                 
                 ))               

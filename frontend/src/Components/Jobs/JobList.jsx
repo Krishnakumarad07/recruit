@@ -140,11 +140,13 @@ const JobList = () => {
         {showApplyModal && (
           <div className={`hero ${selectedJob.position.toLowerCase().replace(/\s+/g, "-")}`}>
             <div className="hero-content">
-              <h3>Apply for {selectedJob.position}</h3>
+              <div className="spiderman">
+              <h3>Apply for <span> {selectedJob.position}</span></h3>
               <p><strong>Company:</strong> {selectedJob.company.orgname}</p>
               <p><strong>Location:</strong> {selectedJob.location}</p>
               <p><strong>Job Type:</strong> {selectedJob.jobType}</p>
               <p><strong>Job Description:</strong> {selectedJob.jobDescription}</p>
+              </div>
               <form onSubmit={handleApplyFormSubmit}>
                 <label className="label">Name:</label><br />
                 <input type="text" name="name" required /><br />
