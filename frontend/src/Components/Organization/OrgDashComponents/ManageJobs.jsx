@@ -37,9 +37,10 @@ const ManageJobs = ({ jobs }) => {
   };    
 
   const handleDeleteConfirm = async () => {     
-    const id = selectedJob._id; // Use _id for deletion
+    const id = selectedJob._id;
+    console.log(id); // Use _id for deletion
     try {       
-      await axios.post('http://localhost:8081/orgauth/deletejob', { id });       
+      await axios.delete(`http://localhost:8081/jobauth/deletejob/${id}`);       
       setJobList(jobList.filter((j) => j._id !== id)); // Update job list       
     } catch (error) {       
       console.log(error);     

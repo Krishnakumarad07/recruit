@@ -228,6 +228,7 @@ router.post("/addJobs",async(req,res)=>{
         const existingJob = await AddJob.findOne({
             company: companyId,
             position: jobDetails.position,
+            jobType: jobDetails.jobType,
         });
 
 

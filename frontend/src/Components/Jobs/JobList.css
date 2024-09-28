@@ -8,6 +8,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: scroll;
+  scrollbar-width: none;
+  z-index: 2000;
 }
 
 .hero-content {
@@ -15,13 +18,16 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 80%;
-  max-width: 90%;
+ 
+  
   display: grid;
-  grid-template-columns: repeat(2, 2fr);
+  grid-template-columns: repeat(2 , 1fr);
   color: #053659;
   gap: 10px;
   font-family: 'Times New Roman', Times, serif;
+  
+ 
+ 
 }
 
 .hero-content h3 {
@@ -38,7 +44,7 @@
 }
 
 .hero-content input {
-  width: 100%;
+  width: 50%;
   padding: 8px;
   margin-bottom: 20px;
 
@@ -79,10 +85,16 @@ font-size: large;
   border-radius: 5px;
   cursor: pointer;
   position: absolute;
-  top: 8%;
+ 
   left:  84.5%;
   
  
+}
+.hero-content textarea{
+  width: 50%;
+  resize: none;
+  line-height: 3;
+  padding: 1%;
 }
 
 .close-button:hover {

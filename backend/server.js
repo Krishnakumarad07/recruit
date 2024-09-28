@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const userauthRoutes = require('./Router/userauth');
 const OrgauthRoutes = require("./Router/orgauth");
 const AdminauthRoutes=require("./Router/adminauth");
+const JobauthRoutes=require("./Router/jobRoutes");
 dotenv.config();
 
 const PORT = 8081;
@@ -16,6 +17,7 @@ app.use(cors());
 app.use('/userauth', userauthRoutes);
 app.use('/orgauth', OrgauthRoutes);
 app.use('/adminauth', AdminauthRoutes);
+app.use('/jobauth', JobauthRoutes);
 
 const MONGOURI = process.env.MONGO_URI;
 

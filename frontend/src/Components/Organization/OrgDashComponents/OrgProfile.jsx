@@ -452,6 +452,7 @@ const OrgProfile = () => {
                   name="email"
                   value={editedProfile.email}
                   onChange={handleInputChange}
+                  disabled
                 />
               </label>
               <label>
