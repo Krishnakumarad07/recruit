@@ -111,12 +111,15 @@ const Manage = () => {
                 <td>{job.company?.orgname}</td> {/* Optional chaining to avoid errors */}
                 <td>{new Date(job.jobDeadline).toLocaleDateString()}</td> {/* Format the date */}
                 <td>
-                  <button
+                  {/* <button
                     onClick={() => handleStatusToggle(job._id)} // Change job.id to job._id
                     className={job.closed ? 'closed' : 'open'}
                   >
                     {job.closed ? 'Reopen' : 'Close'}
-                  </button>
+                  </button> */}
+                    <button id='view' className='view-bt' onClick={() => handleViewUser(user.id)}>View</button>
+                  <button id='remove' onClick={() => handleRemoveUser(user.id)}>Remove</button>
+                  
                 </td>
               </tr>
             ))
@@ -128,6 +131,7 @@ const Manage = () => {
         </tbody>
       </table>
     </div>
+    
   );
 };
 

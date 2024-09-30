@@ -60,6 +60,7 @@ const ManageOrg = () => {
                                 <td>{user.org_email}</td>
                                 <td>{user.phno}</td>
                                 <td>
+                                <button id='view' className='view-bt' onClick={() => handleViewUser(user.id)}>View</button>
                                     <button
                                         onClick={() => handleRemove(user.id)}
                                         id="remove"

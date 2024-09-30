@@ -498,3 +498,8 @@
   .orgpopup button:first-child {
     margin-right: 20px;
   }
+
+  #view{
+    padding: 2.5%;
+    margin-left: 2%;
+  }
