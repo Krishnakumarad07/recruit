@@ -114,7 +114,7 @@ const ManageUser = () => {
           <p>Experience: {viewingUser.experience} years</p>
           <p>Location: {viewingUser.location}</p>
           <p>Skills: {viewingUser.skills.join(', ')}</p>
-          {viewingUser.image && <img src={viewingUser.image} alt={`${viewingUser.username}'s avatar`} style={{ maxWidth: '100px', maxHeight: '100px' }} />}
+          {/* {viewingUser.image && <img src={viewingUser.image} alt={`${viewingUser.username}'s avatar`} style={{ maxWidth: '100px', maxHeight: '100px' }} />} */}
           <button onClick={closeViewPopup}>Close</button>
         </div>
       )}

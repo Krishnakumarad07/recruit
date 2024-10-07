@@ -5,6 +5,9 @@ const ManageOrg = () => {
     const [users, setUsers] = useState(['']);
     const [showPopup, setShowPopup] = useState(false);
     const [removeId, setRemoveId] = useState(null);
+    const [viewId, setViewId] = useState(null);
+    const [showViewPopup, setShowViewPopup] = useState(false);
+    const [viewOrgData, setViewOrgData] = useState({});
 
     useEffect(() => {
         const getOrgDetails = async () => {
@@ -24,7 +27,6 @@ const ManageOrg = () => {
     };
 
     const confirmRemove = () => {
-        // Call API to remove user with id = removeId
         axios.delete(`http://localhost:8081/adminauth/removeOrg/${removeId}`)
             .then(response => {
                 setUsers(users.filter(user => user.id !== removeId));
@@ -38,6 +40,25 @@ const ManageOrg = () => {
 
     const cancelRemove = () => {
         setShowPopup(false);
+    };
+
+    const handleViewUser  = (id) => {
+        setViewId(id);
+        setShowViewPopup(true);
+    };
+
+    const confirmView = () => {
+        axios.get(`http://localhost:8081/adminauth/viewOrg/${viewId}`)
+            .then(response => {
+                setViewOrgData(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    const cancelView = () => {
+        setShowViewPopup(false);
     };
 
     return (
@@ -60,7 +81,7 @@ const ManageOrg = () => {
                                 <td>{user.org_email}</td>
                                 <td>{user.phno}</td>
                                 <td>
-                                <button id='view' className='view-bt' onClick={() => handleViewUser(user.id)}>View</button>
+                                    <button id='view' className='view-bt' onClick={() => handleViewUser (user.id)}>View</button>
                                     <button
                                         onClick={() => handleRemove(user.id)}
                                         id="remove"
@@ -74,10 +95,19 @@ const ManageOrg = () => {
                 </table>
             </div>
             {showPopup && (
-                <div className="orgpopup">
+                <div className="remove-popup">
                     <p>Are you sure you want to remove this organisation?</p>
                     <button onClick={confirmRemove}>Yes</button>
                     <button onClick={cancelRemove}>No</button>
+                </div>
+            )}
+            {showViewPopup && (
+                <div className="view-popup">
+                    <center><h2>Organisation Details</h2></center>
+                    <p>Organisation Name: {viewOrgData.orgname}</p>
+                    <p>Email: {viewOrgData.org_email}</p>
+                    <p>Phone Number: {viewOrgData.phno}</p>
+                    <button onClick={cancelView}>Close</button>
                 </div>
             )}
         </>
