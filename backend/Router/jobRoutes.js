@@ -153,12 +153,12 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
 });
 router.delete("/deletejob/:id", async (req, res) => {
   try {
-    console.log(req.params);
+    // console.log(req.params);
     await AddJob.findByIdAndDelete(req.params.id);
     return res.status(200).json({ message: "deleted successfully" });
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Error deleting job", err });
+    return res.status(500).send({ message: "Error deleting job", err });
   }
 });
 

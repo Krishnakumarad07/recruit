@@ -1,98 +1,12 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// const ManageUser = () => {
-//   const [users, setUsers] = useState(['']);
-//   const [showRemovePopup, setShowRemovePopup] = useState(false);
-//   const [userIdToRemove, setUserIdToRemove] = useState(null);
-
-//   useEffect(() => {
-//     const getUserDetails = async () => {
-//       try {
-//         const res = await axios.get("http://localhost:8081/adminauth/UserDetails");
-//         setUsers(res.data.UserDetails);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-//     getUserDetails();
-//   }, []);
-
-//   // Function to handle remove user
-//   const handleRemoveUser = (id) => {
-//     setUserIdToRemove(id);
-//     setShowRemovePopup(true);
-//   };
-
-//   // Function to confirm remove user
-//   const confirmRemoveUser = async () => {
-//     // try {
-//     //   const res = await axios.delete(`http://localhost:8081/`);
-//     //   if (res.status === 200) {
-//     //     setUsers(users.filter((user) => user.id !== userIdToRemove));
-//     //     setShowRemovePopup(false);
-//     //   } else {
-//     //     console.error('Error removing user');
-//     //   }
-//     // } catch (err) {
-//     //   console.error(err);
-//     // }
-//   };
-
-//   // Function to cancel remove user
-//   const cancelRemoveUser = () => {
-//     setShowRemovePopup(false);
-//   };
-
-//   return (
-//     <>
-//       <div className="users-management1">
-//         <h2 id='hhh'>Users Management</h2>
-//         <table className="users-table">
-//           <thead>
-//             <tr>
-//               <th>Name</th>
-//               <th>Email</th>
-//               <th>Phone Number</th>
-//               <th>Manage</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {users.map((user) => (
-//               <tr key={user.id}>
-//                 <td>{user.username}</td>
-//                 <td>{user.email}</td>
-//                 <td>{user.phone}</td>
-//                 <td>
-//                   <button id='remove'onClick={() => handleRemoveUser(user.id)}>Remove</button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//       {showRemovePopup && (
-//         <div className="remove-popup">
-//           <h2>Confirm Remove User</h2>
-//           <p>Are you sure you want to remove user with ID {userIdToRemove}?</p>
-//           <button onClick={confirmRemoveUser}>Yes, remove</button>
-//           <button onClick={cancelRemoveUser}>Cancel</button>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default ManageUser;
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ManageUser = () => {
-  const [users, setUsers] = useState(['']);
+  const [users, setUsers] = useState([]);
   const [showRemovePopup, setShowRemovePopup] = useState(false);
-  const [userIdToRemove, setUserIdToRemove] = useState(null);
+  const [userToRemove, setUserToRemove] = useState(null);
   const [showViewPopup, setShowViewPopup] = useState(false);
-  const [viewingUserId, setViewingUserId] = useState(null);
+  const [viewingUser, setViewingUser] = useState(null);
 
   useEffect(() => {
     const getUserDetails = async () => {
@@ -107,24 +21,28 @@ const ManageUser = () => {
   }, []);
 
   // Function to handle remove user
-  const handleRemoveUser = (id) => {
-    setUserIdToRemove(id);
+  const handleRemoveUser = (_id, username, email) => {
+    setUserToRemove({ _id, username, email });
     setShowRemovePopup(true);
   };
 
   // Function to confirm remove user
   const confirmRemoveUser = async () => {
-    // try {
-    //   const res = await axios.delete(`http://localhost:8081/`);
-    //   if (res.status === 200) {
-    //     setUsers(users.filter((user) => user.id !== userIdToRemove));
-    //     setShowRemovePopup(false);
-    //   } else {
-    //     console.error('Error removing user');
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    if (userToRemove) {
+      try {
+        console.log(userToRemove._id);
+        const res = await axios.delete(`http://localhost:8081/adminauth/UserDetailsDelete/${userToRemove._id}`);
+        if (res.status === 200) {
+          alert("User Removed Successfully");
+          setUsers(users.filter((user) => user._id !== userToRemove._id));
+          setShowRemovePopup(false);
+        } else {
+          console.error('Error removing user');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   // Function to cancel remove user
@@ -133,14 +51,16 @@ const ManageUser = () => {
   };
 
   // Function to handle view user
-  const handleViewUser = (id) => {
-    setViewingUserId(id);
+  const handleViewUser = (_id) => {
+    const user = users.find((user) => user._id === _id);
+    setViewingUser(user);
     setShowViewPopup(true);
   };
 
   // Function to close view popup
   const closeViewPopup = () => {
     setShowViewPopup(false);
+    setViewingUser(null);
   };
 
   return (
@@ -158,34 +78,43 @@ const ManageUser = () => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user._id}>
                 <td>{user.username}</td>
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>
-                <button id='view' className='view-bt' onClick={() => handleViewUser(user.id)}>View</button>
-                  <button id='remove' onClick={() => handleRemoveUser(user.id)}>Remove</button>
-                 
+                  <button id='view' className='view-bt' onClick={() => handleViewUser(user._id)}>View</button>
+                  <button id='remove' onClick={() => handleRemoveUser(user._id, user.username, user.email)}>Remove</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {showRemovePopup && (
+      
+      {showRemovePopup && userToRemove && (
         <div className="remove-popup">
           <h2>Confirm Remove User</h2>
-          <p>Are you sure you want to remove user with ID {userIdToRemove}?</p>
+          <p>Are you sure you want to remove {userToRemove.username} from user with email id of {userToRemove.email}
+          </p>
           <button onClick={confirmRemoveUser}>Yes, remove</button>
           <button onClick={cancelRemoveUser}>Cancel</button>
         </div>
       )}
-      {showViewPopup && (
+      
+      {showViewPopup && viewingUser && (
         <div className="view-popup">
           <h2>User Information</h2>
-          <p>Username: {users.find((user) => user.id === viewingUserId).username}</p>
-          <p>Email: {users.find((user) => user.id === viewingUserId).email}</p>
-          <p>Phone Number: {users.find((user) => user.id === viewingUserId).phone}</p>
+          <p>Username: {viewingUser.username}</p>
+          <p>Email: {viewingUser.email}</p>
+          <p>Phone Number: {viewingUser.phone}</p>
+          <p>Gender: {viewingUser.Gender}</p>
+          <p>Age: {viewingUser.age}</p>
+          <p>Description: {viewingUser.description}</p>
+          <p>Experience: {viewingUser.experience} years</p>
+          <p>Location: {viewingUser.location}</p>
+          <p>Skills: {viewingUser.skills.join(', ')}</p>
+          {viewingUser.image && <img src={viewingUser.image} alt={`${viewingUser.username}'s avatar`} style={{ maxWidth: '100px', maxHeight: '100px' }} />}
           <button onClick={closeViewPopup}>Close</button>
         </div>
       )}
