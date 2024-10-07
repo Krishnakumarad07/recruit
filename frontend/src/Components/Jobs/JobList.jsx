@@ -4,7 +4,8 @@ import { faFacebook, faTwitter, faLinkedin, faInstagram } from "@fortawesome/fre
 import { Link, useNavigate } from "react-router-dom";
 import "./JobList.css";
 import axios from "axios";
-
+var user=localStorage.getItem("user");
+user=JSON.parse(user);
 const JobList = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showApplyModal, setShowApplyModal] = useState(false);
@@ -151,7 +152,7 @@ const JobList = () => {
                 <label className="label">Name:</label><br />
                 <input type="text" name="name" required /><br />
                 <label className="label">Email:</label><br />
-                <input type="email" name="email" required /><br />
+                <input type="email" name="email" value={user.email} disable/><br />
                 <label className="label">Gender:</label><br />
                 <select name="gender" required>
                   <option value="">Select Gender</option>

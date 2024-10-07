@@ -113,7 +113,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="company"
                 value={org.orgname}
-                onChange={(e)=>setCompany(e.target.value)}
+                disabled
                 required
               />
             

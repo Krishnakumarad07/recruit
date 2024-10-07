@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-
 function Login() {
   const [Form, setForm] = useState({
     email: "",
@@ -46,7 +45,8 @@ function Login() {
       }
   })
       .catch((error) => {
-        alert("Check that the username or password is correct.");
+
+        alert("Check that the username or password is correct");
         console.error("Login error:", error);
       });
   };

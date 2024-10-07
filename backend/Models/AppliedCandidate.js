@@ -18,7 +18,7 @@ AppliedCandidatesSchema=new mongoose.Schema({
     },
     email:{
         type:String,
-        unique:true
+        unique:false,
     },
     Gender:{
         type:String,
@@ -57,7 +57,15 @@ AppliedCandidatesSchema=new mongoose.Schema({
     hrRoundDate:{
         type:Date,
     }
+    ,
+    hrRoundTime:{
+        type:String,
+    },
+    appliedDate:{
+        type:Date,
+        default:Date.now(),
+    }
 });
-const Candidates=mongoose.model("Candidates", AppliedCandidatesSchema);
+const Candidates=mongoose.model("candidates", AppliedCandidatesSchema);
 module.exports=Candidates;
 

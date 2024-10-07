@@ -1,39 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navside from './Navside';
 import './ApplyJob.css';
+import axios from 'axios';
 
 const ApplyJob = () => {
   const [showViewPopup, setShowViewPopup] = useState(false);
-  const [showRemovePopup, setShowRemovePopup] = useState(false);
-  const [userIdToRemove, setUserIdToRemove] = useState(null);
   const [jobToView, setJobToView] = useState(null);
-  const jobs = [
-    { id: 1, title: 'Job 1', company: 'Company 1', appliedDate: '2022-01-01', status: 'Applied' },
-    { id: 2, title: 'Job 2', company: 'Company 2', appliedDate: '2022-01-02', status: 'Applied' },
-    { id: 3, title: 'Job 3', company: 'Company 3', appliedDate: '2022-01-03', status: 'Applied' },
-    { id: 1, title: 'Job 1', company: 'Company 1', appliedDate: '2022-01-01', status: 'Applied' },
-    { id: 2, title: 'Job 2', company: 'Company 2', appliedDate: '2022-01-02', status: 'Applied' },
-    { id: 3, title: 'Job 3', company: 'Company 3', appliedDate: '2022-01-03', status: 'Applied' },
-  ];
+  const [jobs, setJobs] = useState([]);
 
-  const handleRemove = (userId) => {
-    setUserIdToRemove(userId);
-    setShowRemovePopup(true);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const user = localStorage.getItem('user');
+      const parsedUser = JSON.parse(user);
+
+      if (parsedUser && parsedUser.email) {
+        try {
+          const response = await axios.get(`http://localhost:8081/jobauth/AppliedJob?email=${parsedUser.email}`);
+          console.log(response.data);
+          setJobs(response.data); // Assuming response.data is an array
+        } catch (err) {
+          console.error('Error fetching jobs:', err);
+        }
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const handleView = (job) => {
     setJobToView(job);
     setShowViewPopup(true);
-  };
-
-  const handleConfirmRemove = () => {
-    // Add code here to remove the user from the database
-    console.log(`User ${userIdToRemove} removed!`);
-    setShowRemovePopup(false);
-  };
-
-  const handleCancelRemove = () => {
-    setShowRemovePopup(false);
   };
 
   const handleCloseView = () => {
@@ -45,50 +46,51 @@ const ApplyJob = () => {
       <Navside />
       <div className="users-management">
         <h2 id='mm'>Applied Jobs</h2>
-        <table className="users animate__animated animate__slideInUp">
-          <thead>
-            <tr>
-              <th>Job Title</th>
-              <th>Organization Name</th>
-              <th>Applied Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.map((job) => (
-              <tr key={job.id} className="animate__animated animate__fadeIn">
-                <td>{job.title}</td>
-                <td>{job.company}</td>
-                <td>{job.appliedDate}</td>
-                <td>{job.status}</td>
-                <td>
-                  <button id='view' className="view-bt" onClick={() => handleView(job)}>View</button>
-                  <button id='remove' className="remove-btn" onClick={() => handleRemove(job.id)}>Remove</button>
-                </td>
+        {jobs.length === 0 ? (
+          <div>No jobs applied.</div>
+        ) : (
+          <table className="users animate__animated animate__slideInUp">
+            <thead>
+              <tr>
+                <th>Job Title</th>
+                <th>Organization Name</th>
+                <th>Applied Date</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {showViewPopup && (
-          <div className="popup-boxie">
-            <div className="job-view-popup">
-              <h2>{jobToView.title}</h2>
-              <p>Company: {jobToView.company}</p>
-              <p>Applied Date: {jobToView.appliedDate}</p>
-              <p>Status: {jobToView.status}</p>
-              <button onClick={handleCloseView}>Close</button>
-            </div>
-          </div>
+            </thead>
+            <tbody>
+              {jobs.map((job) => (
+                <tr key={job._id} className="animate__animated animate__fadeIn">
+                  <td>{job.position}</td>
+                  <td>{job.Company?.orgname}</td>
+                  <td>{formatDate(job.appliedDate)}</td>
+                  <td>{job.status}</td>
+                  <td>
+                    <button id='view' className="view-bt" onClick={() => handleView(job)}>View</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
 
-        {showRemovePopup && (
+        {showViewPopup && jobToView && (
           <div className="popup-boxie">
-            <div className="remove-popup">
-              <p>Are you sure you want to cancel the job application?</p>
-              <button onClick={handleConfirmRemove}>Yes, remove</button>
-              <button onClick={handleCancelRemove}>Cancel</button>
+            <div className="job-view-popup">
+              <h2>{jobToView.position}</h2>
+              <p>Company: {jobToView.Company?.orgname || 'No Organization'}</p>
+              <p>Email: {jobToView.email}</p>
+              <p>Phone: {jobToView.phone}</p>
+              <p>Education Qualification: {jobToView.educationqualification}</p>
+              <p>Percentage: {jobToView.percentage?.$numberDecimal}</p>
+              <p>Job Type: {jobToView.jobType}</p>
+              <p>Address: {jobToView.address}</p>
+              <p>State: {jobToView.state}</p>
+              <p>Country: {jobToView.country}</p>
+              <p>Applied Date: {formatDate(jobToView.appliedDate)}</p>
+              <p>Status: {jobToView.status}</p>
+              <button onClick={handleCloseView}>Close</button>
             </div>
           </div>
         )}
