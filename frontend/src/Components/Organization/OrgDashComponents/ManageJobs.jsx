@@ -77,8 +77,8 @@ const ManageJobs = ({ jobs }) => {
                     <td>{name}</td>                     
                     <td>{new Date(job.jobDeadline).toLocaleDateString('en-GB')}</td>                     
                     <td className="action-icons">                       
-                      <button className="view-btn" onClick={() => handleViewClick(job)}>view</button>                       
-                      <button className="delete-btn" onClick={() => handleDeleteClick(job)}>remove</button>                     
+                      <button id='view' className='view-bt' onClick={() => handleViewClick(job)}>view</button>                       
+                      <button id='remove'  className="remove-bt" onClick={() => handleDeleteClick(job)}>Remove</button>                     
                     </td>                   
                   </tr>                 
                 ))               
@@ -93,8 +93,8 @@ const ManageJobs = ({ jobs }) => {
       </div>        
 
       {showDeletePopup && (         
-        <div className="delete-popup-container">           
-          <div className="delete-popup">             
+        <div className="delete-popup-containe">           
+          <div className="remove-popup">             
             <h2>Delete Job</h2>             
             <p>Are you sure you want to delete the job "{selectedJob.position}"?</p>             
             <button id='btnn' onClick={handleDeleteConfirm}>Confirm</button>             
@@ -104,7 +104,7 @@ const ManageJobs = ({ jobs }) => {
       )}
 
       {showViewPopup && (         
-        <div className="view-popup-container">           
+        <div className="view-popup-containe">           
           <div className="view-popup">             
             <h2>Job Details</h2>             
             <table>               

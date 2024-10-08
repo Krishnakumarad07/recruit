@@ -77,7 +77,7 @@ const ApplyJob = () => {
 
         {showViewPopup && jobToView && (
           <div className="popup-boxie">
-            <div className="job-view-popup">
+            <div className="view-popup">
               <h2>{jobToView.position}</h2>
               <p>Company: {jobToView.Company?.orgname || 'No Organization'}</p>
               <p>Email: {jobToView.email}</p>

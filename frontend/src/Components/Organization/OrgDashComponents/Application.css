@@ -1,8 +1,33 @@
+.hr-date-time-inputs {
+  margin-top: 10px;
+}
+
+.hr-date-time-inputs label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.hr-date-time-inputs input[type="date"] {
+  width: 150px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.hr-date-time-inputs input[type="time"] {
+  width: 100px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 .job-table-box {
     width: 80%;
     margin: 0 auto;
     border-collapse: collapse;
     margin-left: 18%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     
 
   }

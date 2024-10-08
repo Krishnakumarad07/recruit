@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OrgNav from '../OrgNav';
 import './Application.css';
 import axios from 'axios';
+
 const Application = () => {
-  const [jobs, setJobs] = useState([
-    // { id: 1, userName: 'John Doe', email: 'john@example.com', phone: '123-456-7890', resume: 'resume.pdf', status: '', closed: false },
-    // { id: 2, userName: 'Jane Doe', email: 'jane@example.com', phone: '987-654-3210', resume: 'resume.pdf', status: '', closed: true },
-    // { id: 3, userName: 'Bob Smith', email: 'bob@example.com', phone: '555-123-4567', resume: 'resume.pdf', status: '', closed: false },
-    // { id: 1, userName: 'John Doe', email: 'john@example.com', phone: '123-456-7890', resume: 'resume.pdf', status: '', closed: false },
-    // { id: 2, userName: 'Jane Doe', email: 'jane@example.com', phone: '987-654-3210', resume: 'resume.pdf', status: '', closed: true },
-    // { id: 3, userName: 'Bob Smith', email: 'bob@example.com', phone: '555-123-4567', resume: 'resume.pdf', status: '', closed: false },
-      
-  ]);
-useEffect(() => {
-  const fetchApplicants=async() => {
-    var org=localStorage.getItem("org");
-    org=JSON.parse(org);
-    const orgid=org._id;
-    try {
-      const res=await axios.get(`http://localhost:8081/jobauth/Applicants?id=${orgid}`)
-      console.log(res.data);
-      setJobs(res.data);
-    }
-    catch (e) {
-      console.log(e);
-    }
-  };
-  fetchApplicants();
-},[]);
+  const [jobs, setJobs] = useState([]);
+  const [hrDateTimeVisible, setHrDateTimeVisible] = useState(false);
+  const [showRemovePopup, setShowRemovePopup] = useState(false);
+  const [showViewPopup, setShowViewPopup] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState(null);
+  const [selectedJob, setSelectedJob] = useState({});
+
+  useEffect(() => {
+    const fetchApplicants = async () => {
+      var org = localStorage.getItem("org");
+      org = JSON.parse(org);
+      const orgid = org._id;
+      try {
+        const res = await axios.get(`http://localhost:8081/jobauth/Applicants?id=${orgid}`)
+        console.log(res.data);
+        setJobs(res.data);
+      }
+      catch (e) {
+        console.log(e);
+      }
+    };
+    fetchApplicants();
+  }, []);
+
   const handleStatusChange = (jobId, newStatus) => {
     setJobs((prevJobs) =>
       prevJobs.map((job) => {
@@ -44,25 +44,39 @@ useEffect(() => {
     console.log(`Resume clicked: ${resume}`);
   };
 
-  const handleRemove = async(jobId) => {
+  const handleRemove = (job) => {
+    setShowRemovePopup(true);
+    setSelectedJobId(job._id);
+    setSelectedJob(job);
+  };
+
+  const handleView = (job) => {
+    setShowViewPopup(true);
+    setSelectedJobId(job._id);
+    setSelectedJob(job);
+  };
+
+  const onCloseRemovePopup = () => {
+    setShowRemovePopup(false);
+  };
+
+  const onCloseViewPopup = () => {
+    setShowViewPopup(false);
+  };
+
+  const onRemove = async () => {
     try {
-      // Make a DELETE request to remove the job from the database
-    
-      const res=await axios.delete(`http://localhost:8081/jobauth/RemoveApplicants/${jobId}`);
-      if(res.status === 200) {
-        alert("The person is deleted")
+      const res = await axios.delete(`http://localhost:8081/jobauth/RemoveApplicants/${selectedJobId}`);
+      if (res.status === 200) {
+        alert("The person is deleted");
+      } else {
+        alert("Internal Server error");
       }
-      else {
-        alert("Internal Server error")
-      }
-      setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
+      setJobs((prevJobs) => prevJobs.filter((job) => job._id !== selectedJobId));
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const handleView = (jobId) => {
-    console.log(`View clicked: ${jobId}`);
+    onCloseRemovePopup();
   };
 
   return (
@@ -88,12 +102,16 @@ useEffect(() => {
                 <td>{job.email}</td>
                 <td>{job.position}</td>
                 <td>
-                  <button onClick={() => handleResumeClick(job.resume)} className="view-resume-btn">View Resume</button>
+                  <button onClick={() => handleResumeClick(job.resume)} className="view-bt">View Resume</button>
                 </td>
                 <td>
                   <select
                     value={job.status}
-                    onChange={(e) => handleStatusChange(job._id, e.target.value)}
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      setHrDateTimeVisible(newValue === 'HR');
+                      handleStatusChange(job._id, newValue);
+                    }}
                   >
                     <option value="waiting">Select Status</option>
                     <option value="round-1">Round 1</option>
@@ -102,21 +120,46 @@ useEffect(() => {
                     <option value="Technical">Technical</option>
                     <option value="Selected">Select</option>
                     <option value="Rejected">Reject</option>
-
-
                   </select>
+                  {hrDateTimeVisible && (
+                    <div className="hr-date-time-inputs">
+                      <label>Date:</label>
+                      <input type="date" />
+                      <label>Time:</label>
+                      <input type="time" />
+                    </div>
+                  )}
                 </td>
                 <td>
-                  <button onClick={() => handleView(job._id)} className="view-btn">View</button>
-                  
-                  <button onClick={() => handleStatusChange(job._id, 'Selected')} className="select-btn">Select</button>
-                  <button onClick={() => handleRemove(job._id)} id='remove'className="remove-btn">Remove</button>
+                  <button onClick={() => handleView(job)} className="view-bt">View</button>
+                  <button  className="view-bt">Select</button>
+                  <button onClick={() => handleRemove(job)} id='remove' className="remove-btn">Remove</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {showRemovePopup && (
+        <div className="remove-popup">
+          <h2>Remove Applicant</h2>
+          <p>Are you sure you want to remove this applicant?</p>
+          {/* <p>Applicant Name: {selectedJob.name}</p>
+          <p>Applicant Email: {selectedJob.email}</p> */}
+          <button onClick={onRemove} className="remove-btn">Remove</button>
+          <button onClick={onCloseRemovePopup} className="cancel-btn">Cancel</button>
+        </div>
+      )}
+      {showViewPopup && (
+        <div className="view-popup">
+          <h2>View Applicant</h2>
+          <p>Applicant Name: {selectedJob.name}</p>
+          <p>Applicant Email: {selectedJob.email}</p>
+          <p>Applicant Position: {selectedJob.position}</p>
+          <p>Applicant Resume: <a href={selectedJob.resume} target="_blank">View Resume</a></p>
+          <button onClick={onCloseViewPopup} className="close-btn">Close</button>
+        </div>
+      )}
     </>
   );
 };
