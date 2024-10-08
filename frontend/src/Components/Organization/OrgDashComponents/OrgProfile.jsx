@@ -19,7 +19,7 @@ const OrgProfile = () => {
     // employees: "",
     description: orgid.desc || "",
     services: orgid.Services || "",
-    image: orgid.profImg ? (orgid.profImg) : "https://via.placeholder.com/120",
+    image: orgid.profImg ? (orgid.profImg) : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQo3Xa2nytgss_vWk0v6rcEf1yzIl5n62FQ&s",
   });
   const [isEditing, setIsEditing] = useState(false);
 

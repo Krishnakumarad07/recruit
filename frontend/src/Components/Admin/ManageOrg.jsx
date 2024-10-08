@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ManageOrg = () => {
-    const [users, setUsers] = useState(['']);
-    const [showPopup, setShowPopup] = useState(false);
-    const [removeId, setRemoveId] = useState(null);
-    const [viewId, setViewId] = useState(null);
+    const [users, setUsers] = useState([]);
+    const [showRemovePopup, setShowRemovePopup] = useState(false);
+    const [orgToRemove, setOrgToRemove] = useState(null);
     const [showViewPopup, setShowViewPopup] = useState(false);
-    const [viewOrgData, setViewOrgData] = useState({});
+    const [viewingOrg, setViewingOrg] = useState(null);
 
     useEffect(() => {
         const getOrgDetails = async () => {
             try {
                 const res = await axios.get("http://localhost:8081/adminauth/orgDetails");
-                setUsers(res.data.orgDetails);
+                setUsers(res.data.orgDetails || res.data); // Adjust based on your API response structure
             } catch (err) {
                 console.log(err);
             }
@@ -21,44 +20,47 @@ const ManageOrg = () => {
         getOrgDetails();
     }, []);
 
-    const handleRemove = (id) => {
-        setRemoveId(id);
-        setShowPopup(true);
+    // Function to handle remove organization
+    const handleRemoveOrg = (_id, orgname, org_email) => {
+        setOrgToRemove({ _id, orgname, org_email });
+        setShowRemovePopup(true);
     };
 
-    const confirmRemove = () => {
-        axios.delete(`http://localhost:8081/adminauth/removeOrg/${removeId}`)
-            .then(response => {
-                setUsers(users.filter(user => user.id !== removeId));
-                setShowPopup(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setShowPopup(false);
-            });
+    // Function to confirm remove organization
+    const confirmRemoveOrg = async () => {
+        if (orgToRemove) {
+            try {
+                console.log(orgToRemove);
+                const res = await axios.delete(`http://localhost:8081/adminauth/removeOrg/${orgToRemove._id}`);
+                if (res.status === 200) {
+                    alert("Organization Removed Successfully");
+                    setUsers(users.filter((user) => user._id !== orgToRemove._id));
+                    setShowRemovePopup(false);
+                } else {
+                    console.error('Error removing organization');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
     };
 
-    const cancelRemove = () => {
-        setShowPopup(false);
+    // Function to cancel remove organization
+    const cancelRemoveOrg = () => {
+        setShowRemovePopup(false);
     };
 
-    const handleViewUser  = (id) => {
-        setViewId(id);
+    // Function to handle view organization
+    const handleViewOrg = (_id) => {
+        const org = users.find((user) => user._id === _id);
+        setViewingOrg(org);
         setShowViewPopup(true);
     };
 
-    const confirmView = () => {
-        axios.get(`http://localhost:8081/adminauth/viewOrg/${viewId}`)
-            .then(response => {
-                setViewOrgData(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-
-    const cancelView = () => {
+    // Function to close view popup
+    const closeViewPopup = () => {
         setShowViewPopup(false);
+        setViewingOrg(null);
     };
 
     return (
@@ -68,7 +70,7 @@ const ManageOrg = () => {
                 <table className="users-tabl">
                     <thead>
                         <tr>
-                            <th>Organisation name</th>
+                            <th>Organisation Name</th>
                             <th>Email</th>
                             <th>Phone Number</th>
                             <th>Manage</th>
@@ -76,42 +78,44 @@ const ManageOrg = () => {
                     </thead>
                     <tbody>
                         {users.map((user) => (
-                            <tr key={user.id}>
+                            <tr key={user._id}>
                                 <td>{user.orgname}</td>
                                 <td>{user.org_email}</td>
                                 <td>{user.phno}</td>
                                 <td>
-                                    <button id='view' className='view-bt' onClick={() => handleViewUser (user.id)}>View</button>
-                                    <button
-                                        onClick={() => handleRemove(user.id)}
-                                        id="remove"
-                                    >
-                                        Remove
-                                    </button>
+                                    <button id='view' className='view-bt' onClick={() => handleViewOrg(user._id)}>View</button>
+                                    <button id='remove' onClick={() => handleRemoveOrg(user._id, user.orgname, user.org_email)}>Remove</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-            {showPopup && (
+            
+            {showRemovePopup && orgToRemove && (
                 <div className="remove-popup">
-                    <p>Are you sure you want to remove this organisation?</p>
-                    <button onClick={confirmRemove}>Yes</button>
-                    <button onClick={cancelRemove}>No</button>
+                    <h2>Confirm Remove Organization</h2>
+                    <p>Are you sure you want to remove {orgToRemove.orgname} with email id of {orgToRemove.org_email}?</p>
+                    <button onClick={confirmRemoveOrg}>Yes, remove</button>
+                    <button onClick={cancelRemoveOrg}>Cancel</button>
                 </div>
             )}
-            {showViewPopup && (
+            
+            {showViewPopup && viewingOrg && (
                 <div className="view-popup">
-                    <center><h2>Organisation Details</h2></center>
-                    <p>Organisation Name: {viewOrgData.orgname}</p>
-                    <p>Email: {viewOrgData.org_email}</p>
-                    <p>Phone Number: {viewOrgData.phno}</p>
-                    <button onClick={cancelView}>Close</button>
+                    <h2>Organization Information</h2>
+                    <p>Organization Name: {viewingOrg.orgname}</p>
+                    <p>Email: {viewingOrg.org_email}</p>
+                    <p>Phone Number: {viewingOrg.phno}</p>
+                    <p>Description: {viewingOrg.desc}</p>
+                    <p>Location: {viewingOrg.locn}</p>
+                    <p>Industry: {viewingOrg.Industry}</p>
+                    <p>Services: {viewingOrg.Services.join(', ')}</p>
+                    <p>Year Established: {viewingOrg.Year}</p>
+                    <button onClick={closeViewPopup}>Close</button>
                 </div>
             )}
         </>
-    )
-}
-
-export default ManageOrg
+    );
+};
+export default ManageOrg;

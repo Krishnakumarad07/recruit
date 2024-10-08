@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import './OrgJobs.css';
-
 const OrgJobs = ({ jobs }) => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
@@ -13,7 +12,8 @@ const OrgJobs = ({ jobs }) => {
     };
 
     const handleConfirmLogout = () => {
-        navigate("/orghome");
+        localStorage.clear();
+        navigate("/");
         setShowLogoutModal(false);
     };
 
@@ -130,5 +130,4 @@ const OrgJobs = ({ jobs }) => {
         </>
     );
 };
-
 export default OrgJobs;

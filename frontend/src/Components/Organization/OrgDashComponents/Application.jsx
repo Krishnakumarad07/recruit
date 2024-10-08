@@ -44,8 +44,21 @@ useEffect(() => {
     console.log(`Resume clicked: ${resume}`);
   };
 
-  const handleRemove = (jobId) => {
-    setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
+  const handleRemove = async(jobId) => {
+    try {
+      // Make a DELETE request to remove the job from the database
+    
+      const res=await axios.delete(`http://localhost:8081/jobauth/RemoveApplicants/${jobId}`);
+      if(res.status === 200) {
+        alert("The person is deleted")
+      }
+      else {
+        alert("Internal Server error")
+      }
+      setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleView = (jobId) => {
@@ -82,7 +95,7 @@ useEffect(() => {
                     value={job.status}
                     onChange={(e) => handleStatusChange(job._id, e.target.value)}
                   >
-                    <option value="">Select Status</option>
+                    <option value="waiting">Select Status</option>
                     <option value="round-1">Round 1</option>
                     <option value="round-2">Round 2</option>
                     <option value="HR">HR</option>
@@ -97,7 +110,7 @@ useEffect(() => {
                   <button onClick={() => handleView(job._id)} className="view-btn">View</button>
                   
                   <button onClick={() => handleStatusChange(job._id, 'Selected')} className="select-btn">Select</button>
-                  <button onClick={() => handleRemove(job.id)} id='remove'className="remove-btn">Remove</button>
+                  <button onClick={() => handleRemove(job._id)} id='remove'className="remove-btn">Remove</button>
                 </td>
               </tr>
             ))}

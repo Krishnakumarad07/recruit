@@ -15,8 +15,8 @@ const OrgNav = () => {
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
-
-    navigate("/orghome");
+    localStorage.clear();
+    navigate("/");
     console.log("User logged out");
   };
 

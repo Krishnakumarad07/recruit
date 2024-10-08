@@ -14,7 +14,7 @@ export const Sidebar = ({ activeSection, setActiveSection }) => {
     };
 
     const handleConfirmLogout = () => {
-        navigate("/orghome");
+        navigate("/");
     };
 
     const handleCancelLogout = () => {

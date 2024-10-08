@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Navside from '../Dashboard/Navside';
 import './Setting.css';
-
+var details = localStorage.getItem("user");
+details = JSON.parse(details);
 const Setting = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleForgotPasswordClick = () => {
+    
     setShowPopup(true);
   };
 
@@ -29,7 +31,7 @@ const Setting = () => {
           <div className="popup-content">
             <h3>Password</h3>
             <p>Please enter your email to know your password.</p>
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" value={details.email}/>
             <div className="popup-actions">
               <button onClick={closePopup}>Cancel</button>
               <button>Submit</button>

@@ -15,6 +15,7 @@ const Navside = () => {
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
+    localStorage.clear();
     navigate("/");
     console.log("User logged out");
   };

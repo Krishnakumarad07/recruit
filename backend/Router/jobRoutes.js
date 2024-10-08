@@ -32,79 +32,90 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
   console.log(req.body); // Debugging: log incoming request body
 
   try {
-      // Validate organization
-      const org = await OrgDB.findOne({ orgname: req.body.orgname }, '_id');
-      if (!org) {
-          return res.status(404).json({ message: "Organization not found." });
-      }
+    // Validate organization
+    const org = await OrgDB.findOne({ orgname: req.body.orgname }, "_id");
+    if (!org) {
+      return res.status(404).json({ message: "Organization not found." });
+    }
 
-      // Check for existing application
-      const existingApplication = await Candidates.findOne({
-          email: req.body.email,
-          Company: org._id, // Ensure field name matches schema
-          jobType: req.body.jobType,
-          position: req.body.position
-      });
-      console.log("", existingApplication);
+    // Check for existing application
+    const existingApplication = await Candidates.findOne({
+      email: req.body.email,
+      Company: org._id, // Ensure field name matches schema
+      jobType: req.body.jobType,
+      position: req.body.position,
+    });
+    console.log("", existingApplication);
 
-      if (existingApplication) {
-          console.log("exist")
-          return res.status(409).json({ message: "Application already exists." });
-      }
+    if (existingApplication) {
+      console.log("exist");
+      return res.status(409).json({ message: "Application already exists." });
+    }
 
-      // Fetch required skills for the job
-      const job = await AddJob.findOne({
-          company: org._id,
-          jobType: req.body.jobType,
-          position: req.body.position
-      }, 'requiredSkills');
+    // Fetch required skills for the job
+    const job = await AddJob.findOne(
+      {
+        company: org._id,
+        jobType: req.body.jobType,
+        position: req.body.position,
+      },
+      "requiredSkills"
+    );
 
-      if (!job) {
-          console.log("job not found");
-          return res.status(404).json({ message: "Job not found." });
-      }
+    if (!job) {
+      console.log("job not found");
+      return res.status(404).json({ message: "Job not found." });
+    }
 
-      var keywords = job.requiredSkills;
-      keywords=Array.isArray(keywords) ? keywords : keywords.split(',');
-      console.log(keywords)
-      const score = await ResumeScore(req.file.path, keywords);
-      console.log(score) // Await the score calculation
+    var keywords = job.requiredSkills;
+    keywords = Array.isArray(keywords) ? keywords : keywords.split(",");
+    console.log(keywords);
+    const score = await ResumeScore(req.file.path, keywords);
+    console.log(score); // Await the score calculation
 
-      // Upload resume to Cloudinary
-      const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
-          folder: 'orgUploads',
-      });
+    // Upload resume to Cloudinary
+    const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
+      folder: "orgUploads",
+    });
 
-      // Create application data
-      const applicationData = {
-          Company: org._id,
-          position: req.body.position,
-          jobType: req.body.jobType,
-          name: req.body.name,
-          email: req.body.email,
-          Gender: req.body.Gender,
-          dateOfBirth: req.body.dateOfBirth,
-          address: req.body.address,
-          state: req.body.state,
-          country: req.body.country,
-          educationqualification: req.body.education,
-          percentage: req.body.percentage,
-          resume: cloudinaryResult.secure_url,
-          phone: req.body.phone,
-          status: score < 2 ? "Rejected" : "waiting",
-      };
-      // db.candidates.dropIndex("email_1");
+    // Create application data
+    const applicationData = {
+      Company: org._id,
+      position: req.body.position,
+      jobType: req.body.jobType,
+      name: req.body.name,
+      email: req.body.email,
+      Gender: req.body.Gender,
+      dateOfBirth: req.body.dateOfBirth,
+      address: req.body.address,
+      state: req.body.state,
+      country: req.body.country,
+      educationqualification: req.body.education,
+      percentage: req.body.percentage,
+      resume: cloudinaryResult.secure_url,
+      phone: req.body.phone,
+      status: score < 2 ? "Rejected" : "waiting",
+    };
+    // db.candidates.dropIndex("email_1");
 
-      // Save application to database
-      const newApplication = new Candidates(applicationData);
-      await newApplication.save();
-      const { status, ...applicationDataWithoutStatus } = applicationData;
-      const mailOptions = {
-          from: `"${req.body.orgname}" <${process.env.MAILID}>`,
-          to: req.body.email,
-          subject: "Application Confirmation",
-          text: `You're successfully applied for the '${req.body.orgname}' company for the role of '${req.body.position}'. The details you applied are: ${JSON.stringify(applicationDataWithoutStatus, null, 2)}. Your current status is '${status}'.`,
-          html: `<!DOCTYPE html>
+    // Save application to database
+    const newApplication = new Candidates(applicationData);
+    await newApplication.save();
+    const { status, ...applicationDataWithoutStatus } = applicationData;
+    const mailOptions = {
+      from: `"${req.body.orgname}" <${process.env.MAILID}>`,
+      to: req.body.email,
+      subject: "Application Confirmation",
+      text: `You're successfully applied for the '${
+        req.body.orgname
+      }' company for the role of '${
+        req.body.position
+      }'. The details you applied are: ${JSON.stringify(
+        applicationDataWithoutStatus,
+        null,
+        2
+      )}. Your current status is '${status}'.`,
+      html: `<!DOCTYPE html>
     <html>
     <head>
       <style>
@@ -118,7 +129,11 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
     <body>
       <div class="container">
         <h2>Hello ${req.body.name},</h2>
-        <p>You're successfully applied for the <strong>'${req.body.orgname}'</strong> company for the role of <strong>'${req.body.position}'</strong>.</p>
+        <p>You're successfully applied for the <strong>'${
+          req.body.orgname
+        }'</strong> company for the role of <strong>'${
+        req.body.position
+      }'</strong>.</p>
         <p>The details you applied are:</p>
         <pre>${JSON.stringify(applicationDataWithoutStatus, null, 2)}</pre>
         <p>Your current status is: <strong>'${status}'</strong>.</p>
@@ -129,26 +144,28 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
       </div>
     </body>
     </html>`,
-        };
-    
-        // Send the email
-      await transporter.sendMail(mailOptions);
-      // Optionally delete the uploaded file after processing
-      fs.unlink(req.file.path, (err) => {
-          if (err) console.log('Error deleting file:', err);
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    // Optionally delete the uploaded file after processing
+    fs.unlink(
+      req.file.path,
+      (err) => {
+        if (err) console.log("Error deleting file:", err);
       }
 
-          
+      // Send confirmation email
+    );
 
-                // Send confirmation email
-               
-      );
-
-      return res.status(201).json({ message: "Application submitted successfully." });
-
+    return res
+      .status(201)
+      .json({ message: "Application submitted successfully." });
   } catch (err) {
-      console.log("Error occurred:", err);
-      return res.status(500).json({ message: "An error occurred", error: err.message });
+    console.log("Error occurred:", err);
+    return res
+      .status(500)
+      .json({ message: "An error occurred", error: err.message });
   }
 });
 router.delete("/deletejob/:id", async (req, res) => {
@@ -181,12 +198,57 @@ router.get("/AppliedJob", async (req, res) => {
 router.get("/Applicants", async (req, res) => {
   try {
     const id = req.query.id;
-    console.log(id);
+    // console.log(id);
     const Applicants = await Candidates.find({ Company: id });
     // console.log(Applicants);
     return res.status(200).json(Applicants);
   } catch (err) {
     console.log(err);
+  }
+});
+router.delete("/RemoveApplicants/:jobid", async (req, res) => {
+  try {
+    const JobApplicant = await Candidates.findByIdAndDelete({
+      _id: req.params.jobid,
+    }).populate("Company", "orgname");
+    // console.log(JobApplicant);
+    if (JobApplicant.status !== "Selected" && JobApplicant.status !== "Rejected") {
+      const mailOptions = {
+        from: `"${JobApplicant.Company.orgname}" <${process.env.MAILID}>`,
+        to: JobApplicant.email,
+        subject: "Application Status Update",
+        text: `We regret to inform you that your application for the role of '${JobApplicant.position}' at '${JobApplicant.Company.orgname}' has been removed.`,
+        html: `<!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+      h2 { color: #333; }
+      p { color: #555; }
+      .footer { font-size: 12px; color: #777; margin-top: 20px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Hello ${JobApplicant.name},</h2>
+      <p>We regret to inform you that your application for the role of <strong>'${JobApplicant.position}'</strong> at <strong>'${JobApplicant.Company.orgname}'</strong> has been removed by organisation.</p>
+      <p>If you have any questions or believe this was a mistake, please contact support.</p>
+      <div class="footer">
+        <p>Best regards,<br>Smart Recruiter Team</p>
+      </div>
+    </div>
+  </body>
+  </html>`,
+      };
+
+      // Send the email
+      await transporter.sendMail(mailOptions);
+    }
+    return res.status(200).json({message:"Deleted Successfully"});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({message:"Error On deleting the User"})
   }
 });
 
