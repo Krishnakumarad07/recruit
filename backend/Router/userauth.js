@@ -47,12 +47,12 @@ router.post('/signup', async (req, res) => {
             JWT_SECRET,
         );
 
-        res.json({
+        return res.json({
             message: 'User created successfully',
             token,
         });
     } catch (err) {
-        res.status(500).json(err);
+       return res.status(500).json(err);
     }
 });
 
@@ -88,12 +88,12 @@ router.post('/login', async (req, res) => {
                 // Add more fields as necessary
             },JWT_SECRET );
 
-        res.json({
+        return res.json({
             message: 'Login successful',
             token,
         });
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 });
 
@@ -152,10 +152,10 @@ router.post('/forgot-password', async (req, res) => {
         // Send the email
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: 'Password sent to email' });
+        return res.status(200).json({ message: 'Password sent to email' });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: 'Error sending password', error: err });
+        return res.status(500).json({ message: 'Error sending password', error: err });
     }
 });
 router.put('/profUpdate', upload.single("file"), async(req, res) => {
@@ -212,10 +212,10 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
               return res.status(404).send('Organization not found');
             }
             if(bool){fs.unlinkSync(req.file.path);}
-            res.send(updatedUser);
+            return res.status(200).send(updatedUser);
           } catch (error) {
             console.log( error);
-            res.status(400).send(error.message);
+            return res.status(400).send(error.message);
           }
     })
 

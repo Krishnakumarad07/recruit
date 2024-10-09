@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Navside from './Navside';
-import './ApplyJob.css';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Navside from "./Navside";
+import "./ApplyJob.css";
+import axios from "axios";
 
 const ApplyJob = () => {
   const [showViewPopup, setShowViewPopup] = useState(false);
@@ -10,16 +10,18 @@ const ApplyJob = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem("user");
       const parsedUser = JSON.parse(user);
 
       if (parsedUser && parsedUser.email) {
         try {
-          const response = await axios.get(`http://localhost:8081/jobauth/AppliedJob?email=${parsedUser.email}`);
+          const response = await axios.get(
+            `http://localhost:8081/jobauth/AppliedJob?email=${parsedUser.email}`
+          );
           console.log(response.data);
           setJobs(response.data); // Assuming response.data is an array
         } catch (err) {
-          console.error('Error fetching jobs:', err);
+          console.error("Error fetching jobs:", err);
         }
       }
     };
@@ -28,7 +30,7 @@ const ApplyJob = () => {
   }, []);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -45,7 +47,7 @@ const ApplyJob = () => {
     <>
       <Navside />
       <div className="users-management">
-        <h2 id='mm'>Applied Jobs</h2>
+        <h2 id="mm">Applied Jobs</h2>
         {jobs.length === 0 ? (
           <div>No jobs applied.</div>
         ) : (
@@ -67,7 +69,13 @@ const ApplyJob = () => {
                   <td>{formatDate(job.appliedDate)}</td>
                   <td>{job.status}</td>
                   <td>
-                    <button id='view' className="view-bt" onClick={() => handleView(job)}>View</button>
+                    <button
+                      id="view"
+                      className="view-bt"
+                      onClick={() => handleView(job)}
+                    >
+                      View
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -79,7 +87,7 @@ const ApplyJob = () => {
           <div className="popup-boxie">
             <div className="view-popup">
               <h2>{jobToView.position}</h2>
-              <p>Company: {jobToView.Company?.orgname || 'No Organization'}</p>
+              <p>Company: {jobToView.Company?.orgname || "No Organization"}</p>
               <p>Email: {jobToView.email}</p>
               <p>Phone: {jobToView.phone}</p>
               <p>Education Qualification: {jobToView.educationqualification}</p>
@@ -90,6 +98,17 @@ const ApplyJob = () => {
               <p>Country: {jobToView.country}</p>
               <p>Applied Date: {formatDate(jobToView.appliedDate)}</p>
               <p>Status: {jobToView.status}</p>
+              {jobToView.status === "HR" && (
+                <>
+                  <p>
+                    <strong>Meeting Link:</strong> {jobToView.hrRoundLink}
+                  </p>
+                  <p>
+                    <strong>Date and Time:</strong>{" "}
+                    {new Date(jobToView.hrRoundDateAndTime).toLocaleString()}
+                  </p>
+                </>
+              )}
               <button onClick={handleCloseView}>Close</button>
             </div>
           </div>

@@ -47,13 +47,13 @@ router.post('/signup', async (req, res) => {
             JWT_SECRET,
         );
 
-        res.json({
+        return res.json({
             message: 'Organisation Registered successfully',
             token,
         });
     } catch (err) {
         console.log(err);
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 });
 
@@ -83,12 +83,12 @@ router.post('/login', async (req, res) => {
             JWT_SECRET,
         );
 
-        res.json({
+        return res.json({
             message: 'Login successful',
             token,
         });
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 });
 
@@ -147,9 +147,9 @@ router.post('/forgot-password', async (req, res) => {
         // Send the email
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: 'Password sent to email' });
+        return res.status(200).json({ message: 'Password sent to email' });
     } catch (err) {
-        res.status(500).json({ message: 'Error sending password', error: err });
+        return res.status(500).json({ message: 'Error sending password', error: err });
     }
 });
 router.get('/getprofile',async(req,res) => {
@@ -212,10 +212,10 @@ router.put('/profUpdate', upload.single("file"), async(req, res) => {
             }
             if(bool)
             {fs.unlinkSync(req.file.path);}
-            res.send(updatedOrg);
+            return res.status(200).send(updatedOrg);
           } catch (error) {
             console.log( error);
-            res.status(400).send(error.message);
+            return res.status(400).send(error.message);
           }
 })
 
@@ -288,14 +288,14 @@ router.post('/managejob',async(req,res)=>{
         res.status(200).json({ jobs });
     } catch (error) {
         console.error("Error while fetching jobs:", error);
-        res.status(500).json({ success: false, message: "Error while fetching jobs." });
+        return res.status(500).json({ success: false, message: "Error while fetching jobs." });
     }
 });
 //joblist
 router.get('/joblist',async(req,res)=>{
     try{
         const joblist = await AddJob.find({IsOpened: { $ne: false } }).populate('company', 'orgname org_email locn')
-        res.status(200).json({joblist})
+        return res.status(200).json({joblist})
     }
     catch(error){
         console.log(error)
@@ -323,10 +323,10 @@ router.put('/isOpOrg',async(req,res)=>{
         }
 
         // Send a response back
-        res.status(200).send('Job status updated successfully');
+        return res.status(200).send('Job status updated successfully');
     } catch (error) {
         console.log(error);
-        res.status(500).send('An error occurred while updating job statuses');
+        return res.status(500).send('An error occurred while updating job statuses');
     }
 
 })

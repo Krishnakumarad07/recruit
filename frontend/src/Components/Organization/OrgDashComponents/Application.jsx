@@ -6,6 +6,8 @@ import axios from 'axios';
 const Application = () => {
   const [jobs, setJobs] = useState([]);
   const [hrDateTimeVisible, setHrDateTimeVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
   const [showRemovePopup, setShowRemovePopup] = useState(false);
   const [showViewPopup, setShowViewPopup] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
@@ -17,11 +19,10 @@ const Application = () => {
       org = JSON.parse(org);
       const orgid = org._id;
       try {
-        const res = await axios.get(`http://localhost:8081/jobauth/Applicants?id=${orgid}`)
+        const res = await axios.get(`http://localhost:8081/jobauth/Applicants?id=${orgid}`);
         console.log(res.data);
         setJobs(res.data);
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e);
       }
     };
@@ -37,6 +38,11 @@ const Application = () => {
         return job;
       })
     );
+    setHrDateTimeVisible(newStatus === 'HR');
+    if (newStatus !== 'HR') {
+      setSelectedDate('');
+      setSelectedTime('');
+    }
   };
 
   const handleResumeClick = (resume) => {
@@ -79,12 +85,35 @@ const Application = () => {
     onCloseRemovePopup();
   };
 
+  const handleSelect = async (job) => {
+    const applicantData = {
+      ...job,
+      selectedDate,
+      selectedTime,
+    };
+
+    try {
+      console.log(applicantData);
+      const res = await axios.post('http://localhost:8081/jobauth/SelectApplicantStatus', applicantData);
+      if (res.status === 200) {
+        window.location.reload();
+        alert("Applicant selected successfully!");
+        // Optionally, update the state or do something else here if needed
+      } else {
+        alert("Failed to select applicant.");
+      }
+    } catch (e) {
+      console.log(e);
+      alert("An error occurred while selecting the applicant.");
+    }
+  };
+
   return (
     <>
       <OrgNav />
       <div className="job-management-container">
         <h2 className='have'>Job Management</h2>
-        <table className="job-table-box" >
+        <table className="job-table-box">
           <thead>
             <tr>
               <th>User Name</th>
@@ -109,7 +138,6 @@ const Application = () => {
                     value={job.status}
                     onChange={(e) => {
                       const newValue = e.target.value;
-                      setHrDateTimeVisible(newValue === 'HR');
                       handleStatusChange(job._id, newValue);
                     }}
                   >
@@ -124,15 +152,23 @@ const Application = () => {
                   {hrDateTimeVisible && (
                     <div className="hr-date-time-inputs">
                       <label>Date:</label>
-                      <input type="date" />
+                      <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                      />
                       <label>Time:</label>
-                      <input type="time" />
+                      <input
+                        type="time"
+                        value={selectedTime}
+                        onChange={(e) => setSelectedTime(e.target.value)}
+                      />
                     </div>
                   )}
                 </td>
                 <td>
                   <button onClick={() => handleView(job)} className="view-bt">View</button>
-                  <button  className="view-bt">Select</button>
+                  <button onClick={() => handleSelect(job)} className="select-btn">Select</button>
                   <button onClick={() => handleRemove(job)} id='remove' className="remove-btn">Remove</button>
                 </td>
               </tr>
@@ -144,22 +180,34 @@ const Application = () => {
         <div className="remove-popup">
           <h2>Remove Applicant</h2>
           <p>Are you sure you want to remove this applicant?</p>
-          {/* <p>Applicant Name: {selectedJob.name}</p>
-          <p>Applicant Email: {selectedJob.email}</p> */}
           <button onClick={onRemove} className="remove-btn">Remove</button>
           <button onClick={onCloseRemovePopup} className="cancel-btn">Cancel</button>
         </div>
       )}
       {showViewPopup && (
-        <div className="view-popup">
-          <h2>View Applicant</h2>
-          <p>Applicant Name: {selectedJob.name}</p>
-          <p>Applicant Email: {selectedJob.email}</p>
-          <p>Applicant Position: {selectedJob.position}</p>
-          <p>Applicant Resume: <a href={selectedJob.resume} target="_blank">View Resume</a></p>
-          <button onClick={onCloseViewPopup} className="close-btn">Close</button>
-        </div>
-      )}
+  <div className="view-popup">
+    <h2>View Applicant</h2>
+    <p><strong>Applicant Name:</strong> {selectedJob.name}</p>
+    <p><strong>Applicant Email:</strong> {selectedJob.email}</p>
+    <p><strong>Applicant Position:</strong> {selectedJob.position}</p>
+    <p><strong>Applicant Phone:</strong> {selectedJob.phone}</p>
+    <p><strong>Applicant Address:</strong> {selectedJob.address}, {selectedJob.state}, {selectedJob.country}</p>
+    <p><strong>Education Qualification:</strong> {selectedJob.educationqualification}</p>
+    <p><strong>Percentage:</strong> {selectedJob.percentage.$numberDecimal}%</p>
+    <p><strong>Applied Date:</strong> {new Date(selectedJob.appliedDate).toLocaleDateString()}</p>
+    
+    {selectedJob.status === "HR" && (
+      <>
+        <p><strong>Meeting Link:</strong> {selectedJob.hrRoundLink}</p>
+        <p><strong>Date and Time:</strong> {new Date(selectedJob.hrRoundDateAndTime).toLocaleString()}</p>
+      </>
+    )}
+    
+    <p><strong>Applicant Resume:</strong> <a href={selectedJob.resume} target="_blank" rel="noopener noreferrer">View Resume</a></p>
+    <button onClick={onCloseViewPopup} className="close-btn">Close</button>
+  </div>
+)}
+
     </>
   );
 };

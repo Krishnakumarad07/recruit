@@ -3,6 +3,7 @@ const router = express.Router();
 const UserDB=require("../Models/UserModel")
 const OrgDB=require("../Models/Orgmodel")
 const JobsDB=require("../Models/OrgJobs")
+const AdminDB=require("../Models/admin")
 const nodemailer = require("nodemailer");
 const Candidates = require('../Models/AppliedCandidate');
 const transporter = nodemailer.createTransport({
@@ -51,6 +52,7 @@ router.get('/orgDetails',async(req,res)=>{
 router.get('/JobDetails',async(req,res)=>{
     try {
         const JobDetails=await JobsDB.find({}).populate('company','orgname _id org_email')||'';
+        // console.log(JobDetails);
         return res.status(200).json({JobDetails});
     }
     catch (error) {
@@ -187,7 +189,7 @@ router.delete('/UserDetailsDelete/:id', async (req, res) => {
           </head>
           <body>
             <div class="container">
-              <h2>Hello,</h2>
+              <h2>Hello ${organization.orgname},</h2>
               <p>Your organization ${organization.orgname} has been deleted by the admin.</p>
               <p>Consequently, all jobs relevant to your organization have also been removed.</p>
               <div class="footer">
@@ -214,11 +216,92 @@ router.delete('/UserDetailsDelete/:id', async (req, res) => {
       await JobsDB.deleteMany({ company: companyId }); // Adjust the field name if necessary
       console.log('All related jobs have been deleted.');
   
-      res.status(200).json({ message: 'Organization removed, notifications sent, and data deleted.' });
+      return res.status(200).json({ message: 'Organization removed, notifications sent, and data deleted.' });
     } catch (error) {
       console.error('Error:', error);
-      res.status(500).json({ message: 'Internal server error' });
+      return res.status(500).json({ message: 'Internal server error' });
     }
   });
+
+  router.delete("/JobDetailsDelete/:id",async (req, res) => {
+    const jobId = req.params.id;
+
+  try {
+    // Find the job and populate the company field
+    const job = await JobsDB.findById(jobId).populate('company'); // Populate to get company details
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    // Prepare user details and job details for email
+    const user = {
+      email: job.company.org_email,
+      organizationName: job.company.orgname,
+    };
+    const position = job.position;
+    const jobType = job.jobType;
+
+    // Mail options
+    const mailOptions = {
+      from: `"Smart Recruiter" <${process.env.MAILID}>`,
+      to: user.email,
+      subject: 'Job Deletion Notification',
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+          h2 { color: #333; }
+          p { color: #555; }
+          .footer { font-size: 12px; color: #777; margin-top: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h2>Hello ${user.organizationName},</h2>
+          <p>Your job posted for role <strong>${position}</strong> (${jobType}) by your organization <strong>${user.organizationName}</strong> has been deleted by the admin.</p>
+          <p>If you believe this is a mistake or if you have any questions, please contact support.</p>
+          <div class="footer">
+            <p>Best regards,<br>Smart Recruiter Team</p>
+          </div>
+        </div>
+      </body>
+      </html>`,
+    };
+
+    // Send email notification
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+
+    // Now delete the job
+    await JobsDB.findByIdAndDelete(jobId);
+    console.log('Job deleted successfully');
+    res.status(200).json({ message: 'Job deleted and email sent successfully.' });
+  } catch (error) {
+    console.error('Error deleting job:', error);
+    res.status(500).json({ message: 'Error deleting job.', error });
+  }
+});
+
+router.post("/adminadd",async (req, res) => {
+  try{
+    const {adminname,adminEmail,adminPassword}=req.body;
+    console.log(adminname)
+    console.log(adminEmail)
+    console.log(adminPassword)
+    const existadmin=await AdminDB.findOne({adminEmail});
+    if (existadmin){
+      return res.status(500).json({message:"The Admin Already Exists"});
+    }
+    const newadmin=new AdminDB({adminname,adminEmail,adminPassword});
+    const admin=await newadmin.save();
+    return res.status(200).json(admin);
+  }
+  catch (error) {
+    return res.status(404).send(error);
+
+  }
+})
   
 module.exports = router;

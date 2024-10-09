@@ -182,13 +182,13 @@ router.delete("/deletejob/:id", async (req, res) => {
 router.get("/AppliedJob", async (req, res) => {
   try {
     email = req.query.email;
-    console.log(email);
+    // console.log(email);
     const AppDetails = await Candidates.find({ email }).populate(
       "Company",
       "orgname"
     );
 
-    console.log(AppDetails);
+    // console.log(AppDetails);
     return res.status(200).json(AppDetails);
   } catch (err) {
     console.error(err);
@@ -249,6 +249,171 @@ router.delete("/RemoveApplicants/:jobid", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({message:"Error On deleting the User"})
+  }
+});
+
+router.post('/SelectApplicantStatus', async (req, res) => {
+  var { _id, status, selectedDate, selectedTime } = req.body;
+  console.log(_id)
+  console.log(status)
+  console.log(selectedDate)
+  selectedTime=selectedTime.toString();
+  console.log(selectedTime)
+  try {
+    // Find the applicant in the database
+    const applicant = await Candidates.findById(_id).populate('Company','orgname');
+    if (!applicant) {
+      return res.status(404).send('Applicant not found');
+    }
+
+    // Update the status in the database
+    applicant.status = status;
+
+    // Combine selected date and time into a single Date object
+    if (selectedDate && selectedTime) {
+      const hrRoundDateAndTime = new Date(`${selectedDate}T${selectedTime}:00`);
+      applicant.hrRoundDateAndTime = hrRoundDateAndTime; // Store in the database
+    }
+    console.log(applicant.hrRoundDateAndTime);
+    // Prepare email content
+    let mailOptions;
+
+    switch (status) {
+      case 'round-1':
+      case 'round-2':
+      case 'Technical':
+        mailOptions = {
+          from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`, // Assuming Company is a string in your model
+          to: applicant.email,
+          subject: "Application Status Update",
+          html: `<!DOCTYPE html>
+                  <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                      h2 { color: #333; }
+                      p { color: #555; }
+                      .footer { font-size: 12px; color: #777; margin-top: 20px; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <h2>Hello ${applicant.name},</h2>
+                      <p>Congrats! You're selected for the <strong>${status}</strong> round for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. The round will be conducted on our official website. Check accordingly.</p>
+                      <div class="footer">
+                        <p>Best regards,<br>Smart Recruiter Team</p>
+                      </div>
+                    </div>
+                  </body>
+                  </html>`
+        };
+        break;
+
+      case 'HR':
+        applicant.hrRoundLink = process.env.MEET; // Store the meeting link in the applicant's record
+        mailOptions = {
+          from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
+          to: applicant.email,
+          subject: "HR Round Invitation",
+          html: `<!DOCTYPE html>
+                  <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                      h2 { color: #333; }
+                      p { color: #555; }
+                      .footer { font-size: 12px; color: #777; margin-top: 20px; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <h2>Hello ${applicant.name},</h2>
+                      <p>Congrats! You're selected for the HR round for the <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. Here is your date and time for the meeting: <strong>${applicant.hrRoundDateAndTime.toLocaleString()}</strong>.</p>
+                      <p>Meeting Link: <strong>${applicant.hrRoundLink}</strong></p> <!-- Use hrRoundLink here -->
+                      <div class="footer">
+                        <p>Best regards,<br>Smart Recruiter Team</p>
+                      </div>
+                    </div>
+                  </body>
+                  </html>`
+        };
+        break;
+
+      case 'Selected':
+        mailOptions = {
+          from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
+          to: applicant.email,
+          subject: "Congratulations on Your Selection!",
+          html: `<!DOCTYPE html>
+                  <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                      h2 { color: #333; }
+                      p { color: #555; }
+                      .footer { font-size: 12px; color: #777; margin-top: 20px; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <h2>Hello ${applicant.name},</h2>
+                      <p>Congratulations! You have been selected for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. Our HR team will contact you within working days regarding your joining.</p>
+                      <div class="footer">
+                        <p>Best regards,<br>Smart Recruiter Team</p>
+                      </div>
+                    </div>
+                  </body>
+                  </html>`
+        };
+        break;
+
+      case 'Rejected':
+        mailOptions = {
+          from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
+          to: applicant.email,
+          subject: "Application Status Update",
+          html: `<!DOCTYPE html>
+                  <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                      .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+                      h2 { color: #333; }
+                      p { color: #555; }
+                      .footer { font-size: 12px; color: #777; margin-top: 20px; }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <h2>Hello ${applicant.name},</h2>
+                      <p>We regret to inform you that your application for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong> has been removed.</p>
+                      <p>If you have any questions or believe this was a mistake, please contact support.</p>
+                      <div class="footer">
+                        <p>Best regards,<br>Smart Recruiter Team</p>
+                      </div>
+                    </div>
+                  </body>
+                  </html>`
+        };
+        break;
+
+      default:
+        return res.status(400).send('Invalid status');
+    }
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    // Save the updated applicant
+    await applicant.save();
+
+    return res.status(200).send('Status updated and email sent');
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('Internal Server Error');
   }
 });
 

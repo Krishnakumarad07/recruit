@@ -20,27 +20,12 @@ const Manage = () => {
     getJobDetails();
   }, []);
 
-  const handleStatusToggle = (id) => {
-    setJobs(
-      jobs.map((job) =>
-        job._id === id ? { ...job, closed: !job.closed } : job
-      )
-    );
+  const handleViewUser = (job) => {
+    setSelectedJob(job); // Set selected job directly
+    setShowViewPopup(true);
   };
 
-  const handleViewUser  = async (id) => {
-    try {
-      const res = await axios.get(`http://localhost:8081/adminauth/JobDetails`);
-      const job = res.data;
-      setSelectedJob(job);
-      setShowViewPopup(true);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleRemoveUser  = (id) => {
-    const job = jobs.find((job) => job._id === id);
+  const handleRemoveUser = (job) => {
     setSelectedJob(job);
     setShowRemovePopup(true);
   };
@@ -55,7 +40,8 @@ const Manage = () => {
 
   const handleRemoveJob = async () => {
     try {
-      const res = await axios.delete(`http://localhost:8081/adminauth/JobDetails/${selectedJob._id}`);
+      const res = await axios.delete(`http://localhost:8081/adminauth/JobDetailsDelete/${selectedJob._id}`);
+      alert("Job Is removed Successfully!!!!!!!");
       setJobs(jobs.filter((job) => job._id !== selectedJob._id));
       setShowRemovePopup(false);
     } catch (err) {
@@ -83,8 +69,8 @@ const Manage = () => {
                 <td>{job.company?.orgname}</td>
                 <td>{new Date(job.jobDeadline).toLocaleDateString()}</td>
                 <td>
-                  <button  className='view-bt' onClick={() => handleViewUser (job._id)}>View</button>
-                  <button id='remove' onClick={() => handleRemoveUser (job._id)}>Remove</button>
+                  <button className='view-bt' onClick={() => handleViewUser(job)}>View</button>
+                  <button id='remove' onClick={() => handleRemoveUser(job)}>Remove</button>
                 </td>
               </tr>
             ))
@@ -100,9 +86,15 @@ const Manage = () => {
         <div className="popup">
           <div className="view-popup">
             <h2>View Job Details</h2>
-            <p>Job Title: {selectedJob.position}</p>
-            <p>Org Name: {selectedJob.company?.orgname}</p>
-            <p>Deadline: {new Date(selectedJob.jobDeadline).toLocaleDateString()}</p>
+            <p><strong>Job Title:</strong> {selectedJob.position}</p>
+            <p><strong>Org Name:</strong> {selectedJob.company?.orgname}</p>
+            <p><strong>Deadline:</strong> {new Date(selectedJob.jobDeadline).toLocaleDateString()}</p>
+            <p><strong>Description:</strong> {selectedJob.jobDescription}</p>
+            <p><strong>Location:</strong> {selectedJob.location}</p>
+            <p><strong>Job Type:</strong> {selectedJob.jobType}</p>
+            <p><strong>Salary:</strong> {selectedJob.salary}</p>
+            <p><strong>Vacancy:</strong> {selectedJob.vacancy}</p>
+            <p><strong>Required Skills:</strong> {(selectedJob.requiredSkills).join(', ')}</p>
             <button onClick={handleViewPopupClose}>Close</button>
           </div>
         </div>

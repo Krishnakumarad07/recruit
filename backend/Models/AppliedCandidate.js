@@ -54,11 +54,10 @@ AppliedCandidatesSchema=new mongoose.Schema({
         enum:['waiting','round-1','round-2',"Technical","HR","Selected","Rejected"],
         default:"waiting",
     },
-    hrRoundDate:{
+    hrRoundDateAndTime:{
         type:Date,
-    }
-    ,
-    hrRoundTime:{
+    },
+    hrRoundLink:{
         type:String,
     },
     appliedDate:{
