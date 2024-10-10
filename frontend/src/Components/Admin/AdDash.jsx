@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';  // Correctly import useState
 
 const AdDash = () => {
+  
   const [count, setCount] = useState('');
   useEffect(() => {
     const getAllDetails= async () => {

@@ -98,6 +98,7 @@ const ApplyJob = () => {
               <p>Country: {jobToView.country}</p>
               <p>Applied Date: {formatDate(jobToView.appliedDate)}</p>
               <p>Status: {jobToView.status}</p>
+              <p>Resume: <a href={jobToView.resume} id="hyperres" target="_blank">Click Here</a></p>
               {jobToView.status === "HR" && (
                 <>
                   <p>

@@ -303,5 +303,25 @@ router.post("/adminadd",async (req, res) => {
 
   }
 })
+router.post("/login",async (req,res)=> {
+  try{
+    const {email,password}=req.body; 
+    // console.log(email)
+    // console.log(password) 
+    const AdminDetails=await AdminDB.findOne({adminEmail:email});
+    if (!AdminDetails){
+      return res.status(500).json({ message: "No Admin Is available"});
+    }
+    if(AdminDetails.adminPassword!==password){
+      return res.status(500).json({message:"Incorrect Password"})
+    }
+    else{
+      return res.status(200).json(AdminDetails);
+    }
+  }
+  catch (error) {
+      return res.status(404).json({message: "error"})
+  }
+})
   
 module.exports = router;

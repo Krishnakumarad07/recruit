@@ -9,11 +9,10 @@ import { Sidebar } from './Sidebar';
 import ManageOrg from './ManageOrg';
 import { useLocalStorage } from 'react-use';
 
-
-
-
 const AdminDash = () => {
   const navigate = useNavigate();
+  const AdminDetails = JSON.parse(localStorage.getItem("adm"))
+  console.log(AdminDetails);
   const [activeSection, setActiveSection] = useLocalStorage('activeSection','dashboard');
   const renderContent = () => {
     switch (activeSection) {
@@ -27,7 +26,7 @@ const AdminDash = () => {
       case "Managejobs":
         return <Manage/>;
       default:
-        return <AdDash />;
+        return <AdDash/>;
     }
   };
   return (
@@ -37,7 +36,9 @@ const AdminDash = () => {
           <Sidebar
             activeSection={activeSection}
             setActiveSection={setActiveSection}
-            onLogout={() => navigate("/orghome")}
+            onLogout={() => {
+              navigate("/orglogin") ;
+            }}
             history={navigate}
           />
         </div>

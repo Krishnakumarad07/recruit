@@ -149,3 +149,8 @@
   .popup-box button:hover {
     background-color: #b50000;
   }
+
+  #hyperres{
+    text-decoration: none;
+    color:#CFCECA;
+  }

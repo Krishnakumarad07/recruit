@@ -19,12 +19,14 @@ const Adlogin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+
         axios
-            .post("http://localhost:8081/userauth/login", Form)
+            .post("http://localhost:8081/adminauth/login", Form)
+
             .then((res) => {
                 console.log(res.data);
-                localStorage.setItem("token", res.data.token);
-                navigate("/dashboard");
+                localStorage.setItem("adm", JSON.stringify(res.data));
+                navigate("/admindash");
             })
             .catch((error) => {
                 alert("Check that the username or password is correct.");
@@ -37,7 +39,7 @@ const Adlogin = () => {
                 <div className="login-wrapper">
                     <div className="login-container-user">
                         <div className="login-form">
-                            <h3>Login</h3>
+                            <h3>Admin Login</h3>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="email">Email</label><br />

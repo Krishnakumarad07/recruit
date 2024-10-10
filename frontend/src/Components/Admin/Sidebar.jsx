@@ -14,6 +14,7 @@ export const Sidebar = ({ activeSection, setActiveSection }) => {
     };
 
     const handleConfirmLogout = () => {
+        localStorage.clear();
         navigate("/");
     };
 
