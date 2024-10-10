@@ -41,11 +41,10 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
     // Check for existing application
     const existingApplication = await Candidates.findOne({
       email: req.body.email,
-      Company: org._id, // Ensure field name matches schema
+      Company: org._id,
       jobType: req.body.jobType,
       position: req.body.position,
     });
-    console.log("", existingApplication);
 
     if (existingApplication) {
       console.log("exist");
@@ -69,9 +68,8 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
 
     var keywords = job.requiredSkills;
     keywords = Array.isArray(keywords) ? keywords : keywords.split(",");
-    console.log(keywords);
     const score = await ResumeScore(req.file.path, keywords);
-    console.log(score); // Await the score calculation
+    console.log(score);
 
     // Upload resume to Cloudinary
     const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
@@ -96,76 +94,91 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
       phone: req.body.phone,
       status: score < 2 ? "Rejected" : "waiting",
     };
-    // db.candidates.dropIndex("email_1");
 
     // Save application to database
     const newApplication = new Candidates(applicationData);
     await newApplication.save();
     const { status, ...applicationDataWithoutStatus } = applicationData;
-    const mailOptions = {
-      from: `"${req.body.orgname}" <${process.env.MAILID}>`,
-      to: req.body.email,
-      subject: "Application Confirmation",
-      text: `You're successfully applied for the '${
-        req.body.orgname
-      }' company for the role of '${
-        req.body.position
-      }'. The details you applied are: ${JSON.stringify(
-        applicationDataWithoutStatus,
-        null,
-        2
-      )}. Your current status is '${status}'.`,
-      html: `<!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        h2 { color: #333; }
-        p { color: #555; }
-        .footer { font-size: 12px; color: #777; margin-top: 20px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h2>Hello ${req.body.name},</h2>
-        <p>You're successfully applied for the <strong>'${
-          req.body.orgname
-        }'</strong> company for the role of <strong>'${
-        req.body.position
-      }'</strong>.</p>
-        <p>The details you applied are:</p>
-        <pre>${JSON.stringify(applicationDataWithoutStatus, null, 2)}</pre>
-        <p>Your current status is: <strong>'${status}'</strong>.</p>
-        <p>If you did not apply for this position, please contact support.</p>
-        <div class="footer">
-          <p>Best regards,<br>Smart Recruiter Team</p>
-        </div>
-      </div>
-    </body>
-    </html>`,
-    };
+
+    let mailOptions;
+
+    // Determine email content based on application status
+    if (status === "Rejected") {
+      mailOptions = {
+        from: `"${req.body.orgname}" <${process.env.MAILID}>`,
+        to: req.body.email,
+        subject: "Application Status: Rejected",
+        text: `We regret to inform you that your application for the role of '${req.body.position} for
+        ${req.body.jobType}' at '${req.body.orgname}' has been rejected by our ATS algorithm. We wish you the best in your future endeavors.`,
+        html: `<!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+            h2 { color: #333; }
+            p { color: #555; }
+            .footer { font-size: 12px; color: #777; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h2>Dear ${req.body.name},</h2>
+            <p>We regret to inform you that your application for the role of <strong>'${req.body.position} for ${req.body.jobType}'</strong> at <strong>'${req.body.orgname}'</strong> has been rejected by our ATS algorithm.</p>
+            <p>We wish you the best in your future endeavors.</p>
+            <div class="footer">
+              <p>Best regards,<br>Smart Recruiter Team</p>
+            </div>
+          </div>
+        </body>
+        </html>`,
+      };
+    } else {
+      mailOptions = {
+        from: `"${req.body.orgname}" <${process.env.MAILID}>`,
+        to: req.body.email,
+        subject: "Application Confirmation",
+        text: `You're successfully applied for the '${req.body.orgname}' company for the role of '${req.body.position}for ${req.body.jobType}'. The details you applied are: ${JSON.stringify(applicationDataWithoutStatus, null, 2)}. Your current status is '${status}'.`,
+        html: `<!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+            h2 { color: #333; }
+            p { color: #555; }
+            .footer { font-size: 12px; color: #777; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h2>Hello ${req.body.name},</h2>
+            <p>You're successfully applied for the <strong>'${req.body.orgname}'</strong> company for the role of <strong>'${req.body.position} for ${req.body.jobType}'</strong>.</p>
+            <p>The details you applied are:</p>
+            <pre>${JSON.stringify(applicationDataWithoutStatus, null, 2)}</pre>
+            <p>Your current status is: <strong>'${status}'</strong>.</p>
+            <p>If you did not apply for this position, please contact support.</p>
+            <div class="footer">
+              <p>Best regards,<br>Smart Recruiter Team</p>
+            </div>
+          </div>
+        </body>
+        </html>`,
+      };
+    }
 
     // Send the email
     await transporter.sendMail(mailOptions);
+
     // Optionally delete the uploaded file after processing
-    fs.unlink(
-      req.file.path,
-      (err) => {
-        if (err) console.log("Error deleting file:", err);
-      }
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.log("Error deleting file:", err);
+    });
 
-      // Send confirmation email
-    );
-
-    return res
-      .status(201)
-      .json({ message: "Application submitted successfully." });
+    return res.status(201).json({ message: "Application submitted successfully." });
   } catch (err) {
     console.log("Error occurred:", err);
-    return res
-      .status(500)
-      .json({ message: "An error occurred", error: err.message });
+    return res.status(500).json({ message: "An error occurred", error: err.message });
   }
 });
 router.delete("/deletejob/:id", async (req, res) => {
