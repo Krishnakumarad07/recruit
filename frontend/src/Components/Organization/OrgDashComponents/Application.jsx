@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const Application = () => {
   const [jobs, setJobs] = useState([]);
-  const [hrDateTimeVisible, setHrDateTimeVisible] = useState(false);
+  const [hrDateTimeVisibleJobId, setHrDateTimeVisibleJobId] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [showRemovePopup, setShowRemovePopup] = useState(false);
@@ -38,8 +38,13 @@ const Application = () => {
         return job;
       })
     );
-    setHrDateTimeVisible(newStatus === 'HR');
-    if (newStatus !== 'HR') {
+
+    if (newStatus === 'HR') {
+      setHrDateTimeVisibleJobId(jobId); // Set the currently selected job ID for HR
+    } else {
+      if (hrDateTimeVisibleJobId === jobId) {
+        setHrDateTimeVisibleJobId(null); // Clear if the status changes from HR
+      }
       setSelectedDate('');
       setSelectedTime('');
     }
@@ -98,7 +103,6 @@ const Application = () => {
       if (res.status === 200) {
         window.location.reload();
         alert("Applicant selected successfully!");
-        // Optionally, update the state or do something else here if needed
       } else {
         alert("Failed to select applicant.");
       }
@@ -149,7 +153,7 @@ const Application = () => {
                     <option value="Selected">Select</option>
                     <option value="Rejected">Reject</option>
                   </select>
-                  {hrDateTimeVisible && (
+                  {hrDateTimeVisibleJobId === job._id && ( // Check if this job's HR date/time should be visible
                     <div className="hr-date-time-inputs">
                       <label>Date:</label>
                       <input
@@ -185,29 +189,28 @@ const Application = () => {
         </div>
       )}
       {showViewPopup && (
-  <div className="view-popup">
-    <h2>View Applicant</h2>
-    <p><strong>Applicant Name:</strong> {selectedJob.name}</p>
-    <p><strong>Applicant Email:</strong> {selectedJob.email}</p>
-    <p><strong>Applicant Position:</strong> {selectedJob.position}</p>
-    <p><strong>Applicant Phone:</strong> {selectedJob.phone}</p>
-    <p><strong>Applicant Address:</strong> {selectedJob.address}, {selectedJob.state}, {selectedJob.country}</p>
-    <p><strong>Education Qualification:</strong> {selectedJob.educationqualification}</p>
-    <p><strong>Percentage:</strong> {selectedJob.percentage.$numberDecimal}%</p>
-    <p><strong>Applied Date:</strong> {new Date(selectedJob.appliedDate).toLocaleDateString()}</p>
-    
-    {selectedJob.status === "HR" && (
-      <>
-        <p><strong>Meeting Link:</strong> {selectedJob.hrRoundLink}</p>
-        <p><strong>Date and Time:</strong> {new Date(selectedJob.hrRoundDateAndTime).toLocaleString()}</p>
-      </>
-    )}
-    
-    <p><strong>Applicant Resume:</strong> <a href={selectedJob.resume} target="_blank" rel="noopener noreferrer">View Resume</a></p>
-    <button onClick={onCloseViewPopup} className="close-btn">Close</button>
-  </div>
-)}
-
+        <div className="view-popup">
+          <h2>View Applicant</h2>
+          <p><strong>Applicant Name:</strong> {selectedJob.name}</p>
+          <p><strong>Applicant Email:</strong> {selectedJob.email}</p>
+          <p><strong>Applicant Position:</strong> {selectedJob.position}</p>
+          <p><strong>Applicant Phone:</strong> {selectedJob.phone}</p>
+          <p><strong>Applicant Address:</strong> {selectedJob.address}, {selectedJob.state}, {selectedJob.country}</p>
+          <p><strong>Education Qualification:</strong> {selectedJob.educationqualification}</p>
+          <p><strong>Percentage:</strong> {selectedJob.percentage.$numberDecimal}%</p>
+          <p><strong>Applied Date:</strong> {new Date(selectedJob.appliedDate).toLocaleDateString()}</p>
+          
+          {selectedJob.status === "HR" && (
+            <>
+              <p><strong>Meeting Link:</strong> {selectedJob.hrRoundLink}</p>
+              <p><strong>Date and Time:</strong> {new Date(selectedJob.hrRoundDateAndTime).toLocaleString()}</p>
+            </>
+          )}
+          
+          <p><strong>Applicant Resume:</strong> <a href={selectedJob.resume} target="_blank" rel="noopener noreferrer">View Resume</a></p>
+          <button onClick={onCloseViewPopup} className="close-btn">Close</button>
+        </div>
+      )}
     </>
   );
 };
