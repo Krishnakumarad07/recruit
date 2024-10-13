@@ -402,8 +402,10 @@ router.post('/SelectApplicantStatus', async (req, res) => {
                   <body>
                     <div class="container">
                       <h2>Hello ${applicant.name},</h2>
-                      <p>We regret to inform you that your application for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong> has been removed.</p>
-                      <p>If you have any questions or believe this was a mistake, please contact support.</p>
+                      <p>We regret to inform you that your application for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong> has been Rejected by the organisation.</p>
+                      <p>We wish you the best for your future endeavors.</p>
+                      <p>— ${applicant.Company.orgname}</p>
+                      <p>If you have any questions, please contact support.</p>
                       <div class="footer">
                         <p>Best regards,<br>Smart Recruiter Team</p>
                       </div>
