@@ -74,7 +74,7 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
     // Upload resume to Cloudinary
     const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
       folder: "orgUploads",
-    });
+      resource_type:"raw"});
 
     // Create application data
     const applicationData = {

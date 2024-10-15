@@ -40,6 +40,46 @@ router.post('/signup', async (req, res) => {
             password,  // Store the plain text password
         });
         const org = await newOrganisation.save();
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.MAILID,
+                pass: process.env.MAILPWD,
+            }
+        });
+        const mailOptions = {
+            from: `"Smart Recruiter" <${process.env.MAILID}>`,
+            to: org_email,
+            subject: 'Welcome to Smart Recruiter!',
+            text: `Hello ${orgname},\n\nThank you for registering your organization on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nSmart Recruiter Team`,
+            html: `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+    h2 { color: #333; }
+    p { color: #555; }
+    a { color: #1a73e8; text-decoration: none; }
+    .footer { font-size: 12px; color: #777; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hello ${orgname},</h2>
+    <p>Thank you for registering your organization on the Recruit Official job site! We’re excited to have you on board.</p>
+    <p>If you have any questions, feel free to reach out to our support team.</p>
+    <div class="footer">
+      <p>Best regards,<br>Smart Recruiter Team</p>
+    </div>
+  </div>
+</body>
+</html>
+`,
+        };
+
+        // Send the welcome email
+        await transporter.sendMail(mailOptions);
 
         // Generate a JWT token
         const token = jwt.sign(
@@ -48,7 +88,7 @@ router.post('/signup', async (req, res) => {
         );
 
         return res.json({
-            message: 'Organisation Registered successfully',
+            message: 'Organisation Registered successfully,mail Sent successfully',
             token,
         });
     } catch (err) {

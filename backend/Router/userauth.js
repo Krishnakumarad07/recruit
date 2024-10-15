@@ -40,6 +40,48 @@ router.post('/signup', async (req, res) => {
             password,  // Store the plain text password
         });
         const user = await newUser.save();
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.MAILID,
+                pass: process.env.MAILPWD,
+            }
+        });
+        
+        // Configure the email options
+        const mailOptions = {
+            from: `"Smart Recruiter" <${process.env.MAILID}>`,
+            to: user.email,
+            subject: 'Welcome to Smart Recruiter!',
+            text: `Hello ${user.username},\n\nThank you for registering on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nSmart Recruiter Team`, // Plain text
+            html: `<!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+            h2 { color: #333; }
+            p { color: #555; }
+            a { color: #1a73e8; text-decoration: none; }
+            .footer { font-size: 12px; color: #777; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h2>Hello ${user.username},</h2>
+            <p>Thank you for registering on the Recruit Official job site! We’re excited to have you on board.</p>
+            <p>If you have any questions, feel free to reach out to our support team.</p>
+            <div class="footer">
+              <p>Best regards,<br>Smart Recruiter Team</p>
+            </div>
+          </div>
+        </body>
+        </html>
+        `,
+        };
+        
+        // Send the email
+        await transporter.sendMail(mailOptions);
 
         // Generate a JWT token
         const token = jwt.sign(
@@ -48,7 +90,7 @@ router.post('/signup', async (req, res) => {
         );
 
         return res.json({
-            message: 'User created successfully',
+            message: 'User created successfully and mail sent successfully',
             token,
         });
     } catch (err) {
