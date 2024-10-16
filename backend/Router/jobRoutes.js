@@ -74,7 +74,8 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
     // Upload resume to Cloudinary
     const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
       folder: "orgUploads",
-      resource_type:"raw"});
+      resource_type: "raw",
+    });
 
     // Create application data
     const applicationData = {
@@ -127,7 +128,7 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
             <p>We regret to inform you that your application for the role of <strong>'${req.body.position} for ${req.body.jobType}'</strong> at <strong>'${req.body.orgname}'</strong> has been rejected by our ATS algorithm.</p>
             <p>We wish you the best in your future endeavors.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruiter Team</p>
+              <p>Best regards,<br>Smart Recruit Team</p>
             </div>
           </div>
         </body>
@@ -138,7 +139,15 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
         from: `"${req.body.orgname}" <${process.env.MAILID}>`,
         to: req.body.email,
         subject: "Application Confirmation",
-        text: `You're successfully applied for the '${req.body.orgname}' company for the role of '${req.body.position}for ${req.body.jobType}'. The details you applied are: ${JSON.stringify(applicationDataWithoutStatus, null, 2)}. Your current status is '${status}'.`,
+        text: `You're successfully applied for the '${
+          req.body.orgname
+        }' company for the role of '${req.body.position}for ${
+          req.body.jobType
+        }'. The details you applied are: ${JSON.stringify(
+          applicationDataWithoutStatus,
+          null,
+          2
+        )}. Your current status is '${status}'.`,
         html: `<!DOCTYPE html>
         <html>
         <head>
@@ -153,13 +162,17 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
         <body>
           <div class="container">
             <h2>Hello ${req.body.name},</h2>
-            <p>You're successfully applied for the <strong>'${req.body.orgname}'</strong> company for the role of <strong>'${req.body.position} for ${req.body.jobType}'</strong>.</p>
+            <p>You're successfully applied for the <strong>'${
+              req.body.orgname
+            }'</strong> company for the role of <strong>'${
+          req.body.position
+        } for ${req.body.jobType}'</strong>.</p>
             <p>The details you applied are:</p>
             <pre>${JSON.stringify(applicationDataWithoutStatus, null, 2)}</pre>
             <p>Your current status is: <strong>'${status}'</strong>.</p>
             <p>If you did not apply for this position, please contact support.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruiter Team</p>
+              <p>Best regards,<br>Smart Recruit Team</p>
             </div>
           </div>
         </body>
@@ -175,10 +188,14 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
       if (err) console.log("Error deleting file:", err);
     });
 
-    return res.status(201).json({ message: "Application submitted successfully." });
+    return res
+      .status(201)
+      .json({ message: "Application submitted successfully." });
   } catch (err) {
     console.log("Error occurred:", err);
-    return res.status(500).json({ message: "An error occurred", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "An error occurred", error: err.message });
   }
 });
 router.delete("/deletejob/:id", async (req, res) => {
@@ -225,7 +242,10 @@ router.delete("/RemoveApplicants/:jobid", async (req, res) => {
       _id: req.params.jobid,
     }).populate("Company", "orgname");
     // console.log(JobApplicant);
-    if (JobApplicant.status !== "Selected" && JobApplicant.status !== "Rejected") {
+    if (
+      JobApplicant.status !== "Selected" &&
+      JobApplicant.status !== "Rejected"
+    ) {
       const mailOptions = {
         from: `"${JobApplicant.Company.orgname}" <${process.env.MAILID}>`,
         to: JobApplicant.email,
@@ -248,7 +268,7 @@ router.delete("/RemoveApplicants/:jobid", async (req, res) => {
       <p>We regret to inform you that your application for the role of <strong>'${JobApplicant.position}'</strong> at <strong>'${JobApplicant.Company.orgname}'</strong> has been removed by organisation.</p>
       <p>If you have any questions or believe this was a mistake, please contact support.</p>
       <div class="footer">
-        <p>Best regards,<br>Smart Recruiter Team</p>
+        <p>Best regards,<br>Smart Recruit Team</p>
       </div>
     </div>
   </body>
@@ -258,25 +278,28 @@ router.delete("/RemoveApplicants/:jobid", async (req, res) => {
       // Send the email
       await transporter.sendMail(mailOptions);
     }
-    return res.status(200).json({message:"Deleted Successfully"});
+    return res.status(200).json({ message: "Deleted Successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({message:"Error On deleting the User"})
+    return res.status(500).json({ message: "Error On deleting the User" });
   }
 });
 
-router.post('/SelectApplicantStatus', async (req, res) => {
+router.post("/SelectApplicantStatus", async (req, res) => {
   var { _id, status, selectedDate, selectedTime } = req.body;
-  console.log(_id)
-  console.log(status)
-  console.log(selectedDate)
-  selectedTime=selectedTime.toString();
-  console.log(selectedTime)
+  console.log(_id);
+  console.log(status);
+  console.log(selectedDate);
+  selectedTime = selectedTime.toString();
+  console.log(selectedTime);
   try {
     // Find the applicant in the database
-    const applicant = await Candidates.findById(_id).populate('Company','orgname');
+    const applicant = await Candidates.findById(_id).populate(
+      "Company",
+      "orgname"
+    );
     if (!applicant) {
-      return res.status(404).send('Applicant not found');
+      return res.status(404).send("Applicant not found");
     }
 
     // Update the status in the database
@@ -292,9 +315,9 @@ router.post('/SelectApplicantStatus', async (req, res) => {
     let mailOptions;
 
     switch (status) {
-      case 'round-1':
-      case 'round-2':
-      case 'Technical':
+      case "round-1":
+      case "round-2":
+      case "Technical":
         mailOptions = {
           from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`, // Assuming Company is a string in your model
           to: applicant.email,
@@ -315,15 +338,15 @@ router.post('/SelectApplicantStatus', async (req, res) => {
                       <h2>Hello ${applicant.name},</h2>
                       <p>Congrats! You're selected for the <strong>${status}</strong> round for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. The round will be conducted on our official website. Check accordingly.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruiter Team</p>
+                        <p>Best regards,<br>Smart Recruit Team</p>
                       </div>
                     </div>
                   </body>
-                  </html>`
+                  </html>`,
         };
         break;
 
-      case 'HR':
+      case "HR":
         applicant.hrRoundLink = process.env.MEET; // Store the meeting link in the applicant's record
         mailOptions = {
           from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
@@ -343,18 +366,24 @@ router.post('/SelectApplicantStatus', async (req, res) => {
                   <body>
                     <div class="container">
                       <h2>Hello ${applicant.name},</h2>
-                      <p>Congrats! You're selected for the HR round for the <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. Here is your date and time for the meeting: <strong>${applicant.hrRoundDateAndTime.toLocaleString()}</strong>.</p>
-                      <p>Meeting Link: <strong>${applicant.hrRoundLink}</strong></p> <!-- Use hrRoundLink here -->
+                      <p>Congrats! You're selected for the HR round for the <strong>'${
+                        applicant.position
+                      }'</strong> at <strong>'${
+            applicant.Company.orgname
+          }'</strong>. Here is your date and time for the meeting: <strong>${applicant.hrRoundDateAndTime.toLocaleString()}</strong>.</p>
+                      <p>Meeting Link: <strong>${
+                        applicant.hrRoundLink
+                      }</strong></p> <!-- Use hrRoundLink here -->
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruiter Team</p>
+                        <p>Best regards,<br>Smart Recruit Team</p>
                       </div>
                     </div>
                   </body>
-                  </html>`
+                  </html>`,
         };
         break;
 
-      case 'Selected':
+      case "Selected":
         mailOptions = {
           from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
           to: applicant.email,
@@ -375,15 +404,15 @@ router.post('/SelectApplicantStatus', async (req, res) => {
                       <h2>Hello ${applicant.name},</h2>
                       <p>Congratulations! You have been selected for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. Our HR team will contact you within working days regarding your joining.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruiter Team</p>
+                        <p>Best regards,<br>Smart Recruit Team</p>
                       </div>
                     </div>
                   </body>
-                  </html>`
+                  </html>`,
         };
         break;
 
-      case 'Rejected':
+      case "Rejected":
         mailOptions = {
           from: `"${applicant.Company.orgname}" <${process.env.MAILID}>`,
           to: applicant.email,
@@ -407,16 +436,16 @@ router.post('/SelectApplicantStatus', async (req, res) => {
                       <p>— ${applicant.Company.orgname}</p>
                       <p>If you have any questions, please contact support.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruiter Team</p>
+                        <p>Best regards,<br>Smart Recruit Team</p>
                       </div>
                     </div>
                   </body>
-                  </html>`
+                  </html>`,
         };
         break;
 
       default:
-        return res.status(400).send('Invalid status');
+        return res.status(400).send("Invalid status");
     }
 
     // Send email
@@ -425,10 +454,10 @@ router.post('/SelectApplicantStatus', async (req, res) => {
     // Save the updated applicant
     await applicant.save();
 
-    return res.status(200).send('Status updated and email sent');
+    return res.status(200).send("Status updated and email sent");
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send("Internal Server Error");
   }
 });
 
