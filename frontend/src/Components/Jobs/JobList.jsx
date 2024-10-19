@@ -4,6 +4,7 @@ import { faFacebook, faTwitter, faLinkedin, faInstagram } from "@fortawesome/fre
 import { Link, useNavigate } from "react-router-dom";
 import "./JobList.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 var user=localStorage.getItem("user");
 user=JSON.parse(user);
 const JobList = () => {
@@ -66,19 +67,38 @@ const JobList = () => {
     formData.append("jobType", selectedJob.jobType);
     formData.append("position", selectedJob.position);
     formData.append("orgname", selectedJob.company.orgname); // Adjusted to match the backend
-
+    // Show loading alert
+    const loadingAlert = Swal.fire({
+      title: 'Submitting Application...',
+      html: 'Please wait while we process your application.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     try {
       const response = await axios.post("http://localhost:8081/jobauth/applyjob", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert("Applied Successfully")
+      loadingAlert.close();
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'You have applied successfully.',
+        icon: 'success',
+      });
       console.log(response.data);
       handleApplyModalClose();
     } catch (error) {
+      loadingAlert.close();
       console.error("Error submitting application:", error);
-      alert("Failed to submit your application. Please try again.");
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to submit your application. Please try again.',
+        icon: 'error',
+      });
     }
   };
 
