@@ -11,8 +11,7 @@ import { useLocalStorage } from 'react-use';
 
 const AdminDash = () => {
   const navigate = useNavigate();
-  const AdminDetails = JSON.parse(localStorage.getItem("adm"))
-  console.log(AdminDetails);
+  
   const [activeSection, setActiveSection] = useLocalStorage('activeSection','dashboard');
   const renderContent = () => {
     switch (activeSection) {

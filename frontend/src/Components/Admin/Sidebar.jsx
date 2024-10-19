@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 export const Sidebar = ({ activeSection, setActiveSection }) => {
+
+ const AdminDetails = JSON.parse(localStorage.getItem("adm"))
+  console.log(AdminDetails);
+
     const navigate = useNavigate();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -60,7 +64,9 @@ export const Sidebar = ({ activeSection, setActiveSection }) => {
             <div className="main-container">
                 <div className="sidebar">
                     <center><i className="fa-solid fa-circle-user"></i></center>
-                    {/* <center><h3>Admin</h3></center> */}
+                    <center><h3>{AdminDetails.adminname}</h3></center> <br />
+                    <center><h3>{AdminDetails.adminEmail}</h3></center>
+
                     <ul>
                         <li className={activeSection === 'dashboard' ? 'active' : ''} onClick={() => setActiveSection('dashboard')}>
                             Dashboard

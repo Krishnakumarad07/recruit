@@ -1,4 +1,4 @@
-/* Basic Styles */
+/* 
 * {
     box-sizing: border-box;
     margin: 0;
@@ -147,7 +147,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  /* Edit Form with Grid Layout */
+  
   .edit-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -196,4 +196,4 @@
   .save-btn {
     background-color: #4caf50;
   }
-  
+   */

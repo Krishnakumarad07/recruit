@@ -127,7 +127,7 @@ const Profile = () => {
                 alt="Profile"
                 className="profile-image"
               />
-              <h2>{profile.name}</h2>
+              <h2 className='pro-name'>{profile.name}</h2>
               <p className="profile-description">{profile.description}</p>
 
               <div className="skills">
@@ -143,7 +143,9 @@ const Profile = () => {
 
             {/* Basic Information Section */}
             <div className="profile-main">
-              <h3>Basic Information</h3>
+              <center><h3>Basic Information</h3></center>
+              <br />
+              <br />
               <div className="basic-info">
                 <div>
                   <p><strong>Age:</strong> {profile.age} years</p>
@@ -161,8 +163,6 @@ const Profile = () => {
               {/* <div className="action-buttons">
                 <button className="btn">Download Resume</button>
               </div> */}
-              <hr />
-              <hr />
             </div>
 
           </div>
@@ -260,10 +260,10 @@ const Profile = () => {
                       value={skill}
                       onChange={(e) => handleSkillsChange(e, index)}
                     />
-                    <button type="button" onClick={() => handleRemoveSkill(index)}>Remove</button>
+                    <button type="button" className='remove' id='remove' onClick={() => handleRemoveSkill(index)}>Remove</button>
                   </div>
                 ))}
-                <button type="button" onClick={handleAddSkill}>Add Skill</button>
+                <button type="button" className='view-bt' onClick={handleAddSkill}>Add Skill</button>
               </label>
             </form>
             <div className="popup-buttons">

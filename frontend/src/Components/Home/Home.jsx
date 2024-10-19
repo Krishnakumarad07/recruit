@@ -84,13 +84,13 @@ function Home() {
                         <img src="logo1 (6).png" alt="company5" />
                         <img src="logo1 (5).png" alt="company5" />
                     </div>
-                    
+
                     <div className="sec-list">
                         <div className="vacancies-section scroll-animation">
                             <h1 id='heading'>Most Popular Vacancies</h1>
                             <div className="vacancies-list">
-                                
-                             <div>
+
+                                <div>
                                     <p>Anesthesiologists</p>
                                     <p id='one'>45,904 Open Positions</p>
                                 </div>
@@ -122,7 +122,7 @@ function Home() {
                                     <p>Financial Manager</p>
                                     <p id='one'>50,364 Open Positions</p>
                                 </div>
-                                </div> 
+                            </div>
                         </div>
                     </div>
 
@@ -181,7 +181,8 @@ function Home() {
                                 <h3>For Employers</h3>
                                 <p>Post A Job</p>
                                 <p>Job Package</p>
-                                <p>Employee Dashboard</p>
+                                <p><a href='/adlogin'>ADMIN</a></p>
+
                             </a>
                         </div>
                         <div className="support">

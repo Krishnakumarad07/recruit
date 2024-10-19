@@ -147,7 +147,9 @@ const OrgProfile = () => {
 
             {/* Basic Information Section */}
             <div className="profile-main">
-              <h3>Basic Information</h3>
+             <center> <h3>Basic Information</h3></center>
+             <br />
+             <br />
               <div className="basic-info">
                 <div>
                   <p><strong>Established:</strong> {profile.establishedYear}</p>
@@ -165,8 +167,7 @@ const OrgProfile = () => {
               {/* <div className="action-buttons">
                 <button className="btn">Download Brochure</button>
               </div> */}
-              <hr />
-              <hr />
+              
             </div>
           </div>
         ) : (
@@ -268,10 +269,10 @@ const OrgProfile = () => {
                       value={service}
                       onChange={(e) => handleServicesChange(e, index)}
                     />
-                    <button type="button" onClick={() => handleRemoveService(index)}>Remove</button>
+                    <button type="button" id='remove'onClick={() => handleRemoveService(index)}>Remove</button>
                   </div>
                 ))}
-                <button type="button" onClick={handleAddService}>Add Service</button>
+                <button type="button" className='view-bt' onClick={handleAddService}>Add Service</button>
               </label>
             </form>
             <div className="popup-buttons">
