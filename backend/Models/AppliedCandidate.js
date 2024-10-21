@@ -70,6 +70,9 @@ AppliedCandidatesSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  isats:{
+    type: Boolean,
+  }
 });
 const Candidates = mongoose.model("candidates", AppliedCandidatesSchema);
 module.exports = Candidates;

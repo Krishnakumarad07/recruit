@@ -94,6 +94,7 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
       resume: cloudinaryResult.secure_url,
       phone: req.body.phone,
       status: score < 2 ? "Rejected" : "waiting",
+      isats: score< 2 ? false : true,
     };
 
     // Save application to database
@@ -229,7 +230,7 @@ router.get("/Applicants", async (req, res) => {
   try {
     const id = req.query.id;
     // console.log(id);
-    const Applicants = await Candidates.find({ Company: id });
+    const Applicants = await Candidates.find({ Company: id,isats:{$ne:false} });
     // console.log(Applicants);
     return res.status(200).json(Applicants);
   } catch (err) {
