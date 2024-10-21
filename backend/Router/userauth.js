@@ -50,10 +50,10 @@ router.post("/signup", async (req, res) => {
 
     // Configure the email options
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: user.email,
       subject: "Welcome to Recruit-Job Site!",
-      text: `Hello ${user.username},\n\nThank you for registering on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nSmart Recruiter Team`, // Plain text
+      text: `Hello ${user.username},\n\nThank you for registering on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nRecruit's Team`, // Plain text
       html: `<!DOCTYPE html>
         <html>
         <head>
@@ -69,10 +69,10 @@ router.post("/signup", async (req, res) => {
         <body>
           <div class="container">
             <h2>Hello ${user.username},</h2>
-            <p>Thank you for registering on the Recruit Official job site! We’re excited to have you on board.</p>
+            <p>Thank you for registering on the Recruit's Official job site! We’re excited to have you on board.</p>
             <p>If you have any questions, feel free to reach out to our support team.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruit Team</p>
+              <p>Best regards,<br>Recruit's Team</p>
             </div>
           </div>
         </body>
@@ -163,7 +163,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // Configure the email options
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: user.email,
       subject: "Regarding Forgot Password",
       text: `Your password is: ${user.password}`, // Plain text
@@ -186,7 +186,7 @@ router.post("/forgot-password", async (req, res) => {
     <p><h5>Here is Your Password:<mark>${user.password}</mark></h5></p>
     <p>If you did not request this change, please ignore this email or contact support if you have questions.</p>
     <div class="footer">
-      <p>Best regards,<br>Smart Recruit Team</p>
+      <p>Best regards,<br>Recruit's Team</p>
     </div>
   </div>
 </body>

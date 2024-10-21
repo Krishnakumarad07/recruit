@@ -80,7 +80,7 @@ router.delete("/UserDetailsDelete/:id", async (req, res) => {
 
     // Send removal email
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: user.email,
       subject: "Account Removal Notification",
       html: `<!DOCTYPE html>
@@ -100,7 +100,7 @@ router.delete("/UserDetailsDelete/:id", async (req, res) => {
             <p>We want to inform you that your account has been removed by the admin.</p>
             <p>If you believe this is a mistake or if you have any questions, please contact support.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruit Team</p>
+              <p>Best regards,<br>Recruit's Team</p>
             </div>
           </div>
         </body>
@@ -151,7 +151,7 @@ router.delete("/removeOrg/:id", async (req, res) => {
     // Send emails to unique applicants
     if (uniqueEmails.length > 0) {
       const mailOptions = {
-        from: `"Smart Recruit" <${process.env.MAILID}>`,
+        from: `"Recruit" <${process.env.MAILID}>`,
         to: uniqueEmails.join(","), // Join unique emails as a string
         subject: "Organization Deletion Notification",
         html: `<!DOCTYPE html>
@@ -171,7 +171,7 @@ router.delete("/removeOrg/:id", async (req, res) => {
               <p>We want to inform you that the Organization ${orgName} has been deleted by the admin.</p>
               <p>As a result, the jobs related to this company that you applied also been removed. We apologize for the inconvenience.</p>
               <div class="footer">
-                <p>Best regards,<br>Smart Recruit Team</p>
+                <p>Best regards,<br>Recruit's Team</p>
               </div>
             </div>
           </body>
@@ -188,7 +188,7 @@ router.delete("/removeOrg/:id", async (req, res) => {
     const organization = await OrgDB.findById(companyId);
     if (organization) {
       const orgMailOptions = {
-        from: `"Smart Recruit" <${process.env.MAILID}>`,
+        from: `"Recruit" <${process.env.MAILID}>`,
         to: organization.org_email, // Assuming the organization has an email field
         subject: "Your Organization has been Deleted",
         html: `<!DOCTYPE html>
@@ -208,7 +208,7 @@ router.delete("/removeOrg/:id", async (req, res) => {
               <p>Your organization ${organization.orgname} has been deleted by the admin.</p>
               <p>Consequently, all jobs relevant to your organization have also been removed.</p>
               <div class="footer">
-                <p>Best regards,<br>Smart Recruit Team</p>
+                <p>Best regards,<br>Recruit's Team</p>
               </div>
             </div>
           </body>
@@ -264,7 +264,7 @@ router.delete("/JobDetailsDelete/:id", async (req, res) => {
 
     // Mail options
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: user.email,
       subject: "Job Deletion Notification",
       html: `<!DOCTYPE html>
@@ -284,7 +284,7 @@ router.delete("/JobDetailsDelete/:id", async (req, res) => {
           <p>Your job posted for role <strong>${position}</strong> (${jobType}) by your organization <strong>${user.organizationName}</strong> has been deleted by the admin.</p>
           <p>If you believe this is a mistake or if you have any questions, please contact support.</p>
           <div class="footer">
-            <p>Best regards,<br>Smart Recruit Team</p>
+            <p>Best regards,<br>Recruit's Team</p>
           </div>
         </div>
       </body>

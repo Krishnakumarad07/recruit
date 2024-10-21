@@ -128,7 +128,7 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
             <p>We regret to inform you that your application for the role of <strong>'${req.body.position} for ${req.body.jobType}'</strong> at <strong>'${req.body.orgname}'</strong> has been rejected by our ATS algorithm.</p>
             <p>We wish you the best in your future endeavors.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruit Team</p>
+              <p>Best regards,<br>Recruit's Team</p>
             </div>
           </div>
         </body>
@@ -172,7 +172,7 @@ router.post("/applyjob", upload.single("file"), async (req, res) => {
             <p>Your current status is: <strong>'${status}'</strong>.</p>
             <p>If you did not apply for this position, please contact support.</p>
             <div class="footer">
-              <p>Best regards,<br>Smart Recruit Team</p>
+              <p>Best regards,<br>Recruit's Team</p>
             </div>
           </div>
         </body>
@@ -268,7 +268,7 @@ router.delete("/RemoveApplicants/:jobid", async (req, res) => {
       <p>We regret to inform you that your application for the role of <strong>'${JobApplicant.position}'</strong> at <strong>'${JobApplicant.Company.orgname}'</strong> has been removed by organisation.</p>
       <p>If you have any questions or believe this was a mistake, please contact support.</p>
       <div class="footer">
-        <p>Best regards,<br>Smart Recruit Team</p>
+        <p>Best regards,<br>Recruit's Team</p>
       </div>
     </div>
   </body>
@@ -338,7 +338,7 @@ router.post("/SelectApplicantStatus", async (req, res) => {
                       <h2>Hello ${applicant.name},</h2>
                       <p>Congrats! You're selected for the <strong>${status}</strong> round for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. The round will be conducted on our official website. Check accordingly.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruit Team</p>
+                        <p>Best regards,<br>Recruit's Team</p>
                       </div>
                     </div>
                   </body>
@@ -375,7 +375,7 @@ router.post("/SelectApplicantStatus", async (req, res) => {
                         applicant.hrRoundLink
                       }</strong></p> <!-- Use hrRoundLink here -->
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruit Team</p>
+                        <p>Best regards,<br>Recruit's Team</p>
                       </div>
                     </div>
                   </body>
@@ -404,7 +404,7 @@ router.post("/SelectApplicantStatus", async (req, res) => {
                       <h2>Hello ${applicant.name},</h2>
                       <p>Congratulations! You have been selected for the role of <strong>'${applicant.position}'</strong> at <strong>'${applicant.Company.orgname}'</strong>. Our HR team will contact you within working days regarding your joining.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruit Team</p>
+                        <p>Best regards,<br>Recruit's Team</p>
                       </div>
                     </div>
                   </body>
@@ -436,7 +436,7 @@ router.post("/SelectApplicantStatus", async (req, res) => {
                       <p>— ${applicant.Company.orgname}</p>
                       <p>If you have any questions, please contact support.</p>
                       <div class="footer">
-                        <p>Best regards,<br>Smart Recruit Team</p>
+                        <p>Best regards,<br>Recruit's Team</p>
                       </div>
                     </div>
                   </body>

@@ -47,10 +47,10 @@ router.post("/signup", async (req, res) => {
       },
     });
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: org_email,
       subject: "Welcome to Recruit - job site!",
-      text: `Hello ${orgname},\n\nThank you for registering your organization on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nSmart Recruiter Team`,
+      text: `Hello ${orgname},\n\nThank you for registering your organization on the Recruit Official job site! We’re excited to have you on board.\n\nBest regards,\nRecruiter Team`,
       html: `<!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +69,7 @@ router.post("/signup", async (req, res) => {
     <p>Thank you for registering your organization on the Recruit Official job site! We’re excited to have you on board.</p>
     <p>If you have any questions, feel free to reach out to our support team.</p>
     <div class="footer">
-      <p>Best regards,<br>Smart Recruit Team</p>
+      <p>Best regards,<br>Recruit's Team</p>
     </div>
   </div>
 </body>
@@ -148,7 +148,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // Configure the email options
     const mailOptions = {
-      from: `"Smart Recruit" <${process.env.MAILID}>`,
+      from: `"Recruit" <${process.env.MAILID}>`,
       to: org.org_email,
       subject: "Regarding Forgot Password",
       text: `Your password is: ${org.password}`, // Plain text
@@ -173,7 +173,7 @@ router.post("/forgot-password", async (req, res) => {
     <p><h5>Here is Your Password:<mark>${org.password}</mark></h5></p>
     <p>If you did not request this change, please ignore this email or contact support if you have questions.</p>
     <div class="footer">
-      <p>Best regards,<br>Smart Recruit Team</p>
+      <p>Best regards,<br>Recruit's Team</p>
     </div>
   </div>
 </body>
