@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './ManageJobs.css'; 
 import OrgNav from "../OrgNav.jsx"; 
 import axios from 'axios'; 
+import Swal from 'sweetalert2';
+
 
 const ManageJobs = ({ jobs }) => {   
   const [jobList, setJobList] = useState([]);   
@@ -39,10 +41,32 @@ const ManageJobs = ({ jobs }) => {
   const handleDeleteConfirm = async () => {     
     const id = selectedJob._id;
     console.log(id); // Use _id for deletion
+    const loadingAlert = Swal.fire({
+      title: 'Removing Job...',
+      html: 'Please wait till process is completing.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     try {       
       await axios.delete(`http://localhost:8081/jobauth/deletejob/${id}`);       
       setJobList(jobList.filter((j) => j._id !== id)); // Update job list       
-    } catch (error) {       
+      loadingAlert.close();
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'The Person application deleted Successfully.',
+        icon: 'success',
+      });
+    } catch (error) { 
+      loadingAlert.close();
+      console.error("Error on Removing application:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to Remove your application. Please try again.',
+        icon: 'error',
+      });      
       console.log(error);     
     }     
     setShowDeletePopup(false);   

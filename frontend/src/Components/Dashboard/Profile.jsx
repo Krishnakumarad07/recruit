@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Profile.css';
 import Navside from './Navside';
 import axios from 'axios';
+
 var details = localStorage.getItem("user");
 details = JSON.parse(details);
 

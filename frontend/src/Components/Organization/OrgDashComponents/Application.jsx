@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OrgNav from '../OrgNav';
 import './Application.css';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 const Application = () => {
   const [jobs, setJobs] = useState([]);
   const [hrDateTimeVisibleJobId, setHrDateTimeVisibleJobId] = useState(null);
@@ -76,12 +76,32 @@ const Application = () => {
   };
 
   const onRemove = async () => {
+    const loadingAlert = Swal.fire({
+      title: 'Removing Application...',
+      html: 'Please wait while we process your application.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     try {
       const res = await axios.delete(`http://localhost:8081/jobauth/RemoveApplicants/${selectedJobId}`);
       if (res.status === 200) {
-        alert("The person is deleted");
+        loadingAlert.close();
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'The Person application deleted Successfully.',
+        icon: 'success',
+      });
       } else {
-        alert("Internal Server error");
+        loadingAlert.close();
+      console.error("Error on Removing application:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to Remove your application. Please try again.',
+        icon: 'error',
+      });
       }
       setJobs((prevJobs) => prevJobs.filter((job) => job._id !== selectedJobId));
     } catch (e) {

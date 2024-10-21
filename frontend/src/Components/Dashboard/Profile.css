@@ -41,6 +41,7 @@ body {
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
+  
 }
 
 .profile-image {
@@ -70,6 +71,7 @@ body {
 .skills {
   margin-top: 20px;
   text-align: center;
+  
 }
 
 .skills h4 {
