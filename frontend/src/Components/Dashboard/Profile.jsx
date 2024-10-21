@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import './Profile.css';
-import Navside from './Navside';
-import axios from 'axios';
-
+import React, { useState } from "react";
+import "./Profile.css";
+import Navside from "./Navside";
+import axios from "axios";
+import Swal from "sweetalert2";
 var details = localStorage.getItem("user");
 details = JSON.parse(details);
 
 const Profile = () => {
-
   const [profile, setProfile] = useState({
     name: details.username || "",
     age: details.age || 0,
@@ -18,9 +17,10 @@ const Profile = () => {
     experience: details.experience || 0,
     description: details.description || "",
     skills: details.skills || [],
-    image: details.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3Ev1b6Sb7M4DgNkOHViL12jqOxNcecmg5A&s",
+    image:
+      details.image ||
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY3Ev1b6Sb7M4DgNkOHViL12jqOxNcecmg5A&s",
   });
-
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -38,6 +38,14 @@ const Profile = () => {
 
   const handleSaveClick = async (e) => {
     e.preventDefault(); // Move this to the top
+    const loadingAlert = Swal.fire({
+      title: "Submitting Ur Action...",
+      html: "Please wait while we process your application.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     const { email, ...updatedProfile } = editedProfile;
 
     try {
@@ -48,37 +56,52 @@ const Profile = () => {
       setProfile(newProfile); // Update profile state here after a successful request
       setIsEditing(false);
       const formData = new FormData();
-      formData.append('file', editedProfile.image); // Now this should be a File object
-      formData.append('name', newProfile.name);
-      formData.append('age', newProfile.age);
+      formData.append("file", editedProfile.image); // Now this should be a File object
+      formData.append("name", newProfile.name);
+      formData.append("age", newProfile.age);
       formData.append("email", newProfile.email);
-      formData.append('phone', newProfile.phone);
-      formData.append('description', newProfile.description);
-      formData.append('location', newProfile.location);
-      formData.append('Gender', newProfile.Gender);
-      formData.append('experience', newProfile.experience);
+      formData.append("phone", newProfile.phone);
+      formData.append("description", newProfile.description);
+      formData.append("location", newProfile.location);
+      formData.append("Gender", newProfile.Gender);
+      formData.append("experience", newProfile.experience);
       newProfile.skills.forEach((skill, index) => {
         formData.append(`skills[${index}]`, skill);
       });
 
-      const res = await axios.put('http://localhost:8081/userauth/profUpdate', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await axios.put(
+        "http://localhost:8081/userauth/profUpdate",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      console.log('Profile updated:', res.data);
-      localStorage.setItem('user', JSON.stringify(res.data));
-      alert("Profile Updated Successfully");
+      console.log("Profile updated:", res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      // alert("Profile Updated Successfully");
+      loadingAlert.close();
+      Swal.fire({
+        title: "Success!",
+        text: "Profile Updated Successfully",
+        icon: "success",
+      });
       window.location.reload();
 
       // Close editing mode
     } catch (err) {
-      console.error('Error updating profile:', err);
-      alert("Unable to update");
+      console.error("Error updating profile:", err);
+      // alert("Unable to update");
+      loadingAlert.close();
+      Swal.fire({
+        title: "Error!",
+        text: "Unable to update",
+        icon: "error",
+      });
     }
   };
-
 
   // Handle input changes in the form
   const handleInputChange = (e) => {
@@ -98,10 +121,13 @@ const Profile = () => {
 
   // Add new skill
   const handleAddSkill = () => {
-    setEditedProfile({ ...editedProfile, skills: [...editedProfile.skills, ""] });
+    setEditedProfile({
+      ...editedProfile,
+      skills: [...editedProfile.skills, ""],
+    });
   };
 
-  // handle remove 
+  // handle remove
   const handleRemoveSkill = (index) => {
     const newSkills = [...editedProfile.skills];
     newSkills.splice(index, 1);
@@ -128,13 +154,15 @@ const Profile = () => {
                 alt="Profile"
                 className="profile-image"
               />
-              <h2 className='pro-name'>{profile.name}</h2>
+              <h2 className="pro-name">{profile.name}</h2>
               <p className="profile-description">{profile.description}</p>
 
               <div className="skills">
                 <h4>Skills</h4>
                 {profile.skills.map((skill, index) => (
-                  <div key={index} className="skill-badge">{skill}</div>
+                  <div key={index} className="skill-badge">
+                    {skill}
+                  </div>
                 ))}
               </div>
               <button className="edit-profile-btn" onClick={handleEditClick}>
@@ -144,28 +172,42 @@ const Profile = () => {
 
             {/* Basic Information Section */}
             <div className="profile-main">
-              <center><h3>Basic Information</h3></center>
+              <center>
+                <h3>Basic Information</h3>
+              </center>
               <br />
               <br />
               <div className="basic-info">
                 <div>
-                  <p><strong>Age:</strong> {profile.age} years</p>
-                  <p><strong>Gender:</strong> {profile.Gender}</p>
+                  <p>
+                    <strong>Age:</strong> {profile.age} years
+                  </p>
+                  <p>
+                    <strong>Gender:</strong> {profile.Gender}
+                  </p>
                 </div>
                 <div>
-                  <p><strong>Years of Experience:</strong> {profile.experience} years</p>
-                  <p><strong>Location:</strong> {profile.location}</p>
+                  <p>
+                    <strong>Years of Experience:</strong> {profile.experience}{" "}
+                    years
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {profile.location}
+                  </p>
                 </div>
                 <div>
-                  <p><strong>Phone:</strong> {profile.phone}</p>
-                  <p><strong>Email:</strong> {profile.email}</p>
+                  <p>
+                    <strong>Phone:</strong> {profile.phone}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {profile.email}
+                  </p>
                 </div>
               </div>
               {/* <div className="action-buttons">
                 <button className="btn">Download Resume</button>
               </div> */}
             </div>
-
           </div>
         ) : (
           <div className="edit-popup">
@@ -250,7 +292,11 @@ const Profile = () => {
               </label>
               <label>
                 Profile Image:
-                <input type="file" accept="image/*" onChange={handleImageChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
               </label>
               <label>
                 Skills:
@@ -261,10 +307,23 @@ const Profile = () => {
                       value={skill}
                       onChange={(e) => handleSkillsChange(e, index)}
                     />
-                    <button type="button" className='remove' id='remove' onClick={() => handleRemoveSkill(index)}>Remove</button>
+                    <button
+                      type="button"
+                      className="remove"
+                      id="remove"
+                      onClick={() => handleRemoveSkill(index)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 ))}
-                <button type="button" className='view-bt' onClick={handleAddSkill}>Add Skill</button>
+                <button
+                  type="button"
+                  className="view-bt"
+                  onClick={handleAddSkill}
+                >
+                  Add Skill
+                </button>
               </label>
             </form>
             <div className="popup-buttons">

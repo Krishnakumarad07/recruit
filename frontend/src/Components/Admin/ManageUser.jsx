@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [showRemovePopup, setShowRemovePopup] = useState(false);
@@ -11,7 +11,9 @@ const ManageUser = () => {
   useEffect(() => {
     const getUserDetails = async () => {
       try {
-        const res = await axios.get("http://localhost:8081/adminauth/UserDetails");
+        const res = await axios.get(
+          "http://localhost:8081/adminauth/UserDetails"
+        );
         setUsers(res.data.UserDetails);
       } catch (err) {
         console.log(err);
@@ -29,17 +31,47 @@ const ManageUser = () => {
   // Function to confirm remove user
   const confirmRemoveUser = async () => {
     if (userToRemove) {
+      const loadingAlert = Swal.fire({
+        title: "Removing User...",
+        html: "Please wait till process is completing.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       try {
         console.log(userToRemove._id);
-        const res = await axios.delete(`http://localhost:8081/adminauth/UserDetailsDelete/${userToRemove._id}`);
+        const res = await axios.delete(
+          `http://localhost:8081/adminauth/UserDetailsDelete/${userToRemove._id}`
+        );
         if (res.status === 200) {
-          alert("User Removed Successfully");
+          // alert("User Removed Successfully");
+          loadingAlert.close();
+          // console.error("Error on Removing application:", error);
+          Swal.fire({
+            title: "Success!",
+            text: " User Removed Successfully ",
+            icon: "success",
+          });
           setUsers(users.filter((user) => user._id !== userToRemove._id));
           setShowRemovePopup(false);
         } else {
-          console.error('Error removing user');
+          // console.error('Error removing user');
+          loadingAlert.close();
+          Swal.fire({
+            title: "Error!",
+            text: " Error removing user ",
+            icon: "error",
+          });
         }
       } catch (err) {
+        loadingAlert.close();
+        Swal.fire({
+          title: "Error!",
+          text: " Internal Error on removing user ",
+          icon: "error",
+        });
+        setShowRemovePopup(false);
         console.error(err);
       }
     }
@@ -66,7 +98,7 @@ const ManageUser = () => {
   return (
     <>
       <div className="users-management1">
-        <h2 id='hhh'>Users Management</h2>
+        <h2 id="hhh">Users Management</h2>
         <table className="users-table">
           <thead>
             <tr>
@@ -83,25 +115,40 @@ const ManageUser = () => {
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>
-                  <button id='view' className='view-bt' onClick={() => handleViewUser(user._id)}>View</button>
-                  <button id='remove' onClick={() => handleRemoveUser(user._id, user.username, user.email)}>Remove</button>
+                  <button
+                    id="view"
+                    className="view-bt"
+                    onClick={() => handleViewUser(user._id)}
+                  >
+                    View
+                  </button>
+                  <button
+                    id="remove"
+                    onClick={() =>
+                      handleRemoveUser(user._id, user.username, user.email)
+                    }
+                  >
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      
+
       {showRemovePopup && userToRemove && (
         <div className="remove-popup">
           <h2>Confirm Remove User</h2>
-          <p>Are you sure you want to remove {userToRemove.username} from user with email id of {userToRemove.email}
+          <p>
+            Are you sure you want to remove {userToRemove.username} from user
+            with email id of {userToRemove.email}
           </p>
           <button onClick={confirmRemoveUser}>Yes, remove</button>
           <button onClick={cancelRemoveUser}>Cancel</button>
         </div>
       )}
-      
+
       {showViewPopup && viewingUser && (
         <div className="view-popup">
           <h2>User Information</h2>
@@ -113,7 +160,7 @@ const ManageUser = () => {
           <p>Description: {viewingUser.description}</p>
           <p>Experience: {viewingUser.experience} years</p>
           <p>Location: {viewingUser.location}</p>
-          <p>Skills: {viewingUser.skills.join(', ')}</p>
+          <p>Skills: {viewingUser.skills.join(", ")}</p>
           {/* {viewingUser.image && <img src={viewingUser.image} alt={`${viewingUser.username}'s avatar`} style={{ maxWidth: '100px', maxHeight: '100px' }} />} */}
           <button onClick={closeViewPopup}>Close</button>
         </div>

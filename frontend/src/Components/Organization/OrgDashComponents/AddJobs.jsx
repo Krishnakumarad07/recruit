@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './AddJobs.css'; // Import the external CSS file
-import OrgNav from '../OrgNav'; // Reuse the OrgNav
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./AddJobs.css"; // Import the external CSS file
+import OrgNav from "../OrgNav"; // Reuse the OrgNav
+import axios from "axios";
+import Swal from "sweetalert2";
 // import { set } from 'mongoose';
-var org=localStorage.getItem("org");
-org=JSON.parse(org);
+var org = localStorage.getItem("org");
+org = JSON.parse(org);
 console.log(org);
-
-
 
 const AddJobs = ({ addJob }) => {
   const navigate = useNavigate();
@@ -25,17 +24,17 @@ const AddJobs = ({ addJob }) => {
   //   contactMail: org.org_email,
   //   jobFacilities: 'kjesfhl',
   // });
-const [position,setPosition]=useState('')
-const [company,setCompany]=useState('')
-const [location,setLocation]=useState('')
-const [jobType,setJobType]=useState('')
-const[vacancy,setVacancy]=useState('')
-const[salary,setSalary]=useState('')
-const[requiredSkills,setRequiredSkills]=useState('')
-const[jobDescription,setJobDescription]=useState('')
-const[jobDeadline,setJobDeadline]=useState('')
-const[contactMail,setContactMail]=useState()
-const[jobFacilities,setJobFacilities]=useState('')
+  const [position, setPosition] = useState("");
+  const [company, setCompany] = useState("");
+  const [location, setLocation] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [vacancy, setVacancy] = useState("");
+  const [salary, setSalary] = useState("");
+  const [requiredSkills, setRequiredSkills] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [jobDeadline, setJobDeadline] = useState("");
+  const [contactMail, setContactMail] = useState();
+  const [jobFacilities, setJobFacilities] = useState("");
   // const handleChange = (e) => {
   //   setJobData({
   //     ...jobData,
@@ -43,8 +42,16 @@ const[jobFacilities,setJobFacilities]=useState('')
   //   });
   // };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const loadingAlert = Swal.fire({
+      title: "Submitting Ur Job...",
+      html: "Please wait while we process your application.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     const newJob = {
       position,
       company,
@@ -56,37 +63,41 @@ const[jobFacilities,setJobFacilities]=useState('')
       jobDescription,
       jobDeadline,
       contactMail,
-      jobFacilities
-    }
+      jobFacilities,
+    };
     try {
-     
-      // const response = await axios.post('http://localhost:8081/userauth/addJobs', {
-      //   jobData});
-      //   .then(())
-      //   setJobData('')
-      // console.log('Job Created:', response.data);
-      // addJob({ ...jobData, id: Date.now() });
-      
-      // Call addJob function if needed
-      
-      // Navigate to ManageJobs
-      const response = await axios.post('http://localhost:8081/orgauth/addjobs',{newJob,_id:org._id})
-      setPosition('')
-      setCompany('')
-      setLocation('')
-      setJobType('')
-      setVacancy('')
-      setSalary('')
-      setRequiredSkills('')
-      setJobDescription('')
-      setJobDeadline('')
-      setContactMail('')
-      setJobFacilities('')
-      alert("Job is posted")
-    
-      }
-       catch (error) {
-      console.log('Error creating job:', error); 
+      const response = await axios.post(
+        "http://localhost:8081/orgauth/addjobs",
+        { newJob, _id: org._id }
+      );
+      setPosition("");
+      setCompany("");
+      setLocation("");
+      setJobType("");
+      setVacancy("");
+      setSalary("");
+      setRequiredSkills("");
+      setJobDescription("");
+      setJobDeadline("");
+      setContactMail("");
+      setJobFacilities("");
+      // alert("Job is posted")
+      loadingAlert.close();
+      Swal.fire({
+        title: "Success!",
+        text: "Job Is Posted",
+        icon: "success",
+      });
+    } catch (error) {
+      console.log("Error creating job:", error);
+      loadingAlert.close();
+      Swal.fire({
+        title: "Error!",
+        text:
+          error.response?.data?.message ||
+          "Failed to create Job. Please try again.",
+        icon: "error",
+      });
     }
   };
 
@@ -103,7 +114,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="position"
                 value={position}
-                onChange={(e)=> setPosition(e.target.value)}
+                onChange={(e) => setPosition(e.target.value)}
                 required
               />
             </div>
@@ -116,7 +127,6 @@ const[jobFacilities,setJobFacilities]=useState('')
                 disabled
                 required
               />
-            
             </div>
             <div className="field-container">
               <label>Location</label>
@@ -124,7 +134,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="location"
                 value={location}
-                onChange={(e)=>setLocation(e.target.value)}
+                onChange={(e) => setLocation(e.target.value)}
                 required
               />
             </div>
@@ -146,7 +156,7 @@ const[jobFacilities,setJobFacilities]=useState('')
               <select
                 name="jobType"
                 value={jobType}
-                onChange={(e)=>setJobType(e.target.value)}
+                onChange={(e) => setJobType(e.target.value)}
                 required
               >
                 <option value="">Select Job Type</option>
@@ -160,7 +170,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="number"
                 name="vacancy"
                 value={vacancy}
-                onChange={(e)=>setVacancy(e.target.value)}
+                onChange={(e) => setVacancy(e.target.value)}
                 required
               />
             </div>
@@ -170,7 +180,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="salary"
                 value={salary}
-                onChange={(e)=>setSalary(e.target.value)}
+                onChange={(e) => setSalary(e.target.value)}
               />
             </div>
             <div className="field-container">
@@ -179,7 +189,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="requiredSkills"
                 value={requiredSkills}
-                onChange={(e)=>setRequiredSkills(e.target.value)}
+                onChange={(e) => setRequiredSkills(e.target.value)}
                 required
               />
             </div>
@@ -189,7 +199,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="date"
                 name="jobDeadline"
                 value={jobDeadline}
-                onChange={(e)=>setJobDeadline(e.target.value)}
+                onChange={(e) => setJobDeadline(e.target.value)}
                 required
               />
             </div>
@@ -199,7 +209,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="email"
                 name="contactMail"
                 value={org.org_email}
-                onChange={(e)=>setContactMail(e.target.value)}
+                onChange={(e) => setContactMail(e.target.value)}
                 required
               />
             </div>
@@ -209,7 +219,7 @@ const[jobFacilities,setJobFacilities]=useState('')
                 type="text"
                 name="jobFacilities"
                 value={jobFacilities}
-                onChange={(e)=>setJobFacilities(e.target.value)}
+                onChange={(e) => setJobFacilities(e.target.value)}
               />
             </div>
             <div className="field-container textarea">
@@ -217,17 +227,17 @@ const[jobFacilities,setJobFacilities]=useState('')
               <textarea
                 name="jobDescription"
                 value={jobDescription}
-                onChange={(e)=>setJobDescription(e.target.value)}
+                onChange={(e) => setJobDescription(e.target.value)}
                 required
               />
             </div>
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" className="submit-btn">
+              Submit
+            </button>
           </div>
         </form>
       </div>
     </>
-
-
   );
 };
 

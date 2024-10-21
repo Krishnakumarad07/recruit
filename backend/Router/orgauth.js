@@ -29,7 +29,7 @@ router.post("/signup", async (req, res) => {
     // Check if the Organisation already exists
     const existingOrg = await OrgDB.findOne({ orgname, org_email });
     if (existingOrg) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Organisation already exists" });
     }
 
     // Register the organisation
@@ -259,6 +259,7 @@ router.post("/addJobs", async (req, res) => {
       company: companyId,
       position: jobDetails.position,
       jobType: jobDetails.jobType,
+      location: jobDetails.location,
     });
 
     if (existingJob) {

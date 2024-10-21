@@ -3,6 +3,7 @@ import './Login.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 function Login() {
   const [Form, setForm] = useState({
@@ -15,6 +16,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    
     setForm({
       ...Form,
       [e.target.name]: e.target.value,
@@ -23,13 +25,21 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const loadingAlert = Swal.fire({
+      title: "Logging In...",
+      html: "Please wait while we process your application.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     axios
       .post("http://localhost:8081/userauth/login", Form)
       .then((res) => {
         if (res.data.token) {
           const token = res.data.token;
-
+          loadingAlert.close();
           // Decode the token to get user information
           const user = jwtDecode(token); // Decode the token
           console.log(user); // This will show the decoded user info in console
@@ -41,12 +51,25 @@ function Login() {
           navigate("/profile");
           window.location.reload();
       } else {
-          alert("Token not received.");
+          // alert("Token not received.");
+          loadingAlert.close();
+          // console.error("Error submitting application:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Token not received.",
+            icon: "error",
+          });
       }
   })
       .catch((error) => {
 
-        alert("Check that the username or password is correct");
+        // alert("Check that the username or password is correct");
+        loadingAlert.close();
+          Swal.fire({
+            title: "Error!",
+            text: "Check that the username or password is correct",
+            icon: "error",
+          });
         console.error("Login error:", error);
       });
   };
